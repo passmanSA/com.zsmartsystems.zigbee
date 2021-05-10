@@ -571,6 +571,7 @@ public class AshFrameHandler implements EzspProtocolHandler {
         logger.debug("--> TX ASH frame: {}", ashFrame);
 
         // Send the data
+        //FIXME ici il y avait une diff
         int[] outputBuffer = ashFrame.getOutputBuffer();
         if (logger.isTraceEnabled()) {
             for (int val : outputBuffer) {
