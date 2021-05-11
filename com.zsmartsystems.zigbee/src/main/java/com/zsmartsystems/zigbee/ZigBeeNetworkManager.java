@@ -1791,6 +1791,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
                     notificationService.execute(new Runnable() {
                         @Override
                         public void run() {
+                            logger.debug("node updated call - refreshNode");
                             if (sendNodeAdded) {
                                 listener.nodeAdded(currentNode);
                             } else {
