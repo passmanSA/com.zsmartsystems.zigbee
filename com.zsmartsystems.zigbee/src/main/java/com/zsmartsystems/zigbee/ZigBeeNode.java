@@ -102,6 +102,7 @@ public class ZigBeeNode {
      */
     private final Set<Integer> associatedDevices = new HashSet<Integer>();
 
+    //FIXME vraie nouveauté avec neighborsSet, routesSet à quoi ça sert?
     /**
      * Boolean used to allow change detection on the table
      */
@@ -444,7 +445,7 @@ public class ZigBeeNode {
     }
 
     /**
-     * Returns true if the node is capable of supporting security.
+     * Returns true if the node is capable of supporting security. This tests the {@link NodeDescriptor}.
      *
      * @return true if the node is capable of supporting security
      */
@@ -871,6 +872,7 @@ public class ZigBeeNode {
         endpoint.commandReceived(zclCommand);
     }
 
+    //FIXME supprimé par Mickael. Pourquoi?
     /**
      * Checks if basic device discovery is complete. This ensures that we have received the {@link NodeDescriptor} and
      * the {@link SimpleDescriptor} so that we know the endpoints.
