@@ -622,20 +622,26 @@
 	<command>
 		<name>incomingNetworkStatusHandler</name>
 		<id>0xC4</id>
-		<description>This is called by the stack to notify the application that a network status/route error message has been received.</description>
+		<description>Change the source route entry in a source route table.</description>
 		<command_parameters>
 		</command_parameters>
 		<response_parameters>
 			<parameter>
-				<data_type>uint8_t</data_type>
-				<name>errorCode</name>
-				<description>Over the air error code.</description>
+				<data_type>EmberNodeId</data_type>
+				<name>newChildId</name>
+				<description>The source/neighbor for which the source route entry is changed.</description>
+				<display>hex[4]</display>
 			</parameter>
 			<parameter>
 				<data_type>EmberNodeId</data_type>
-				<name>target</name>
-				<description>The node ID associated with the error.  Depending on the error code this may be either originator of the error message or the node ID of the destination that could not be reached.</description>
+				<name>newParentId</name>
+				<description>The parent of the source/neighbor for which the source route entry is changed.</description>
 				<display>hex[4]</display>
+			</parameter>
+			<parameter>
+				<data_type>bool</data_type>
+				<name>ourChild</name>
+				<description>Is the source our child?</description>
 			</parameter>
 		</response_parameters>
 	</command>
@@ -4686,7 +4692,7 @@
 			</parameter>
 		</parameters>
 	</structure>
-	
+
 	<structure>
 		<name>EmberMulticastTableEntry</name>
 		<description>A multicast table entry indicates that a particular endpoint is a member of a particular multicast group. Only devices with an endpoint in a multicast group will receive messages sent to that multicast group.</description>
@@ -7671,7 +7677,7 @@
 			</value>
 		</values>
 	</enum>
-	
+
 	<enum>
 		<name>EmberGpProxyTableEntryStatus</name>
 		<description>GP proxy table entry status.</description>
