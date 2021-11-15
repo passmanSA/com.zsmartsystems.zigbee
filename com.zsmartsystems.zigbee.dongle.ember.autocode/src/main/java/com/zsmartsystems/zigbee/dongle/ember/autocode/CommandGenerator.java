@@ -744,6 +744,9 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberStatus":
                 addImport(ezspStructurePackage + ".EmberStatus");
                 return "EmberStatus";
+            case "EmberKeyStatus":
+                addImport(ezspStructurePackage + ".EmberKeyStatus");
+                return "EmberKeyStatus";
             case "EmberNetworkParameters":
                 addImport(ezspStructurePackage + ".EmberNetworkParameters");
                 return "EmberNetworkParameters";
