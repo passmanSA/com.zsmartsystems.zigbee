@@ -122,10 +122,13 @@ public class EmberNetworkInitialisation {
             }
             logger.debug("Energy scan reports quietest channel is {}", ZigBeeChannel.create(quietestChannel));
 
+            //FIXME checker si on garde
             // Check if any current networks were found and avoid those channels, PAN ID and especially Extended PAN ID
             ncp.doActiveScan(ZigBeeChannelMask.CHANNEL_MASK_2GHZ, scanDuration);
 
             networkParameters.setRadioChannel(quietestChannel);
+        } else {
+            logger.debug("Channel is set ({}), skipping energy scan", networkParameters.getRadioChannel());
         }
 
         // Read the current network parameters
