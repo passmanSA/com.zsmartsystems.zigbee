@@ -571,8 +571,10 @@ public class AshFrameHandler implements EzspProtocolHandler {
 
         // Send the data
         int[] outputBuffer = ashFrame.getOutputBuffer();
-        for(int val : outputBuffer) {
-            logger.trace("ASH TX: {}", String.format("%02X", val));
+        if(logger.isTraceEnabled()) {
+            for (int val : outputBuffer) {
+                logger.trace("ASH TX: {}", String.format("%02X", val));
+            }
         }
         port.write(outputBuffer);
 
