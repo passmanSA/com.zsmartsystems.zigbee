@@ -106,6 +106,7 @@ public class ZigBeeDongleEzspTest {
         assertEquals(0x1234, dongle.getZigBeePanId());
     }
 
+    //FIXME était commenté
     @Test
     public void testEzspVersions() {
         System.out.println("--- " + Thread.currentThread().getStackTrace()[1].getMethodName());

@@ -50,11 +50,13 @@ public abstract class EzspFrame {
      */
     private final static Logger logger = LoggerFactory.getLogger(EzspFrame.class);
 
+    //FIXME MIckeal avait supprimé
     /**
      * The minimum supported version of EZSP
      */
     public static final int EZSP_MIN_VERSION = 4;
 
+    //FIXME MIckeal avait supprimé
     /**
      * The maximum supported version of EZSP
      */
@@ -70,6 +72,7 @@ public abstract class EzspFrame {
      */
     protected static final int EZSP_NETWORK_ID_MASK = 0x60;
 
+    //FIXME MIckeal avait supprimé
     /**
      * The current version of EZSP being used
      */
@@ -468,13 +471,17 @@ public abstract class EzspFrame {
         return frameId;
     }
 
+    //FIXME voir si on garde et où c'est appelé
+    public static EzspFrameResponse createHandler(int[] data) {
+        return createHandler(ezspVersion , data);
+    }
     /**
      * Creates and {@link EzspFrameResponse} from the incoming data.
      *
      * @param data the int[] containing the EZSP data from which to generate the frame
      * @return the {@link EzspFrameResponse} or null if the response can't be created.
      */
-    public static EzspFrameResponse createHandler(int[] data) {
+    public static EzspFrameResponse createHandler(int ezspVersion, int[] data) {
         int frameId;
 
         try {
@@ -515,6 +522,7 @@ public abstract class EzspFrame {
         return null;
     }
 
+    //FIXME voir si on garde les trois méthode ci-dessous
     /**
      * Set the EZSP version to use
      *

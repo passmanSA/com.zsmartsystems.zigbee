@@ -140,9 +140,9 @@ public class CommandGenerator extends ClassGenerator {
             out.println("    /**");
             out.println("     * Response and Handler constructor");
             out.println("     */");
-            out.println("    public " + className + "(int[] inputBuffer) {");
+            out.println("    public " + className + "(int ezspVersion, int[] inputBuffer) {");
             out.println("        // Super creates deserializer and reads header fields");
-            out.println("        super(inputBuffer);");
+            out.println("        super(ezspVersion, inputBuffer);");
             out.println();
             out.println("        // Deserialize the fields");
             Map<String, String> autoSizers = new HashMap<String, String>();
@@ -211,9 +211,9 @@ public class CommandGenerator extends ClassGenerator {
         if (className.endsWith("Request")) {
             out.println();
             out.println("    @Override");
-            out.println("    public int[] serialize() {");
+            out.println("    public int[] serialize(int ezspVersion) {");
             out.println("        // Serialize the header");
-            out.println("        serializeHeader(serializer);");
+            out.println("        serializeHeader(ezspVersion, serializer);");
             out.println();
             out.println("        // Serialize the fields");
             for (Parameter parameter : parameters) {
@@ -994,11 +994,6 @@ public class CommandGenerator extends ClassGenerator {
         out.println("    protected static final int EZSP_NETWORK_ID_MASK = 0x60;");
         out.println();
         out.println("    /**");
-        out.println("     * The current version of EZSP being used");
-        out.println("     */");
-        out.println("    protected static int ezspVersion = EZSP_MIN_VERSION;");
-        out.println();
-        out.println("    /**");
         out.println("     * Legacy frame ID for EZSP 5+");
         out.println("     */");
         out.println("    protected static final int EZSP_LEGACY_FRAME_ID = 0xFF;");
@@ -1097,7 +1092,7 @@ public class CommandGenerator extends ClassGenerator {
         out.println("     * @param data the int[] containing the EZSP data from which to generate the frame");
         out.println("     * @return the {@link EzspFrameResponse} or null if the response can't be created.");
         out.println("     */");
-        out.println("    public static EzspFrameResponse createHandler(int[] data) {");
+        out.println("    public static EzspFrameResponse createHandler(int ezspVersion, int[] data) {");
         out.println("        int frameId;");
         out.println();
         out.println("        try {");
@@ -1122,8 +1117,8 @@ public class CommandGenerator extends ClassGenerator {
         out.println();
         out.println("        Constructor<?> ctor;");
         out.println("        try {");
-        out.println("            ctor = ezspClass.getConstructor(int[].class);");
-        out.println("            EzspFrameResponse ezspFrame = (EzspFrameResponse) ctor.newInstance(data);");
+        out.println("            ctor = ezspClass.getConstructor(int.class, int[].class);");
+        out.println("            EzspFrameResponse ezspFrame = (EzspFrameResponse) ctor.newInstance(ezspVersion, data);");
         out.println("            return ezspFrame;");
         out.println(
                 "        } catch (SecurityException | NoSuchMethodException | IllegalArgumentException | InstantiationException");
