@@ -474,7 +474,7 @@ public class AshFrameHandler implements EzspProtocolHandler {
         try {
             parserThread.interrupt();
             parserThread.join();
-            logger.debug("AshFrameHandler parsed thread terminated.");
+            logger.debug("AshFrameHandler parser thread terminated.");
         } catch (InterruptedException e) {
             logger.debug("AshFrameHandler interrupted in packet parser thread shutdown join.");
         }
