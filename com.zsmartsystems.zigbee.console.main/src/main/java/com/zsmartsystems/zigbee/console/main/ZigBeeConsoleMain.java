@@ -51,6 +51,7 @@ import com.zsmartsystems.zigbee.console.ember.EmberConsoleNcpValueCommand;
 import com.zsmartsystems.zigbee.console.ember.EmberConsoleNcpVersionCommand;
 import com.zsmartsystems.zigbee.console.ember.EmberConsoleSecurityStateCommand;
 import com.zsmartsystems.zigbee.console.ember.EmberConsoleTransientKeyCommand;
+import com.zsmartsystems.zigbee.console.ember.ZigBeeConsoleWhitelistCommand;
 import com.zsmartsystems.zigbee.console.telegesis.TelegesisConsoleSecurityStateCommand;
 import com.zsmartsystems.zigbee.database.ZigBeeNetworkDataStore;
 import com.zsmartsystems.zigbee.dongle.cc2531.ZigBeeDongleTiCc2531;
@@ -288,6 +289,7 @@ public class ZigBeeConsoleMain {
             commands.add(EmberConsoleNcpHandlerCommand.class);
             commands.add(EmberConsoleNcpTokenCommand.class);
             commands.add(EmberConsoleNcpRoutingCommand.class);
+            commands.add(ZigBeeConsoleWhitelistCommand.class);
             commands.add(EmberConsoleNcpMulticastCommand.class);
 
             emberDongle.setEmberNcpResetProvider(new EmberNcpHardwareReset());
