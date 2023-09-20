@@ -238,11 +238,20 @@ public class ZigBeeConsoleMain {
             ZigBeeDongleEzsp emberDongle = new ZigBeeDongleEzsp(serialPort);
             dongle = emberDongle;
 
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_SOURCE_ROUTE_TABLE_SIZE, 32);
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_APS_UNICAST_MESSAGE_COUNT, 16);
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_NEIGHBOR_TABLE_SIZE, 24);
+//            emberDongle.updateDefaultPolicy(EzspPolicyId.EZSP_TC_KEY_REQUEST_POLICY, EzspDecisionId.EZSP_ALLOW_TC_KEY_REQUEST_AND_GENERATE_NEW_KEY);
 
-            transportOptions.addOption(TransportConfigOption.RADIO_TX_POWER, 8);
+//            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_TX_POWER_MODE, 0);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_SOURCE_ROUTE_TABLE_SIZE, 250);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_APS_UNICAST_MESSAGE_COUNT, 30);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_NEIGHBOR_TABLE_SIZE, 26);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_PACKET_BUFFER_COUNT, 255);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_TRUST_CENTER_ADDRESS_CACHE_SIZE, 4);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_MAX_HOPS, 30);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_ADDRESS_TABLE_SIZE, 250);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_ROUTE_TABLE_SIZE, 250);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_MAX_END_DEVICE_CHILDREN, 32);
+
+            transportOptions.addOption(TransportConfigOption.RADIO_TX_POWER, 10);
 
             // Configure the concentrator
             // Max Hops defaults to system max
@@ -251,7 +260,7 @@ public class ZigBeeConsoleMain {
             concentratorConfig.setMaxFailures(8);
             concentratorConfig.setMaxHops(0);
             concentratorConfig.setRefreshMinimum(60);
-            concentratorConfig.setRefreshMaximum(3600);
+            concentratorConfig.setRefreshMaximum(900);
             transportOptions.addOption(TransportConfigOption.CONCENTRATOR_CONFIG, concentratorConfig);
 
             // Add transport specific console commands
