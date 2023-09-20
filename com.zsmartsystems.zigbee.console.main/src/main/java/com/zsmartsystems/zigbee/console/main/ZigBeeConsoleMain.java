@@ -265,9 +265,9 @@ public class ZigBeeConsoleMain {
             dongle = emberDongle;
 
             emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_ADDRESS_TABLE_SIZE, 16);
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_SOURCE_ROUTE_TABLE_SIZE, 100);
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_APS_UNICAST_MESSAGE_COUNT, 16);
-            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_NEIGHBOR_TABLE_SIZE, 24);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_SOURCE_ROUTE_TABLE_SIZE, 250);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_APS_UNICAST_MESSAGE_COUNT, 30);
+            emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_NEIGHBOR_TABLE_SIZE, 26);
 
             transportOptions.addOption(TransportConfigOption.RADIO_TX_POWER, 20);
 
@@ -436,17 +436,17 @@ public class ZigBeeConsoleMain {
         networkManager.addExtension(discoveryExtension);
 
         //FIXME on garde ou pas? à voir avec Mickael
-//        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
-//            @Override
-//            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
-//                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
-//            }
-//
-//            @Override
-//            public void announceUnknownDevice(Integer networkAddress) {
-//                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
-//            }
-//        });
+        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
+            @Override
+            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
+                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
+            }
+
+            @Override
+            public void announceUnknownDevice(Integer networkAddress) {
+                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
+            }
+        });
 
         supportedClientClusters.stream().forEach(clusterId -> networkManager.addSupportedClientCluster(clusterId));
         supportedServerClusters.stream().forEach(clusterId -> networkManager.addSupportedServerCluster(clusterId));
