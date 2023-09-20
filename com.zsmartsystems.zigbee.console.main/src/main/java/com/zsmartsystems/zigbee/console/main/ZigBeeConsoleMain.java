@@ -435,17 +435,18 @@ public class ZigBeeConsoleMain {
         discoveryExtension.setUpdateOnChange(false);
         networkManager.addExtension(discoveryExtension);
 
-        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
-            @Override
-            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
-                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
-            }
-
-            @Override
-            public void announceUnknownDevice(Integer networkAddress) {
-                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
-            }
-        });
+        //FIXME on garde ou pas? à voir avec Mickael
+//        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
+//            @Override
+//            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
+//                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
+//            }
+//
+//            @Override
+//            public void announceUnknownDevice(Integer networkAddress) {
+//                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
+//            }
+//        });
 
         supportedClientClusters.stream().forEach(clusterId -> networkManager.addSupportedClientCluster(clusterId));
         supportedServerClusters.stream().forEach(clusterId -> networkManager.addSupportedServerCluster(clusterId));
