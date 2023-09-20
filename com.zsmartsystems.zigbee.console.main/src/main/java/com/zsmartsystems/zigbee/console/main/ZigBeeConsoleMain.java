@@ -15,6 +15,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.zsmartsystems.zigbee.app.pollcontrol.ZclPollControlExtension;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -415,8 +416,9 @@ public class ZigBeeConsoleMain {
         dongle.updateTransportConfig(transportOptions);
 
         // Add the extensions to the network
+        networkManager.addExtension(new ZclPollControlExtension());
         networkManager.addExtension(new ZclOnOffExtension());
-        networkManager.addExtension(new ZigBeeIasCieExtension());
+//        networkManager.addExtension(new ZigBeeIasCieExtension());
         networkManager.addExtension(new ZigBeeOtaUpgradeExtension());
         networkManager.addExtension(new ZigBeeBasicServerExtension());
 
