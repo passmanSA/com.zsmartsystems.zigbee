@@ -7,9 +7,14 @@
  */
 package com.zsmartsystems.zigbee.console.main;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -18,6 +23,8 @@ import java.util.stream.Stream;
 import com.zsmartsystems.zigbee.IeeeAddress;
 import com.zsmartsystems.zigbee.ZigBeeAnnounceListener;
 import com.zsmartsystems.zigbee.ZigBeeNodeStatus;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EzspDecisionId;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EzspPolicyId;
 import com.zsmartsystems.zigbee.app.pollcontrol.ZclPollControlExtension;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -126,6 +133,7 @@ public class ZigBeeConsoleMain {
         final String dongleName;
         final int serialBaud;
         final int defaultProfileId;
+        Map<String, String> config = null;
 
         final Set<Integer> supportedClientClusters = new TreeSet<>();
         supportedClientClusters.addAll(Stream
@@ -164,7 +172,7 @@ public class ZigBeeConsoleMain {
         options.addOption(Option.builder("p").longOpt("port").argName("port name").hasArg().desc("Set the port")
                 .required().build());
         options.addOption(
-                Option.builder("b").longOpt("baud").hasArg().argName("baud").desc("Set the port baud rate").build());
+                Option.builder("b").longOpt("baud").hasArg().argName("baud").desc("Set the port baud rate").required().build());
         options.addOption(Option.builder("f").longOpt("flow").hasArg().argName("type")
                 .desc("Set the flow control (none | hardware | software)").build());
         options.addOption(Option.builder("c").longOpt("channel").hasArg().argName("channel id")
@@ -184,6 +192,8 @@ public class ZigBeeConsoleMain {
         options.addOption(Option.builder("h").longOpt("profile").hasArg().argName("profile")
                 .desc("Set the default profile ID").build());
         options.addOption(Option.builder("r").longOpt("reset").desc("Reset the ZigBee dongle").build());
+        options.addOption(Option.builder("i").longOpt("config").hasArg().argName("config_path")
+                .desc("Path to a dongle specific configuration file").build());
         options.addOption(Option.builder("?").longOpt("help").desc("Print usage information").build());
 
         CommandLine cmdline;
@@ -233,6 +243,36 @@ public class ZigBeeConsoleMain {
                         return;
                 }
             }
+
+            if(cmdline.hasOption("config")) {
+                File configFile = new File(cmdline.getOptionValue("config"));
+                if(!configFile.exists()) {
+                    System.err.println("Config file does not exist: " + configFile.getAbsolutePath());
+                    return;
+                }
+                List<String> allLines;
+                try {
+                    allLines = Files.readAllLines(configFile.toPath());
+                } catch (IOException e) {
+                    System.err.println("Error reading config file: " + e.getMessage());
+                    return;
+                }
+                config = new HashMap<>(allLines.size());
+                for (String line : allLines) {
+                    if(line.startsWith("#")) {
+                        continue;
+                    }
+                    String[] parts = line.split("=");
+                    if(parts.length != 2) {
+                        System.err.println("Invalid config line: " + line);
+                        return;
+                    }
+                    String key = parts[0].trim();
+                    String value = parts[1].trim();
+                    System.out.println("Config: " + key + " = " + value);
+                    config.put(key, value);
+                }
+            }
         } catch (ParseException exp) {
             System.err.println("Parsing command line failed.  Reason: " + exp.getMessage());
             return;
@@ -270,6 +310,25 @@ public class ZigBeeConsoleMain {
             emberDongle.updateDefaultConfiguration(EzspConfigId.EZSP_CONFIG_NEIGHBOR_TABLE_SIZE, 26);
 
             transportOptions.addOption(TransportConfigOption.RADIO_TX_POWER, 20);
+            if(config != null) {
+                for (Map.Entry<String, String> entry : config.entrySet()) {
+                    try {
+                        EzspConfigId configId = EzspConfigId.valueOf(entry.getKey());
+                        emberDongle.updateDefaultConfiguration(configId, Integer.parseInt(entry.getValue()));
+                    } catch (IllegalArgumentException e) {
+                        try {
+                            EzspPolicyId policyId = EzspPolicyId.valueOf(entry.getKey());
+                            EzspDecisionId decisionId = EzspDecisionId.valueOf(entry.getValue());
+                            emberDongle.updateDefaultPolicy(policyId, decisionId);
+                        } catch (IllegalArgumentException e2) {
+                            System.err.println("Invalid config key: " + entry.getKey());
+                            return;
+                        }
+                    }
+                }
+            }
+
+            transportOptions.addOption(TransportConfigOption.RADIO_TX_POWER, 8);
 
             // Configure the concentrator
             // Max Hops defaults to system max
@@ -436,17 +495,17 @@ public class ZigBeeConsoleMain {
         networkManager.addExtension(discoveryExtension);
 
         //FIXME on garde ou pas? à voir avec Mickael
-//        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
-//            @Override
-//            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
-//                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
-//            }
-//
-//            @Override
-//            public void announceUnknownDevice(Integer networkAddress) {
-//                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
-//            }
-//        });
+        networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
+            @Override
+            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
+                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
+            }
+
+            @Override
+            public void announceUnknownDevice(Integer networkAddress) {
+                logger.info("Announce unknown device [networkAddress = " + networkAddress + "]");
+            }
+        });
 
         supportedClientClusters.stream().forEach(clusterId -> networkManager.addSupportedClientCluster(clusterId));
         supportedServerClusters.stream().forEach(clusterId -> networkManager.addSupportedServerCluster(clusterId));
