@@ -367,12 +367,9 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
             return;
         }
 
-        cluster.sendCommand(new ImageNotifyCommand(
-                0,
-                queryJitter,
-                otaFile.getManufacturerCode(),
-                otaFile.getImageType(),
-                otaFile.getFileVersion()));
+        ImageNotifyCommand command = new ImageNotifyCommand(0, queryJitter, otaFile.getManufacturerCode(), otaFile.getImageType(), otaFile.getFileVersion());
+        command.setDisableDefaultResponse(true);
+        cluster.sendCommand(command);
     }
 
     /**
