@@ -70,9 +70,10 @@ public class AshFrameHandler implements EzspProtocolHandler {
     /**
      * The receive timeout settings - min/initial/max - defined in milliseconds
      */
-    private static final int T_RX_ACK_MIN = 400;
-    private static final int T_RX_ACK_INIT = 1600;
-    private static final int T_RX_ACK_MAX = 3200;
+//    private static final int T_RX_ACK_MIN = 400;
+//    private static final int T_RX_ACK_INIT = 1600;
+    private static final int T_RX_ACK_INIT = 3200;
+//    private static final int T_RX_ACK_MAX = 3200;
     private int receiveTimeout = T_RX_ACK_INIT;
 
     private static final int T_CON_HOLDOFF = 1250;
@@ -427,7 +428,12 @@ public class AshFrameHandler implements EzspProtocolHandler {
 
         // Check the version
         if (rstAck.getVersion() == 2) {
-            startConnectTimer();
+            // Stop any existing timer - shouldn't happen here, but play safe!
+            stopRetryTimer();
+
+            timerFuture = timer.schedule(new AshConnectTimer(), connectTimeout, TimeUnit.MILLISECONDS);
+
+            logger.trace("ASH: Started connect timer");
         } else {
             logger.debug("ASH: Invalid version");
         }
@@ -633,14 +639,14 @@ public class AshFrameHandler implements EzspProtocolHandler {
         // Handle the timer if it's running
         if (sentTime != 0) {
             stopRetryTimer();
-            receiveTimeout = (int) ((receiveTimeout * 7 / 8) + ((System.nanoTime() - sentTime) / 2000000));
-            if (receiveTimeout < T_RX_ACK_MIN) {
-                receiveTimeout = T_RX_ACK_MIN;
-            } else if (receiveTimeout > T_RX_ACK_MAX) {
-                receiveTimeout = T_RX_ACK_MAX;
-            }
-            logger.trace("ASH: RX Timer took {}ms, timer now {}ms", (System.nanoTime() - sentTime) / 1000000,
-                    receiveTimeout);
+//            receiveTimeout = (int) ((receiveTimeout * 7 / 8) + ((System.nanoTime() - sentTime) / 2000000));
+//            if (receiveTimeout < T_RX_ACK_MIN) {
+//                receiveTimeout = T_RX_ACK_MIN;
+//            } else if (receiveTimeout > T_RX_ACK_MAX) {
+//                receiveTimeout = T_RX_ACK_MAX;
+//            }
+//            logger.trace("ASH: RX Timer took {}ms, timer now {}ms", (System.nanoTime() - sentTime) / 1000000,
+//                    receiveTimeout);
             sentTime = 0;
         }
 
@@ -657,15 +663,6 @@ public class AshFrameHandler implements EzspProtocolHandler {
         timerFuture = timer.schedule(new AshRetryTimer(), receiveTimeout, TimeUnit.MILLISECONDS);
 
         logger.trace("ASH: Started retry timer");
-    }
-
-    private synchronized void startConnectTimer() {
-        // Stop any existing timer - shouldn't happen here, but play safe!
-        stopRetryTimer();
-
-        timerFuture = timer.schedule(new AshConnectTimer(), connectTimeout, TimeUnit.MILLISECONDS);
-
-        logger.trace("ASH: Started connect timer");
     }
 
     private synchronized void stopRetryTimer() {
@@ -700,18 +697,12 @@ public class AshFrameHandler implements EzspProtocolHandler {
                 return;
             }
 
-            // If we're not connected, then try the reset again
-            if (!stateConnected) {
-                sendFrame(new AshFrameRst());
-                return;
-            }
-
             // If a DATA frame acknowledgement is not received within the current timeout value,
             // then t_rx_ack is doubled.
-            receiveTimeout *= 2;
-            if (receiveTimeout > T_RX_ACK_MAX) {
-                receiveTimeout = T_RX_ACK_MAX;
-            }
+//            receiveTimeout *= 2;
+//            if (receiveTimeout > T_RX_ACK_MAX) {
+//                receiveTimeout = T_RX_ACK_MAX;
+//            }
 
             try {
                 sendRetry();
