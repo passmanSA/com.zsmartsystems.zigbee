@@ -1028,7 +1028,7 @@ public class ZigBeeDongleEzsp implements ZigBeeTransportTransmit, ZigBeeTranspor
                     return;
             }
 
-            zigbeeTransportReceive.nodeStatusUpdate(status, joinHandler.getNewNodeId(), joinHandler.getNewNodeEui64());
+            zigbeeTransportReceive.nodeStatusUpdate(status, joinHandler.getNewNodeId(), joinHandler.getNewNodeEui64(), joinHandler.getParentOfNewNodeId());
             return;
         }
 
@@ -1036,7 +1036,7 @@ public class ZigBeeDongleEzsp implements ZigBeeTransportTransmit, ZigBeeTranspor
             EzspChildJoinHandler joinHandler = (EzspChildJoinHandler) response;
             zigbeeTransportReceive.nodeStatusUpdate(
                     joinHandler.getJoining() ? ZigBeeNodeStatus.UNSECURED_JOIN_OR_REJOIN : ZigBeeNodeStatus.UNTRUSTED_DEVICE_LEFT,
-                    joinHandler.getChildId(), joinHandler.getChildEui64());
+                    joinHandler.getChildId(), joinHandler.getChildEui64(), null);
             return;
         }
 
