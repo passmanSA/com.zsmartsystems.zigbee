@@ -501,8 +501,8 @@ public class ZigBeeConsoleMain {
         //FIXME on garde ou pas? à voir avec Mickael
         networkManager.addAnnounceListener(new ZigBeeAnnounceListener() {
             @Override
-            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress) {
-                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + "]");
+            public void deviceStatusUpdate(ZigBeeNodeStatus deviceStatus, Integer networkAddress, IeeeAddress ieeeAddress, Integer parentNetworkAddress) {
+                logger.info("Device status update [status = " + deviceStatus + " , networkAddress = " + networkAddress + " , ieeeAddress = " + ieeeAddress + " , parentNetworkAddress = " + parentNetworkAddress + "]");
             }
 
             @Override

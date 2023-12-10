@@ -183,7 +183,7 @@ public class ZigBeeNetworkDiscovererTest {
         ZigBeeNetworkDiscoverer discoverer = new ZigBeeNetworkDiscoverer(networkManager);
         discoverer.setRequeryPeriod(0);
 
-        discoverer.deviceStatusUpdate(ZigBeeNodeStatus.UNSECURED_JOIN, 2222, new IeeeAddress("1111111111111111"));
+        discoverer.deviceStatusUpdate(ZigBeeNodeStatus.UNSECURED_JOIN, 2222, new IeeeAddress("1111111111111111"), null);
 
         Mockito.verify(networkManager, Mockito.times(1)).updateNode(ArgumentMatchers.any());
     }
