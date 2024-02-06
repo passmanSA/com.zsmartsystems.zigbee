@@ -235,6 +235,11 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
     private List<ZigBeeNetworkStateListener> stateListeners = Collections.unmodifiableList(new ArrayList<>());
 
     /**
+     * A Set used to remember if node discovery has been completed. This is used to manage the lifecycle notifications.
+     */
+    private Set<IeeeAddress> nodeDiscoveryComplete = Collections.synchronizedSet(new HashSet<>());
+
+    /**
      * The serializer class used to serialize commands to data packets
      */
     private Class<ZigBeeSerializer> serializerClass;
@@ -1785,6 +1790,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             });
         }
 
+        //FIXME vérifier que cela a bien été supprimé
         final boolean sendNodeAdded;
         if (!nodeDiscoveryComplete.contains(currentNode.getIeeeAddress()) && currentNode.isDiscovered()
                 || currentNode.getIeeeAddress().equals(localIeeeAddress)) {

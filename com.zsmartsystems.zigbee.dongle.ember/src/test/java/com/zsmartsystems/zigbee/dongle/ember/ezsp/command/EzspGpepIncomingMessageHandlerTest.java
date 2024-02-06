@@ -24,7 +24,8 @@ public class EzspGpepIncomingMessageHandlerTest extends EzspFrameTest {
     @Test
     public void testReceive1() {
         EzspFrame.setEzspVersion(4);
-        EzspGpepIncomingMessageHandler incomingMessageHandler = new EzspGpepIncomingMessageHandler(
+        //FIXME valider la valeur de version 8
+        EzspGpepIncomingMessageHandler incomingMessageHandler = new EzspGpepIncomingMessageHandler(8,
                 getPacketData(
                         "90 01 C5 7F D7 54 00 14 8A 70 01 14 8A 70 01 54 02 01 00 00 54 07 00 00 65 2C 15 E8 75 FF 00"));
 

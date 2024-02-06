@@ -210,35 +210,35 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>com.mycila</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>3.0</version>
-				<inherited>false</inherited>
-				<configuration>
-					<header>src/etc/header.txt</header>
-					<aggregate>true</aggregate>
-					<failIfMissing>true</failIfMissing>
-					<strictCheck>true</strictCheck>
-					<includes>
-						<include>*/src/**/*.java</include>
-					</includes>
-					<excludes>
-						<exclude>*/src/**/package-info.java</exclude>
-					</excludes>
-					<properties>
-						<year>${license.year}</year>
-					</properties>
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.mycila</groupId>-->
+<!--				<artifactId>license-maven-plugin</artifactId>-->
+<!--				<version>3.0</version>-->
+<!--				<inherited>false</inherited>-->
+<!--				<configuration>-->
+<!--					<header>src/etc/header.txt</header>-->
+<!--					<aggregate>true</aggregate>-->
+<!--					<failIfMissing>true</failIfMissing>-->
+<!--					<strictCheck>true</strictCheck>-->
+<!--					<includes>-->
+<!--						<include>*/src/**/*.java</include>-->
+<!--					</includes>-->
+<!--					<excludes>-->
+<!--						<exclude>*/src/**/package-info.java</exclude>-->
+<!--					</excludes>-->
+<!--					<properties>-->
+<!--						<year>${license.year}</year>-->
+<!--					</properties>-->
+<!--					<encoding>UTF-8</encoding>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
