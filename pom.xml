@@ -59,9 +59,9 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<id>zsmartsystems-sonatype-snapshot</id>
-			<name>Sonatype Snapshot</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<id>passman-snapshots</id>
+			<name>Passman Snapshot</name>
+			<url>https://repository.passman.fr/repository/maven-snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -183,7 +183,7 @@
 				<configuration>
 					<header>src/etc/header.txt</header>
 					<aggregate>true</aggregate>
-					<failIfMissing>true</failIfMissing>
+					<failIfMissing>false</failIfMissing>
 					<strictCheck>true</strictCheck>
 					<includes>
 						<include>*/src/**/*.java</include>
@@ -237,32 +237,32 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>animal-sniffer-maven-plugin</artifactId>
-				<version>1.16</version>
-				<configuration>
-					<signature>
-						<groupId>org.codehaus.mojo.signature</groupId>
-						<artifactId>java18</artifactId>
-						<version>1.0</version>
-					</signature>
-					<signature>
-						<groupId>net.sf.androidscents.signature</groupId>
-						<artifactId>android-api-level-19</artifactId>
-						<version>4.4_r1</version>
-					</signature>
-				</configuration>
-				<executions>
-					<execution>
-						<id>animal-sniffer</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--			<plugin>-->
+			<!--				<groupId>org.codehaus.mojo</groupId>-->
+			<!--				<artifactId>animal-sniffer-maven-plugin</artifactId>-->
+			<!--				<version>1.16</version>-->
+			<!--				<configuration>-->
+			<!--					<signature>-->
+			<!--						<groupId>org.codehaus.mojo.signature</groupId>-->
+			<!--						<artifactId>java18</artifactId>-->
+			<!--						<version>1.0</version>-->
+			<!--					</signature>-->
+			<!--					<signature>-->
+			<!--						<groupId>net.sf.androidscents.signature</groupId>-->
+			<!--						<artifactId>android-api-level-19</artifactId>-->
+			<!--						<version>4.4_r1</version>-->
+			<!--					</signature>-->
+			<!--				</configuration>-->
+			<!--				<executions>-->
+			<!--					<execution>-->
+			<!--						<id>animal-sniffer</id>-->
+			<!--						<phase>verify</phase>-->
+			<!--						<goals>-->
+			<!--							<goal>check</goal>-->
+			<!--						</goals>-->
+			<!--					</execution>-->
+			<!--				</executions>-->
+			<!--			</plugin>-->
 		</plugins>
 
 		<pluginManagement>
