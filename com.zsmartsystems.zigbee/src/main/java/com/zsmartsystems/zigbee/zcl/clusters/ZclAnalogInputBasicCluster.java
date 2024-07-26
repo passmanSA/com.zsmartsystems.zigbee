@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2020-01-10T11:55:03Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclAnalogInputBasicCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -156,14 +156,14 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_DESCRIPTION, new ZclAttribute(this, ATTR_DESCRIPTION, "Description", ZclDataType.CHARACTER_STRING, false, true, true, false));
         attributeMap.put(ATTR_MAXPRESENTVALUE, new ZclAttribute(this, ATTR_MAXPRESENTVALUE, "Max Present Value", ZclDataType.FLOAT_32_BIT, false, true, true, false));
@@ -206,8 +206,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDescription(final String value) {
-        return write(serverAttributes.get(ATTR_DESCRIPTION), value);
+    public Future<CommandResult> setDescription(final String description) {
+        return write(serverAttributes.get(ATTR_DESCRIPTION), description);
     }
 
     /**
@@ -279,8 +279,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setMaxPresentValue(final Double value) {
-        return write(serverAttributes.get(ATTR_MAXPRESENTVALUE), value);
+    public Future<CommandResult> setMaxPresentValue(final Double maxPresentValue) {
+        return write(serverAttributes.get(ATTR_MAXPRESENTVALUE), maxPresentValue);
     }
 
     /**
@@ -352,8 +352,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setMinPresentValue(final Double value) {
-        return write(serverAttributes.get(ATTR_MINPRESENTVALUE), value);
+    public Future<CommandResult> setMinPresentValue(final Double minPresentValue) {
+        return write(serverAttributes.get(ATTR_MINPRESENTVALUE), minPresentValue);
     }
 
     /**
@@ -420,8 +420,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOutOfService(final Boolean value) {
-        return write(serverAttributes.get(ATTR_OUTOFSERVICE), value);
+    public Future<CommandResult> setOutOfService(final Boolean outOfService) {
+        return write(serverAttributes.get(ATTR_OUTOFSERVICE), outOfService);
     }
 
     /**
@@ -486,8 +486,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPresentValue(final Double value) {
-        return write(serverAttributes.get(ATTR_PRESENTVALUE), value);
+    public Future<CommandResult> setPresentValue(final Double presentValue) {
+        return write(serverAttributes.get(ATTR_PRESENTVALUE), presentValue);
     }
 
     /**
@@ -569,8 +569,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setReliability(final Integer value) {
-        return write(serverAttributes.get(ATTR_RELIABILITY), value);
+    public Future<CommandResult> setReliability(final Integer reliability) {
+        return write(serverAttributes.get(ATTR_RELIABILITY), reliability);
     }
 
     /**
@@ -648,8 +648,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setResolution(final Double value) {
-        return write(serverAttributes.get(ATTR_RESOLUTION), value);
+    public Future<CommandResult> setResolution(final Double resolution) {
+        return write(serverAttributes.get(ATTR_RESOLUTION), resolution);
     }
 
     /**
@@ -741,8 +741,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setStatusFlags(final Integer value) {
-        return write(serverAttributes.get(ATTR_STATUSFLAGS), value);
+    public Future<CommandResult> setStatusFlags(final Integer statusFlags) {
+        return write(serverAttributes.get(ATTR_STATUSFLAGS), statusFlags);
     }
 
     /**
@@ -873,8 +873,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setEngineeringUnits(final Integer value) {
-        return write(serverAttributes.get(ATTR_ENGINEERINGUNITS), value);
+    public Future<CommandResult> setEngineeringUnits(final Integer engineeringUnits) {
+        return write(serverAttributes.get(ATTR_ENGINEERINGUNITS), engineeringUnits);
     }
 
     /**
@@ -976,8 +976,8 @@ public class ZclAnalogInputBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setApplicationType(final Integer value) {
-        return write(serverAttributes.get(ATTR_APPLICATIONTYPE), value);
+    public Future<CommandResult> setApplicationType(final Integer applicationType) {
+        return write(serverAttributes.get(ATTR_APPLICATIONTYPE), applicationType);
     }
 
     /**

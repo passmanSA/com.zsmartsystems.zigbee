@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2020-01-10T11:55:03Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclThermostatUserInterfaceConfigurationCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -65,14 +65,14 @@ public class ZclThermostatUserInterfaceConfigurationCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_TEMPERATUREDISPLAYMODE, new ZclAttribute(this, ATTR_TEMPERATUREDISPLAYMODE, "Temperature Display Mode", ZclDataType.ENUMERATION_8_BIT, false, true, true, true));
         attributeMap.put(ATTR_KEYPADLOCKOUT, new ZclAttribute(this, ATTR_KEYPADLOCKOUT, "Keypad Lockout", ZclDataType.ENUMERATION_8_BIT, false, true, true, true));
@@ -106,8 +106,8 @@ public class ZclThermostatUserInterfaceConfigurationCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setTemperatureDisplayMode(final Integer value) {
-        return write(serverAttributes.get(ATTR_TEMPERATUREDISPLAYMODE), value);
+    public Future<CommandResult> setTemperatureDisplayMode(final Integer temperatureDisplayMode) {
+        return write(serverAttributes.get(ATTR_TEMPERATUREDISPLAYMODE), temperatureDisplayMode);
     }
 
     /**
@@ -173,8 +173,8 @@ public class ZclThermostatUserInterfaceConfigurationCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setKeypadLockout(final Integer value) {
-        return write(serverAttributes.get(ATTR_KEYPADLOCKOUT), value);
+    public Future<CommandResult> setKeypadLockout(final Integer keypadLockout) {
+        return write(serverAttributes.get(ATTR_KEYPADLOCKOUT), keypadLockout);
     }
 
     /**
@@ -247,8 +247,8 @@ public class ZclThermostatUserInterfaceConfigurationCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setScheduleProgrammingVisibility(final Integer value) {
-        return write(serverAttributes.get(ATTR_SCHEDULEPROGRAMMINGVISIBILITY), value);
+    public Future<CommandResult> setScheduleProgrammingVisibility(final Integer scheduleProgrammingVisibility) {
+        return write(serverAttributes.get(ATTR_SCHEDULEPROGRAMMINGVISIBILITY), scheduleProgrammingVisibility);
     }
 
     /**

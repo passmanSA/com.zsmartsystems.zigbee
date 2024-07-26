@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,7 +65,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclPrepaymentCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -605,14 +605,14 @@ public class ZclPrepaymentCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_PAYMENTCONTROLCONFIGURATION, new ZclAttribute(this, ATTR_PAYMENTCONTROLCONFIGURATION, "Payment Control Configuration", ZclDataType.BITMAP_16_BIT, true, true, false, false));
         attributeMap.put(ATTR_CREDITREMAINING, new ZclAttribute(this, ATTR_CREDITREMAINING, "Credit Remaining", ZclDataType.SIGNED_32_BIT_INTEGER, true, true, false, false));
@@ -1749,8 +1749,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setIhdLowCreditWarningLevel(final Integer value) {
-        return write(serverAttributes.get(ATTR_IHDLOWCREDITWARNINGLEVEL), value);
+    public Future<CommandResult> setIhdLowCreditWarningLevel(final Integer ihdLowCreditWarningLevel) {
+        return write(serverAttributes.get(ATTR_IHDLOWCREDITWARNINGLEVEL), ihdLowCreditWarningLevel);
     }
 
     /**
@@ -2077,8 +2077,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setTokenCarrierId(final ByteArray value) {
-        return write(serverAttributes.get(ATTR_TOKENCARRIERID), value);
+    public Future<CommandResult> setTokenCarrierId(final ByteArray tokenCarrierId) {
+        return write(serverAttributes.get(ATTR_TOKENCARRIERID), tokenCarrierId);
     }
 
     /**
@@ -5026,8 +5026,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPrepaymentAlarmStatus(final Integer value) {
-        return write(serverAttributes.get(ATTR_PREPAYMENTALARMSTATUS), value);
+    public Future<CommandResult> setPrepaymentAlarmStatus(final Integer prepaymentAlarmStatus) {
+        return write(serverAttributes.get(ATTR_PREPAYMENTALARMSTATUS), prepaymentAlarmStatus);
     }
 
     /**
@@ -5090,8 +5090,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPrepayGenericAlarmMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_PREPAYGENERICALARMMASK), value);
+    public Future<CommandResult> setPrepayGenericAlarmMask(final Integer prepayGenericAlarmMask) {
+        return write(serverAttributes.get(ATTR_PREPAYGENERICALARMMASK), prepayGenericAlarmMask);
     }
 
     /**
@@ -5154,8 +5154,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPrepaySwitchAlarmMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_PREPAYSWITCHALARMMASK), value);
+    public Future<CommandResult> setPrepaySwitchAlarmMask(final Integer prepaySwitchAlarmMask) {
+        return write(serverAttributes.get(ATTR_PREPAYSWITCHALARMMASK), prepaySwitchAlarmMask);
     }
 
     /**
@@ -5218,8 +5218,8 @@ public class ZclPrepaymentCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPrepayEventAlarmMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_PREPAYEVENTALARMMASK), value);
+    public Future<CommandResult> setPrepayEventAlarmMask(final Integer prepayEventAlarmMask) {
+        return write(serverAttributes.get(ATTR_PREPAYEVENTALARMMASK), prepayEventAlarmMask);
     }
 
     /**

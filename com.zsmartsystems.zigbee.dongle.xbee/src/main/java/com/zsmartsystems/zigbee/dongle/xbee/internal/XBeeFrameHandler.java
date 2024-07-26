@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -375,7 +375,9 @@ public class XBeeFrameHandler {
             logger.debug("TX XBEE Data:{}", builder.toString());
 
             int[] outputBuffer = new int[data.size()];
-            for(int i = 0; i < data.size(); ++i) outputBuffer[i] = data.get(i);
+            for (int i = 0; i < data.size(); ++i) {
+                outputBuffer[i] = data.get(i);
+            }
             serialPort.write(outputBuffer);
 
             // Start the timeout
@@ -584,9 +586,9 @@ public class XBeeFrameHandler {
     }
 
     /**
-     * Sends a XBee request to the NCP without waiting for the response.
+     * Waits for a response of the requested class
      *
-     * @param command Request {@link XBeeCommand} to send
+     * @param eventClass the class to wait for
      * @return response {@link Future} {@link XBeeCommand}
      */
     private Future<XBeeEvent> waitEventAsync(final Class<?> eventClass) {

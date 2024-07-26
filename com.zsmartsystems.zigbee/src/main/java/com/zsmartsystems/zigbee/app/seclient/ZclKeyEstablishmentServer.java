@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -162,7 +162,7 @@ public class ZclKeyEstablishmentServer implements ZclCommandListener {
      */
     public boolean setCryptoSuite(ZigBeeCryptoSuites requestedCryptoSuite) {
         if (cbkeProvider == null || !cbkeProvider.getAvailableCryptoSuites().contains(requestedCryptoSuite)) {
-            logger.debug("{}: CBKE Key Establishment Server: Failed to set crypto suite to unsupported value {}",
+            logger.debug("{}: CBKE Key Establishment Server: Failed to set crypto suite to unsupported value {} {}",
                     ieeeAddress, requestedCryptoSuite,
                     cbkeProvider == null ? "[]" : cbkeProvider.getAvailableCryptoSuites());
             return false;

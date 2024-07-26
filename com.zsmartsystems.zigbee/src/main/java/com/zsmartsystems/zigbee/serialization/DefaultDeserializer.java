@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,10 +25,10 @@ import com.zsmartsystems.zigbee.zdo.ZdoStatus;
 import com.zsmartsystems.zigbee.zdo.field.BindingTable;
 import com.zsmartsystems.zigbee.zdo.field.NeighborTable;
 import com.zsmartsystems.zigbee.zdo.field.NodeDescriptor;
+import com.zsmartsystems.zigbee.zdo.field.ParentAnnounceChildInfo;
 import com.zsmartsystems.zigbee.zdo.field.PowerDescriptor;
 import com.zsmartsystems.zigbee.zdo.field.RoutingTable;
 import com.zsmartsystems.zigbee.zdo.field.SimpleDescriptor;
-import com.zsmartsystems.zigbee.zdo.field.ParentAnnounceChildInfo;
 
 /**
  * The default implementation of the {@link ZigBeeDeserializer}
@@ -68,7 +68,7 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
     /**
      * {@inheritDoc}
      */
-    public Object readZigBeeType(ZclDataType type) {
+    public <R> R readZigBeeType(ZclDataType type) {
         if (index == payload.length) {
             return null;
         }
@@ -213,6 +213,7 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
                 break;
             case CLUSTERID:
             case NWK_ADDRESS:
+            case DATA_16_BIT:
             case BITMAP_16_BIT:
             case ENUMERATION_16_BIT:
             case SIGNED_16_BIT_INTEGER:
@@ -245,6 +246,7 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
                 value[0] = payload[index++] + (payload[index++] << 8) + (payload[index++] << 16)
                         + (payload[index++] << 24);
                 break;
+            case DATA_40_BIT:
             case UNSIGNED_40_BIT_INTEGER:
                 value[0] = (payload[index++]) + ((long) (payload[index++]) << 8) + ((long) (payload[index++]) << 16)
                         + ((long) (payload[index++]) << 24) + ((long) (payload[index++]) << 32);
@@ -253,6 +255,13 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
                 value[0] = (payload[index++]) + ((long) (payload[index++]) << 8) + ((long) (payload[index++]) << 16)
                         + ((long) (payload[index++]) << 24) + ((long) (payload[index++]) << 32)
                         + ((long) (payload[index++]) << 40);
+                break;
+            case UNSIGNED_64_BIT_INTEGER:
+            case BITMAP_64_BIT:
+                value[0] = (payload[index++]) + ((long) (payload[index++]) << 8) + ((long) (payload[index++]) << 16)
+                        + ((long) (payload[index++]) << 24) + ((long) (payload[index++]) << 32)
+                        + ((long) (payload[index++]) << 40) + ((long) (payload[index++]) << 48)
+                        + ((long) payload[index++] << 56);
                 break;
             case SIGNED_8_BIT_INTEGER:
                 value[0] = Integer.valueOf((byte) payload[index++]);
@@ -343,6 +352,10 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
                 throw new IllegalArgumentException("No reader defined in " + ZigBeeDeserializer.class.getSimpleName()
                         + " for " + type.toString() + String.format(" (0x%02X)", type.getId()));
         }
-        return value[0];
+
+        @SuppressWarnings("unchecked")
+        R typedValue = (R) value[0];
+
+        return typedValue;
     }
 }

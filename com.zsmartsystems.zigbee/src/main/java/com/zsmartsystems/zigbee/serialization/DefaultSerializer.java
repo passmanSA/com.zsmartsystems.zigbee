@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import com.zsmartsystems.zigbee.zcl.field.ExtensionFieldSet;
 import com.zsmartsystems.zigbee.zcl.field.ZclArrayList;
 import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
 import com.zsmartsystems.zigbee.zdo.ZdoStatus;
+import com.zsmartsystems.zigbee.zdo.field.BindingTable;
 
 /**
  * The implementation of the {@link ZigBeeSerializer}.
@@ -47,6 +48,7 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 buffer[length++] = (Boolean) data ? 1 : 0;
                 break;
             case NWK_ADDRESS:
+            case DATA_16_BIT:
             case BITMAP_16_BIT:
             case SIGNED_16_BIT_INTEGER:
             case UNSIGNED_16_BIT_INTEGER:
@@ -100,6 +102,7 @@ public class DefaultSerializer implements ZigBeeSerializer {
             case N_X_ATTRIBUTE_STATUS_RECORD:
                 break;
             case N_X_EXTENSION_FIELD_SET:
+                @SuppressWarnings("unchecked")
                 List<ExtensionFieldSet> extensionFieldSets = (List<ExtensionFieldSet>) data;
                 for (ExtensionFieldSet extensionFieldSet : extensionFieldSets) {
                     extensionFieldSet.serialize(this);
@@ -110,6 +113,7 @@ public class DefaultSerializer implements ZigBeeSerializer {
             case N_X_READ_ATTRIBUTE_STATUS_RECORD:
                 break;
             case N_X_UNSIGNED_16_BIT_INTEGER:
+                @SuppressWarnings("unchecked")
                 List<Integer> intArray16 = (List<Integer>) data;
                 buffer[length++] = intArray16.size();
                 for (int value : intArray16) {
@@ -118,6 +122,7 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 }
                 break;
             case N_X_UNSIGNED_8_BIT_INTEGER:
+                @SuppressWarnings("unchecked")
                 List<Integer> intArrayNX8 = (List<Integer>) data;
                 buffer[length++] = intArrayNX8.size();
                 for (int value : intArrayNX8) {
@@ -131,12 +136,14 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 }
                 break;
             case X_UNSIGNED_8_BIT_INTEGER:
+                @SuppressWarnings("unchecked")
                 List<Integer> intArrayX8 = (List<Integer>) data;
                 for (int value : intArrayX8) {
                     buffer[length++] = value & 0xFF;
                 }
                 break;
             case N_X_ATTRIBUTE_IDENTIFIER:
+                @SuppressWarnings("unchecked")
                 List<Integer> intArrayX16 = (List<Integer>) data;
                 for (int value : intArrayX16) {
                     buffer[length++] = value & 0xFF;
@@ -205,6 +212,14 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 buffer[length++] = (uint32Value >> 16) & 0xFF;
                 buffer[length++] = (uint32Value >> 24) & 0xFF;
                 break;
+            case DATA_40_BIT:
+                final long uint40Value = (Long) data;
+                buffer[length++] = (int) (uint40Value & 0xFF);
+                buffer[length++] = (int) ((uint40Value >> 8) & 0xFF);
+                buffer[length++] = (int) ((uint40Value >> 16) & 0xFF);
+                buffer[length++] = (int) ((uint40Value >> 24) & 0xFF);
+                buffer[length++] = (int) ((uint40Value >> 32) & 0xFF);
+                break;
             case UNSIGNED_48_BIT_INTEGER:
                 final long uint48Value = (Long) data;
                 buffer[length++] = (int) (uint48Value & 0xFF);
@@ -248,6 +263,10 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 for (Object value : zclArray) {
                     appendZigBeeType(value, zclArray.getDataType());
                 }
+                break;
+            case BINDING_TABLE:
+                BindingTable bindingTable = (BindingTable) data;
+                bindingTable.serialize(this);
                 break;
 
             default:

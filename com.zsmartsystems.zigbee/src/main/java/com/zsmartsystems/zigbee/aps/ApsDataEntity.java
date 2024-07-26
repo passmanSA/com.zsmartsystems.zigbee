@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,7 +43,7 @@ import com.zsmartsystems.zigbee.transport.ZigBeeTransportTransmit;
  *
  */
 public class ApsDataEntity {
-    private static final long DUPLICATE_TIME_WINDOW = 5000;
+    private static final long DUPLICATE_TIME_WINDOW = 15000;
 
     private static final int FRAGMENTATION_LENGTH = 78;
     private static final int FRAGMENTATION_WINDOW = 1;

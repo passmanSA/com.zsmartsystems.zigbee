@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
 package com.zsmartsystems.zigbee.dongle.telegesis;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,18 +25,25 @@ import com.zsmartsystems.zigbee.TestUtilities;
 import com.zsmartsystems.zigbee.ZigBeeNodeStatus;
 import com.zsmartsystems.zigbee.ZigBeeNwkAddressMode;
 import com.zsmartsystems.zigbee.ZigBeeProfileType;
+import com.zsmartsystems.zigbee.ZigBeeStatus;
 import com.zsmartsystems.zigbee.aps.ZigBeeApsFrame;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.TelegesisFrameHandler;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisAckMessageEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisCommand;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisDeviceJoinedNetworkEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisDeviceLeftNetworkEvent;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisDeviceType;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisDisplayNetworkInformationCommand;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisFrame;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisNackMessageEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisNetworkJoinedEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisNetworkLeftEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisNetworkLostEvent;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisSendMulticastCommand;
 import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisSendUnicastCommand;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisSetOutputPowerCommand;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisSetRegisterBitCommand;
+import com.zsmartsystems.zigbee.dongle.telegesis.internal.protocol.TelegesisStatusCode;
 import com.zsmartsystems.zigbee.transport.ZigBeeTransportProgressState;
 import com.zsmartsystems.zigbee.transport.ZigBeeTransportReceive;
 import com.zsmartsystems.zigbee.transport.ZigBeeTransportState;
@@ -218,6 +226,7 @@ public class ZigBeeDongleTelegesisTest {
         TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "frameHandler", handler);
         TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "zigbeeTransportReceive",
                 Mockito.mock(ZigBeeTransportReceive.class));
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "isConfigured", true);
 
         ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
         apsFrame.setCluster(0);
@@ -253,6 +262,7 @@ public class ZigBeeDongleTelegesisTest {
         TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "frameHandler", handler);
         TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "zigbeeTransportReceive",
                 Mockito.mock(ZigBeeTransportReceive.class));
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "isConfigured", true);
 
         ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
         apsFrame.setCluster(0);
@@ -267,4 +277,60 @@ public class ZigBeeDongleTelegesisTest {
         Mockito.verify(handler, Mockito.timeout(TIMEOUT).times(1))
                 .sendRequest(ArgumentMatchers.any(TelegesisSendMulticastCommand.class));
     }
+
+    @Test
+    public void doNotSendCommandWhenNotConfigured() throws Exception {
+        ZigBeeDongleTelegesis dongle = new ZigBeeDongleTelegesis(null);
+        TelegesisFrameHandler handler = Mockito.mock(TelegesisFrameHandler.class);
+
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "frameHandler", handler);
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "zigbeeTransportReceive",
+                Mockito.mock(ZigBeeTransportReceive.class));
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "isConfigured", false);
+
+        ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
+
+        dongle.sendCommand(1, apsFrame);
+        Mockito.verify(handler, Mockito.never()).sendRequest(ArgumentMatchers.any(TelegesisSendMulticastCommand.class));
+    }
+
+    @Test
+    public void returnNoNetworkWhenNoPAN() throws Exception {
+        ZigBeeDongleTelegesis dongle = new ZigBeeDongleTelegesis(null);
+        TelegesisFrameHandler handler = Mockito.mock(TelegesisFrameHandler.class);
+
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "frameHandler", handler);
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "zigbeeTransportReceive",
+                Mockito.mock(ZigBeeTransportReceive.class));
+        TestUtilities.setField(ZigBeeDongleTelegesis.class, dongle, "isConfigured", true);
+
+        Mockito.when(handler.sendRequest(any(TelegesisSetRegisterBitCommand.class)))
+                .thenReturn(TelegesisStatusCode.SUCCESS);
+
+        Mockito.doAnswer(new Answer<TelegesisStatusCode>() {
+            @Override
+            public TelegesisStatusCode answer(InvocationOnMock invocation) throws Exception {
+                TelegesisSetOutputPowerCommand outputPower = invocation.getArgument(0);
+                TestUtilities.setField(TelegesisFrame.class, outputPower, "status", TelegesisStatusCode.SUCCESS);
+                return TelegesisStatusCode.SUCCESS;
+            }
+        }).when(handler).sendRequest(ArgumentMatchers.any(TelegesisSetOutputPowerCommand.class));
+
+        Mockito.doAnswer(new Answer<TelegesisStatusCode>() {
+            @Override
+            public TelegesisStatusCode answer(InvocationOnMock invocation)
+                    throws Exception {
+                TelegesisDisplayNetworkInformationCommand networkInfo = invocation.getArgument(0);
+                TestUtilities.setField(TelegesisFrame.class, networkInfo, "status", TelegesisStatusCode.SUCCESS);
+                TestUtilities.setField(TelegesisDisplayNetworkInformationCommand.class, networkInfo, "device",
+                        TelegesisDeviceType.NOPAN);
+                return TelegesisStatusCode.SUCCESS;
+            }
+        }).when(handler).sendRequest(ArgumentMatchers.any(TelegesisDisplayNetworkInformationCommand.class));
+        
+        ZigBeeStatus status = dongle.startup(false);
+        assertEquals(ZigBeeStatus.NO_NETWORK, status);
+
+    }
+
 }

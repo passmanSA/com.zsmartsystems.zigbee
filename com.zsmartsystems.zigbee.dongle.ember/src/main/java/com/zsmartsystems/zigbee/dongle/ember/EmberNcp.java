@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,118 +7,12 @@
  */
 package com.zsmartsystems.zigbee.dongle.ember;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.zsmartsystems.zigbee.ExtendedPanId;
 import com.zsmartsystems.zigbee.IeeeAddress;
 import com.zsmartsystems.zigbee.ZigBeeChannel;
 import com.zsmartsystems.zigbee.ZigBeeStatus;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.EzspFrameResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddEndpointRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddEndpointResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddOrUpdateKeyTableEntryRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddOrUpdateKeyTableEntryResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddTransientLinkKeyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAddTransientLinkKeyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAesMmoHashRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspAesMmoHashResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspClearKeyTableRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspClearKeyTableResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspCustomFrameRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspCustomFrameResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspEnergyScanResultHandler;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCertificate283k1Request;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCertificate283k1Response;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCertificateRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCertificateResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetChildDataRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetChildDataResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetConfigurationValueRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetConfigurationValueResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCurrentSecurityStateRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetCurrentSecurityStateResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetEui64Request;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetEui64Response;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetKeyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetKeyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetKeyTableEntryRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetKeyTableEntryResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetLibraryStatusRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetLibraryStatusResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetMfgTokenRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetMfgTokenResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetNetworkParametersRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetNetworkParametersResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetNodeIdRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetNodeIdResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetParentChildParametersRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetParentChildParametersResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetPolicyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetPolicyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetRouteTableEntryRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetRouteTableEntryResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableEntryRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableEntryResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableFilledSizeRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableFilledSizeResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableTotalSizeRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetSourceRouteTableTotalSizeResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetStandaloneBootloaderVersionPlatMicroPhyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetStandaloneBootloaderVersionPlatMicroPhyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetTransientKeyTableEntryRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetTransientKeyTableEntryResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetTransientLinkKeyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetTransientLinkKeyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetValueRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetValueResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetXncpInfoRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspGetXncpInfoResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspLeaveNetworkRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspLeaveNetworkResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkFoundHandler;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkInitRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkInitResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkStateRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkStateResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadCountersRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadCountersResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspResetToFactoryDefaultsRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspResetToFactoryDefaultsResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspScanCompleteHandler;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSendManyToOneRouteRequestRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSendManyToOneRouteRequestResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetConfigurationValueRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetConfigurationValueResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetExtendedTimeoutRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetExtendedTimeoutResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetManufacturerCodeRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetManufacturerCodeResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetMfgTokenRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetMfgTokenResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetPolicyRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetPolicyResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetPowerDescriptorRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetPowerDescriptorResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetRadioChannelRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetRadioChannelResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetRadioPowerRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetRadioPowerResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetValueRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspSetValueResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspStartScanRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspStartScanResponse;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspVersionRequest;
-import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspVersionResponse;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.*;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberAesMmoHashContext;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberCertificate283k1Data;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberCertificateData;
@@ -129,6 +23,7 @@ import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberKeyStruct;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberKeyType;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberLibraryId;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberLibraryStatus;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberMulticastTableEntry;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberNetworkParameters;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberNetworkStatus;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.structure.EmberRouteTableEntry;
@@ -147,6 +42,17 @@ import com.zsmartsystems.zigbee.dongle.ember.internal.transaction.EzspSingleResp
 import com.zsmartsystems.zigbee.dongle.ember.internal.transaction.EzspTransaction;
 import com.zsmartsystems.zigbee.security.ZigBeeKey;
 import com.zsmartsystems.zigbee.zcl.field.ByteArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides utility methods for accessing the Ember NCP.
@@ -204,6 +110,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspNetworkInitResponse.class));
         EzspNetworkInitResponse response = (EzspNetworkInitResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         logger.debug(response.toString());
 
         return response.getStatus();
@@ -224,6 +133,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspLeaveNetworkResponse.class));
         EzspLeaveNetworkResponse response = (EzspLeaveNetworkResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         logger.debug(response.toString());
 
         return response.getStatus();
@@ -239,6 +151,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler().sendEzspTransaction(
                 new EzspSingleResponseTransaction(request, EzspGetCurrentSecurityStateResponse.class));
         EzspGetCurrentSecurityStateResponse response = (EzspGetCurrentSecurityStateResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         return response.getState();
     }
@@ -246,7 +161,7 @@ public class EmberNcp {
     /**
      * Gets the current network parameters, or an empty parameters class if there's an error
      *
-     * @return {@link EzspGetNetworkParametersResponse}
+     * @return {@link EzspGetNetworkParametersResponse} or null on error
      */
     public EzspGetNetworkParametersResponse getNetworkParameters() {
         EzspGetNetworkParametersRequest request = new EzspGetNetworkParametersRequest();
@@ -256,15 +171,32 @@ public class EmberNcp {
     }
 
     /**
+     * Gets the current radio parameters, or an empty parameters class if there's an error
+     *
+     * @param phyIndex the physical radio index
+     * @return {@link EzspGetRadioParametersResponse} or null on error
+     */
+    public EzspGetRadioParametersResponse getRadioParameters(int phyIndex) {
+        EzspGetRadioParametersRequest request = new EzspGetRadioParametersRequest();
+        request.setPhyIndex(phyIndex);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler().sendEzspTransaction(
+                new EzspSingleResponseTransaction(request, EzspGetRadioParametersResponse.class));
+        return (EzspGetRadioParametersResponse) transaction.getResponse();
+    }
+
+    /**
      * Returns a value indicating whether the node is joining, joined to, or leaving a network.
      *
-     * @return the {@link EmberNetworkStatus}
+     * @return the {@link EmberNetworkStatus} or null on error
      */
     public EmberNetworkStatus getNetworkState() {
         EzspNetworkStateRequest request = new EzspNetworkStateRequest();
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspNetworkStateResponse.class));
         EzspNetworkStateResponse response = (EzspNetworkStateResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
 
         return response.getStatus();
     }
@@ -272,7 +204,7 @@ public class EmberNcp {
     /**
      * Returns information about the children of the local node and the parent of the local node.
      *
-     * @return the {@link EzspGetParentChildParametersResponse}
+     * @return the {@link EzspGetParentChildParametersResponse} or null on error
      */
     public EzspGetParentChildParametersResponse getChildParameters() {
         EzspGetParentChildParametersRequest request = new EzspGetParentChildParametersRequest();
@@ -280,6 +212,9 @@ public class EmberNcp {
                 new EzspSingleResponseTransaction(request, EzspGetParentChildParametersResponse.class));
         EzspGetParentChildParametersResponse response = (EzspGetParentChildParametersResponse) transaction
                 .getResponse();
+        if (response == null) {
+            return null;
+        }
 
         return response;
     }
@@ -296,6 +231,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetChildDataResponse.class));
         EzspGetChildDataResponse response = (EzspGetChildDataResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             return null;
@@ -327,6 +265,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspAddEndpointResponse.class));
         EzspAddEndpointResponse response = (EzspAddEndpointResponse) transaction.getResponse();
+        if (response == null) {
+            return EzspStatus.UNKNOWN;
+        }
 
         logger.debug(response.toString());
 
@@ -343,6 +284,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspReadCountersResponse.class));
         EzspReadCountersResponse response = (EzspReadCountersResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         return response.getValues();
     }
@@ -357,6 +301,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspClearKeyTableResponse.class));
         EzspClearKeyTableResponse response = (EzspClearKeyTableResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         return response.getStatus();
     }
@@ -373,6 +320,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetKeyResponse.class));
         EzspGetKeyResponse response = (EzspGetKeyResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             return null;
@@ -392,6 +342,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetKeyTableEntryResponse.class));
         EzspGetKeyTableEntryResponse response = (EzspGetKeyTableEntryResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             return null;
@@ -412,11 +365,11 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler().sendEzspTransaction(
                 new EzspSingleResponseTransaction(request, EzspGetConfigurationValueResponse.class));
         EzspGetConfigurationValueResponse response = (EzspGetConfigurationValueResponse) transaction.getResponse();
-        logger.debug(response.toString());
 
-        if (response.getStatus() != EzspStatus.EZSP_SUCCESS) {
+        if (response == null || response.getStatus() != EzspStatus.EZSP_SUCCESS) {
             return null;
         }
+        logger.debug(response.toString());
 
         return response.getValue();
     }
@@ -461,6 +414,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(setPolicyRequest, EzspSetPolicyResponse.class));
         EzspSetPolicyResponse setPolicyResponse = (EzspSetPolicyResponse) transaction.getResponse();
+        if (setPolicyResponse == null) {
+            return EzspStatus.UNKNOWN;
+        }
         logger.debug(setPolicyResponse.toString());
         if (setPolicyResponse.getStatus() != EzspStatus.EZSP_SUCCESS) {
             logger.debug("Error during setting policy: {}", setPolicyResponse);
@@ -483,6 +439,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(setPolicyRequest, EzspSetPolicyResponse.class));
         EzspSetPolicyResponse setPolicyResponse = (EzspSetPolicyResponse) transaction.getResponse();
+        if (setPolicyResponse == null) {
+            return EzspStatus.UNKNOWN;
+        }
         logger.debug(setPolicyResponse.toString());
         if (setPolicyResponse.getStatus() != EzspStatus.EZSP_SUCCESS) {
             logger.debug("Error during setting policy: {}", setPolicyResponse);
@@ -504,6 +463,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(getPolicyRequest, EzspGetPolicyResponse.class));
         EzspGetPolicyResponse getPolicyResponse = (EzspGetPolicyResponse) transaction.getResponse();
+        if (getPolicyResponse == null) {
+            return null;
+        }
         logger.debug(getPolicyResponse.toString());
         if (getPolicyResponse.getStatus() != EzspStatus.EZSP_SUCCESS) {
             logger.debug("Error getting policy: {}", getPolicyResponse);
@@ -527,6 +489,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspSetValueResponse.class));
         EzspSetValueResponse response = (EzspSetValueResponse) transaction.getResponse();
+        if (response == null) {
+            return EzspStatus.UNKNOWN;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EzspStatus.EZSP_SUCCESS) {
             logger.debug("Error setting value: {}", response);
@@ -547,6 +512,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetValueResponse.class));
         EzspGetValueResponse response = (EzspGetValueResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EzspStatus.EZSP_SUCCESS) {
             logger.debug("Error getting value: {}", response);
@@ -572,6 +540,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspAddTransientLinkKeyResponse.class));
         EzspAddTransientLinkKeyResponse response = (EzspAddTransientLinkKeyResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             logger.debug("Error setting transient key: {}", response);
@@ -617,6 +588,9 @@ public class EmberNcp {
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetTransientLinkKeyResponse.class));
         EzspGetTransientLinkKeyResponse response = (EzspGetTransientLinkKeyResponse) transaction
                 .getResponse();
+        if (response == null) {
+            return null;
+        }
         logger.debug(response.toString());
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             return null;
@@ -636,6 +610,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetCertificateResponse.class));
         EzspGetCertificateResponse response = (EzspGetCertificateResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             logger.debug("Error getting 163k1 certificate: {}", response);
             return null;
@@ -654,6 +631,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetCertificate283k1Response.class));
         EzspGetCertificate283k1Response response = (EzspGetCertificate283k1Response) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             logger.debug("Error getting 283k1 certificate: {}", response);
             return null;
@@ -700,6 +680,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetEui64Response.class));
         EzspGetEui64Response response = (EzspGetEui64Response) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         return response.getEui64();
     }
 
@@ -735,6 +718,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspSetRadioPowerResponse.class));
         EzspSetRadioPowerResponse response = (EzspSetRadioPowerResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -749,6 +735,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetLibraryStatusResponse.class));
         EzspGetLibraryStatusResponse response = (EzspGetLibraryStatusResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberLibraryStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -775,6 +764,9 @@ public class EmberNcp {
                 new EzspSingleResponseTransaction(request, EzspAddOrUpdateKeyTableEntryResponse.class));
         EzspAddOrUpdateKeyTableEntryResponse response = (EzspAddOrUpdateKeyTableEntryResponse) transaction
                 .getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -791,7 +783,11 @@ public class EmberNcp {
                 new EzspSingleResponseTransaction(request, EzspGetRouteTableEntryResponse.class));
         EzspGetRouteTableEntryResponse response = (EzspGetRouteTableEntryResponse) transaction
                 .getResponse();
-        if(response.getStatus() != EmberStatus.EMBER_SUCCESS) {
+        if (response == null) {
+            return null;
+        }
+        if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
+            logger.debug("Error request route table entry: {}", response);
             return null;
         }
         return response.getValue();
@@ -810,7 +806,7 @@ public class EmberNcp {
                 new EzspSingleResponseTransaction(request, EzspGetSourceRouteTableEntryResponse.class));
         EzspGetSourceRouteTableEntryResponse response = (EzspGetSourceRouteTableEntryResponse) transaction
                 .getResponse();
-        if (response.getStatus() != EmberStatus.EMBER_SUCCESS) {
+        if (response == null || response.getStatus() != EmberStatus.EMBER_SUCCESS) {
             return null;
         }
         // response.get
@@ -1025,17 +1021,27 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler().sendEzspTransaction(
                 new EzspMultiResponseTransaction(energyScan, EzspScanCompleteHandler.class, relatedResponses));
 
-        EzspScanCompleteHandler scanCompleteResponse = (EzspScanCompleteHandler) transaction.getResponse();
-        logger.debug(scanCompleteResponse.toString());
+        if (transaction.getResponse() instanceof EzspScanCompleteHandler) {
+            EzspScanCompleteHandler scanCompleteResponse = (EzspScanCompleteHandler) transaction.getResponse();
+            logger.debug(scanCompleteResponse.toString());
 
-        List<EzspEnergyScanResultHandler> channels = new ArrayList<>();
-        for (EzspFrameResponse network : transaction.getResponses()) {
-            if (network instanceof EzspEnergyScanResultHandler) {
-                channels.add((EzspEnergyScanResultHandler) network);
+            if (scanCompleteResponse.getStatus() != EmberStatus.EMBER_SUCCESS) {
+                logger.debug("Invalid response during energy scan: {}", transaction.getResponse());
+                return null;
             }
-        }
 
-        return channels;
+            List<EzspEnergyScanResultHandler> channels = new ArrayList<>();
+            for (EzspFrameResponse network : transaction.getResponses()) {
+                if (network instanceof EzspEnergyScanResultHandler) {
+                    channels.add((EzspEnergyScanResultHandler) network);
+                }
+            }
+
+            return channels;
+        } else {
+            logger.debug("Invalid response during energy scan: {}", transaction.getResponse());
+            return null;
+        }
     }
 
     /**
@@ -1111,7 +1117,10 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspCustomFrameResponse.class));
         EzspCustomFrameResponse response = (EzspCustomFrameResponse) transaction.getResponse();
-
+        if (response == null || response.getStatus() != EmberStatus.EMBER_SUCCESS) {
+            logger.debug("Error sending custom frame: {}", response);
+            return null;
+        }
         return response;
     }
 
@@ -1148,6 +1157,9 @@ public class EmberNcp {
                         new EzspSingleResponseTransaction(request, EzspSendManyToOneRouteRequestResponse.class));
         EzspSendManyToOneRouteRequestResponse response = (EzspSendManyToOneRouteRequestResponse) transaction
                 .getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -1163,6 +1175,9 @@ public class EmberNcp {
                         new EzspSingleResponseTransaction(request, EzspResetToFactoryDefaultsResponse.class));
         EzspResetToFactoryDefaultsResponse response = (EzspResetToFactoryDefaultsResponse) transaction
                 .getResponse();
+        if (response == null) {
+            return EzspStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -1188,6 +1203,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspGetMfgTokenResponse.class));
         EzspGetMfgTokenResponse response = (EzspGetMfgTokenResponse) transaction.getResponse();
+        if (response == null) {
+            return null;
+        }
         return response.getTokenData();
     }
 
@@ -1205,6 +1223,9 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspSetMfgTokenResponse.class));
         EzspSetMfgTokenResponse response = (EzspSetMfgTokenResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         return response.getStatus();
     }
 
@@ -1225,6 +1246,114 @@ public class EmberNcp {
         EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
                 .sendEzspTransaction(new EzspSingleResponseTransaction(request, EzspSetRadioChannelResponse.class));
         EzspSetRadioChannelResponse response = (EzspSetRadioChannelResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
         return response.getStatus();
+    }
+
+    /**
+     * Gets an entry from the multicast table
+     *
+     * @return the {@link EmberMulticastTableEntry} or null on error
+     */
+    public EmberMulticastTableEntry getMulticastTableEntry(int index) {
+        EzspGetMulticastTableEntryRequest request = new EzspGetMulticastTableEntryRequest();
+        request.setIndex(index);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspGetMulticastTableEntryResponse.class));
+
+        EzspGetMulticastTableEntryResponse response = (EzspGetMulticastTableEntryResponse) transaction.getResponse();
+
+        if (response == null || response.getStatus() != EmberStatus.EMBER_SUCCESS) {
+            logger.debug("Error request multicast table entry: {}", response);
+            return null;
+        }
+
+        return response.getValue();
+    }
+
+    /**
+     * Sets an entry in the multicast table.
+     *
+     * @return the {@link EmberStatus}
+     */
+    public EmberStatus setMulticastTableEntry(int index, EmberMulticastTableEntry value) {
+        EzspSetMulticastTableEntryRequest request = new EzspSetMulticastTableEntryRequest();
+        request.setIndex(index);
+        request.setValue(value);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspSetMulticastTableEntryResponse.class));
+        EzspSetMulticastTableEntryResponse response = (EzspSetMulticastTableEntryResponse) transaction.getResponse();
+        if (response == null) {
+            return EmberStatus.UNKNOWN;
+        }
+        return response.getStatus();
+    }
+
+    /**
+     * Indicates whether any messages are currently being sent using this address table entry.
+     * Note that this function does not indicate whether the address table entry is unused. To
+     * determine whether an address table entry is unused, check the remote node ID. The remote node
+     * ID will have the value EMBER_TABLE_ENTRY_UNUSED_NODE_ID when the address table entry is
+     * not in use.
+     *
+     * @param index The index of an address table entry.
+     * @return True if the address table entry is active, false otherwise.
+     */
+    public Boolean addressTableEntryIsActive(int index) {
+        EzspAddressTableEntryIsActiveRequest request = new EzspAddressTableEntryIsActiveRequest();
+        request.setAddressTableIndex(index);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspAddressTableEntryIsActiveResponse.class));
+        EzspAddressTableEntryIsActiveResponse response = (EzspAddressTableEntryIsActiveResponse) transaction
+                .getResponse();
+        if (response == null) {
+            return false;
+        }
+        return response.getActive();
+
+    }
+
+    /**
+     * Gets the EUI64 of an address table entry.
+     *
+     * @param index The index of an address table entry.
+     * @return The EUI64 of the address table entry is copied to this location.
+     */
+    public IeeeAddress getAddressTableRemoteEui64(int index) {
+        EzspGetAddressTableRemoteEui64Request request = new EzspGetAddressTableRemoteEui64Request();
+        request.setAddressTableIndex(index);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspGetAddressTableRemoteEui64Response.class));
+        EzspGetAddressTableRemoteEui64Response response = (EzspGetAddressTableRemoteEui64Response) transaction
+                .getResponse();
+        return response.getEui64();
+    }
+
+    /**
+     * Gets the short ID of an address table entry.
+     *
+     * @param index The index of an address table entry.
+     * @return One of the following: The short ID corresponding to the remote node whose EUI64 is stored in the address
+     *         table at the given index. EMBER_UNKNOWN_NODE_ID - Indicates that the EUI64 stored in the address table at
+     *         the given index is valid but the short ID is currently unknown. EMBER_DISCOVERY_ACTIVE_NODE_ID -
+     *         Indicates that the EUI64 stored in the address table at the given location is valid and network address
+     *         discovery is underway. EMBER_TABLE_ENTRY_UNUSED_NODE_ID - Indicates that the entry stored in the address
+     *         table at the given index is not in use.
+     */
+    public int getAddressTableRemoteNodeId(int index) {
+        EzspGetAddressTableRemoteNodeIdRequest request = new EzspGetAddressTableRemoteNodeIdRequest();
+        request.setAddressTableIndex(index);
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspGetAddressTableRemoteNodeIdResponse.class));
+        EzspGetAddressTableRemoteNodeIdResponse response = (EzspGetAddressTableRemoteNodeIdResponse) transaction
+                .getResponse();
+        return response.getNodeId();
     }
 }

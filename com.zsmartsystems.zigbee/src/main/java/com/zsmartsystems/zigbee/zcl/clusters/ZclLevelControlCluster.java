@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -52,7 +52,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclLevelControlCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -144,14 +144,14 @@ public class ZclLevelControlCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_CURRENTLEVEL, new ZclAttribute(this, ATTR_CURRENTLEVEL, "Current Level", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, true));
         attributeMap.put(ATTR_REMAININGTIME, new ZclAttribute(this, ATTR_REMAININGTIME, "Remaining Time", ZclDataType.UNSIGNED_16_BIT_INTEGER, false, true, false, false));
@@ -641,8 +641,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOnOffTransitionTime(final Integer value) {
-        return write(serverAttributes.get(ATTR_ONOFFTRANSITIONTIME), value);
+    public Future<CommandResult> setOnOffTransitionTime(final Integer onOffTransitionTime) {
+        return write(serverAttributes.get(ATTR_ONOFFTRANSITIONTIME), onOffTransitionTime);
     }
 
     /**
@@ -719,8 +719,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOnLevel(final Integer value) {
-        return write(serverAttributes.get(ATTR_ONLEVEL), value);
+    public Future<CommandResult> setOnLevel(final Integer onLevel) {
+        return write(serverAttributes.get(ATTR_ONLEVEL), onLevel);
     }
 
     /**
@@ -791,8 +791,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOnTransitionTime(final Integer value) {
-        return write(serverAttributes.get(ATTR_ONTRANSITIONTIME), value);
+    public Future<CommandResult> setOnTransitionTime(final Integer onTransitionTime) {
+        return write(serverAttributes.get(ATTR_ONTRANSITIONTIME), onTransitionTime);
     }
 
     /**
@@ -867,8 +867,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOffTransitionTime(final Integer value) {
-        return write(serverAttributes.get(ATTR_OFFTRANSITIONTIME), value);
+    public Future<CommandResult> setOffTransitionTime(final Integer offTransitionTime) {
+        return write(serverAttributes.get(ATTR_OFFTRANSITIONTIME), offTransitionTime);
     }
 
     /**
@@ -940,8 +940,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDefaultMoveRate(final Integer value) {
-        return write(serverAttributes.get(ATTR_DEFAULTMOVERATE), value);
+    public Future<CommandResult> setDefaultMoveRate(final Integer defaultMoveRate) {
+        return write(serverAttributes.get(ATTR_DEFAULTMOVERATE), defaultMoveRate);
     }
 
     /**
@@ -1004,8 +1004,8 @@ public class ZclLevelControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setStartUpCurrentLevel(final Integer value) {
-        return write(serverAttributes.get(ATTR_STARTUPCURRENTLEVEL), value);
+    public Future<CommandResult> setStartUpCurrentLevel(final Integer startUpCurrentLevel) {
+        return write(serverAttributes.get(ATTR_STARTUPCURRENTLEVEL), startUpCurrentLevel);
     }
 
     /**

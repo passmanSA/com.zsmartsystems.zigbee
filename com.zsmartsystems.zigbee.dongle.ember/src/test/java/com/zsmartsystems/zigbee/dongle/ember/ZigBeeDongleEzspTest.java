@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -482,6 +482,8 @@ public class ZigBeeDongleEzspTest {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
         TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "executorService", executorService);
 
+        TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "isConfigured", true);
+
         ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
         apsFrame.setCluster(0);
         apsFrame.setProfile(ZigBeeProfileType.ZIGBEE_HOME_AUTOMATION.getKey());
@@ -507,6 +509,8 @@ public class ZigBeeDongleEzspTest {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
         TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "executorService", executorService);
 
+        TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "isConfigured", true);
+
         ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
         apsFrame.setCluster(0);
         apsFrame.setProfile(ZigBeeProfileType.ZIGBEE_HOME_AUTOMATION.getKey());
@@ -519,6 +523,25 @@ public class ZigBeeDongleEzspTest {
         dongle.sendCommand(1, apsFrame);
         Mockito.verify(handler, Mockito.timeout(TIMEOUT).times(1))
                 .sendEzspTransaction(ArgumentMatchers.any(EzspTransaction.class));
+    }
+
+    @Test
+    public void doNotSendCommandWhenNotConfigured() throws Exception {
+        System.out.println("--- " + Thread.currentThread().getStackTrace()[1].getMethodName());
+        ZigBeeDongleEzsp dongle = new ZigBeeDongleEzsp(null);
+
+        EzspProtocolHandler handler = Mockito.mock(EzspProtocolHandler.class);
+        TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "frameHandler", handler);
+
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "executorService", executorService);
+
+        TestUtilities.setField(ZigBeeDongleEzsp.class, dongle, "isConfigured", true);
+
+        ZigBeeApsFrame apsFrame = new ZigBeeApsFrame();
+
+        dongle.sendCommand(1, apsFrame);
+        Mockito.verify(handler, Mockito.never()).sendEzspTransaction(ArgumentMatchers.any(EzspTransaction.class));
     }
 
     @Test

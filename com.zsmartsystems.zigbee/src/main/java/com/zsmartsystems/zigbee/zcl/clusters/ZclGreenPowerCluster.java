@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,7 +49,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclGreenPowerCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -202,7 +202,7 @@ public class ZclGreenPowerCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         attributeMap.put(ATTR_GPPMAXPROXYTABLEENTRIES, new ZclAttribute(this, ATTR_GPPMAXPROXYTABLEENTRIES, "Gpp Max Proxy Table Entries", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_PROXYTABLE, new ZclAttribute(this, ATTR_PROXYTABLE, "Proxy Table", ZclDataType.LONG_OCTET_STRING, true, true, false, false));
@@ -221,7 +221,7 @@ public class ZclGreenPowerCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_GPSMAXSINKTABLEENTRIES, new ZclAttribute(this, ATTR_GPSMAXSINKTABLEENTRIES, "Gps Max Sink Table Entries", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_SINKTABLE, new ZclAttribute(this, ATTR_SINKTABLE, "Sink Table", ZclDataType.LONG_OCTET_STRING, true, true, false, false));
@@ -459,8 +459,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpsCommunicationMode(final Integer value) {
-        return write(serverAttributes.get(ATTR_GPSCOMMUNICATIONMODE), value);
+    public Future<CommandResult> setGpsCommunicationMode(final Integer gpsCommunicationMode) {
+        return write(serverAttributes.get(ATTR_GPSCOMMUNICATIONMODE), gpsCommunicationMode);
     }
 
     /**
@@ -526,8 +526,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpsCommissioningExitMode(final Integer value) {
-        return write(serverAttributes.get(ATTR_GPSCOMMISSIONINGEXITMODE), value);
+    public Future<CommandResult> setGpsCommissioningExitMode(final Integer gpsCommissioningExitMode) {
+        return write(serverAttributes.get(ATTR_GPSCOMMISSIONINGEXITMODE), gpsCommissioningExitMode);
     }
 
     /**
@@ -594,8 +594,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpsCommissioningWindow(final Integer value) {
-        return write(serverAttributes.get(ATTR_GPSCOMMISSIONINGWINDOW), value);
+    public Future<CommandResult> setGpsCommissioningWindow(final Integer gpsCommissioningWindow) {
+        return write(serverAttributes.get(ATTR_GPSCOMMISSIONINGWINDOW), gpsCommissioningWindow);
     }
 
     /**
@@ -663,8 +663,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpsSecurityLevel(final Integer value) {
-        return write(serverAttributes.get(ATTR_GPSSECURITYLEVEL), value);
+    public Future<CommandResult> setGpsSecurityLevel(final Integer gpsSecurityLevel) {
+        return write(serverAttributes.get(ATTR_GPSSECURITYLEVEL), gpsSecurityLevel);
     }
 
     /**
@@ -877,8 +877,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpServerSharedSecurityKeyType(final Integer value) {
-        return write(serverAttributes.get(ATTR_GPSERVERSHAREDSECURITYKEYTYPE), value);
+    public Future<CommandResult> setGpServerSharedSecurityKeyType(final Integer gpServerSharedSecurityKeyType) {
+        return write(serverAttributes.get(ATTR_GPSERVERSHAREDSECURITYKEYTYPE), gpServerSharedSecurityKeyType);
     }
 
     /**
@@ -948,8 +948,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpServerSharedSecurityKey(final ZigBeeKey value) {
-        return write(serverAttributes.get(ATTR_GPSERVERSHAREDSECURITYKEY), value);
+    public Future<CommandResult> setGpServerSharedSecurityKey(final ZigBeeKey gpServerSharedSecurityKey) {
+        return write(serverAttributes.get(ATTR_GPSERVERSHAREDSECURITYKEY), gpServerSharedSecurityKey);
     }
 
     /**
@@ -1017,8 +1017,8 @@ public class ZclGreenPowerCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setGpServerLinkKey(final ZigBeeKey value) {
-        return write(serverAttributes.get(ATTR_GPSERVERLINKKEY), value);
+    public Future<CommandResult> setGpServerLinkKey(final ZigBeeKey gpServerLinkKey) {
+        return write(serverAttributes.get(ATTR_GPSERVERLINKKEY), gpServerLinkKey);
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -42,7 +42,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclElectricalMeasurementCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -244,14 +244,14 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_MEASUREMENTTYPE, new ZclAttribute(this, ATTR_MEASUREMENTTYPE, "Measurement Type", ZclDataType.BITMAP_32_BIT, true, true, false, false));
         attributeMap.put(ATTR_DCVOLTAGE, new ZclAttribute(this, ATTR_DCVOLTAGE, "DC Voltage", ZclDataType.SIGNED_16_BIT_INTEGER, true, true, false, false));
@@ -3864,8 +3864,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setAverageRmsVoltageMeasurementPeriod(final Integer value) {
-        return write(serverAttributes.get(ATTR_AVERAGERMSVOLTAGEMEASUREMENTPERIOD), value);
+    public Future<CommandResult> setAverageRmsVoltageMeasurementPeriod(final Integer averageRmsVoltageMeasurementPeriod) {
+        return write(serverAttributes.get(ATTR_AVERAGERMSVOLTAGEMEASUREMENTPERIOD), averageRmsVoltageMeasurementPeriod);
     }
 
     /**
@@ -3922,8 +3922,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setAverageRmsUnderVoltageCounter(final Integer value) {
-        return write(serverAttributes.get(ATTR_AVERAGERMSUNDERVOLTAGECOUNTER), value);
+    public Future<CommandResult> setAverageRmsUnderVoltageCounter(final Integer averageRmsUnderVoltageCounter) {
+        return write(serverAttributes.get(ATTR_AVERAGERMSUNDERVOLTAGECOUNTER), averageRmsUnderVoltageCounter);
     }
 
     /**
@@ -3980,8 +3980,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRmsExtremeOverVoltagePeriod(final Integer value) {
-        return write(serverAttributes.get(ATTR_RMSEXTREMEOVERVOLTAGEPERIOD), value);
+    public Future<CommandResult> setRmsExtremeOverVoltagePeriod(final Integer rmsExtremeOverVoltagePeriod) {
+        return write(serverAttributes.get(ATTR_RMSEXTREMEOVERVOLTAGEPERIOD), rmsExtremeOverVoltagePeriod);
     }
 
     /**
@@ -4038,8 +4038,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRmsExtremeUnderVoltagePeriod(final Integer value) {
-        return write(serverAttributes.get(ATTR_RMSEXTREMEUNDERVOLTAGEPERIOD), value);
+    public Future<CommandResult> setRmsExtremeUnderVoltagePeriod(final Integer rmsExtremeUnderVoltagePeriod) {
+        return write(serverAttributes.get(ATTR_RMSEXTREMEUNDERVOLTAGEPERIOD), rmsExtremeUnderVoltagePeriod);
     }
 
     /**
@@ -4096,8 +4096,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRmsVoltageSagPeriod(final Integer value) {
-        return write(serverAttributes.get(ATTR_RMSVOLTAGESAGPERIOD), value);
+    public Future<CommandResult> setRmsVoltageSagPeriod(final Integer rmsVoltageSagPeriod) {
+        return write(serverAttributes.get(ATTR_RMSVOLTAGESAGPERIOD), rmsVoltageSagPeriod);
     }
 
     /**
@@ -4154,8 +4154,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRmsVoltageSwellPeriod(final Integer value) {
-        return write(serverAttributes.get(ATTR_RMSVOLTAGESWELLPERIOD), value);
+    public Future<CommandResult> setRmsVoltageSwellPeriod(final Integer rmsVoltageSwellPeriod) {
+        return write(serverAttributes.get(ATTR_RMSVOLTAGESWELLPERIOD), rmsVoltageSwellPeriod);
     }
 
     /**
@@ -4496,8 +4496,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setOverloadAlarmsMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_OVERLOADALARMSMASK), value);
+    public Future<CommandResult> setOverloadAlarmsMask(final Integer overloadAlarmsMask) {
+        return write(serverAttributes.get(ATTR_OVERLOADALARMSMASK), overloadAlarmsMask);
     }
 
     /**
@@ -4674,8 +4674,8 @@ public class ZclElectricalMeasurementCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setAcOverloadAlarmsMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_ACOVERLOADALARMSMASK), value);
+    public Future<CommandResult> setAcOverloadAlarmsMask(final Integer acOverloadAlarmsMask) {
+        return write(serverAttributes.get(ATTR_ACOVERLOADALARMSMASK), acOverloadAlarmsMask);
     }
 
     /**

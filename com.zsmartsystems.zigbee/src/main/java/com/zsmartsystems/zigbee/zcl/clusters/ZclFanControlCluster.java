@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,7 +27,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2020-01-10T11:55:03Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclFanControlCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -52,14 +52,14 @@ public class ZclFanControlCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_FANMODE, new ZclAttribute(this, ATTR_FANMODE, "Fan Mode", ZclDataType.ENUMERATION_8_BIT, false, true, true, true));
         attributeMap.put(ATTR_FANMODESEQUENCE, new ZclAttribute(this, ATTR_FANMODESEQUENCE, "Fan Mode Sequence", ZclDataType.ENUMERATION_8_BIT, false, true, true, true));
@@ -91,8 +91,8 @@ public class ZclFanControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setFanMode(final Integer value) {
-        return write(serverAttributes.get(ATTR_FANMODE), value);
+    public Future<CommandResult> setFanMode(final Integer fanMode) {
+        return write(serverAttributes.get(ATTR_FANMODE), fanMode);
     }
 
     /**
@@ -156,8 +156,8 @@ public class ZclFanControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setFanModeSequence(final Integer value) {
-        return write(serverAttributes.get(ATTR_FANMODESEQUENCE), value);
+    public Future<CommandResult> setFanModeSequence(final Integer fanModeSequence) {
+        return write(serverAttributes.get(ATTR_FANMODESEQUENCE), fanModeSequence);
     }
 
     /**

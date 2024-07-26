@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>com.zsmartsystems</groupId>
 		<artifactId>zigbee</artifactId>
-		<version>1.4.1-SNAPSHOT</version>
+		<version>1.4.15-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -17,61 +17,61 @@
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.serial</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.dongle.cc2531</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.dongle.xbee</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.dongle.conbee</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.dongle.ember</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.dongle.telegesis</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.console</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.console.ember</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.zsmartsystems.zigbee</groupId>
 			<artifactId>com.zsmartsystems.zigbee.console.telegesis</artifactId>
-			<version>1.4.1-SNAPSHOT</version>
+			<version>1.4.15-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.18</version>
+			<version>1.4.19</version>
 		</dependency>
 
 	</dependencies>
@@ -119,7 +119,8 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.zsmartsystems.zigbee.console.main.ZigBeeConsoleMain</mainClass>
+							<mainClass>
+								com.zsmartsystems.zigbee.console.main.ZigBeeConsoleMain</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -131,7 +132,8 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.zsmartsystems.zigbee.console.main.ZigBeeConsoleMain</mainClass>
+							<mainClass>
+								com.zsmartsystems.zigbee.console.main.ZigBeeConsoleMain</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -151,15 +153,9 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>animal-sniffer-maven-plugin</artifactId>
-				<version>1.16</version>
 				<configuration>
+					<skip>true</skip>
 				</configuration>
-				<executions>
-					<execution>
-						<id>animal-sniffer</id>
-						<phase />
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

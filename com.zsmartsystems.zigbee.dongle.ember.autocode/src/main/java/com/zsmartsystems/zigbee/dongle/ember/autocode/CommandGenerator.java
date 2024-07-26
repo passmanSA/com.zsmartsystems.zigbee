@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -686,6 +686,7 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberCounterType":
             case "EmberGpSecurityFrameCounter":
             case "EzspDecisionBitmask":
+            case "EmberMulticastId":
             case "int8s":
             case "uint8_u":
             case "uint8_t":
@@ -743,9 +744,6 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberStatus":
                 addImport(ezspStructurePackage + ".EmberStatus");
                 return "EmberStatus";
-            case "EmberKeyStatus":
-                addImport(ezspStructurePackage + ".EmberKeyStatus");
-                return "EmberKeyStatus";
             case "EmberNetworkParameters":
                 addImport(ezspStructurePackage + ".EmberNetworkParameters");
                 return "EmberNetworkParameters";
@@ -779,6 +777,9 @@ public class CommandGenerator extends ClassGenerator {
             case "EzspValueId":
                 addImport(ezspStructurePackage + ".EzspValueId");
                 return "EzspValueId";
+            case "EzspExtendedValue":
+                addImport(ezspStructurePackage + ".EzspExtendedValue");
+                return "EzspExtendedValue";
             case "EmberKeyStruct":
                 addImport(ezspStructurePackage + ".EmberKeyStruct");
                 return "EmberKeyStruct";
@@ -803,6 +804,7 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberAesMmoHashContext":
                 addImport(ezspStructurePackage + ".EmberAesMmoHashContext");
                 return "EmberAesMmoHashContext";
+            case "EzspExtendedValueId":
             case "EzspMfgTokenId":
             case "EmberCertificateData":
             case "EmberCertificate283k1Data":
@@ -818,6 +820,9 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberGpSinkTableEntry":
             case "EmberBeaconData":
             case "EmberBeaconIterator":
+            case "EmberMulticastTableEntry":
+            case "EmberKeyStatus":
+            case "EmberMultiPhyRadioParameters":
                 addImport(ezspStructurePackage + "." + dataTypeLocal);
                 return dataTypeLocal + modifier;
             default:
@@ -835,6 +840,7 @@ public class CommandGenerator extends ClassGenerator {
             case "uint8_t":
             case "uint8_u":
                 return "UInt8";
+            case "EmberMulticastId":
             case "EzspDecisionBitmask":
             case "EmberNodeId":
             case "uint16_t":
@@ -875,6 +881,7 @@ public class CommandGenerator extends ClassGenerator {
                 return "EmberGpProxyTableEntry";
             case "EmberGpSinkListEntry[":
                 return "EmberGpSinkListEntry";
+            case "EzspExtendedValueId":
             case "EzspMfgTokenId":
             case "EmberLibraryId":
             case "EmberLibraryStatus":
@@ -890,6 +897,8 @@ public class CommandGenerator extends ClassGenerator {
             case "EmberGpSinkTableEntry":
             case "EmberBeaconData":
             case "EmberBeaconIterator":
+            case "EmberMulticastTableEntry":
+            case "EmberMultiPhyRadioParameters":
                 return dataTypeLocal;
             default:
                 return dataType;
@@ -1084,7 +1093,7 @@ public class CommandGenerator extends ClassGenerator {
         out.println("                }");
         out.println("            }");
         out.println("        } catch (ArrayIndexOutOfBoundsException e) {");
-        out.println("            logger.debug(\"Error detecting the EZSP frame type\", e);");
+        out.println("            logger.debug(\"EzspFrame error detecting the frame type: {}\", frameToString(data));");
         out.println("            return null;");
         out.println("        }");
         out.println();
@@ -1101,12 +1110,53 @@ public class CommandGenerator extends ClassGenerator {
         out.println(
                 "        } catch (SecurityException | NoSuchMethodException | IllegalArgumentException | InstantiationException");
         out.println("                | IllegalAccessException | InvocationTargetException e) {");
-        out.println("            logger.debug(\"Error creating instance of EzspFrame\", e);");
+        out.println("            Exception realE = e;");
+        out.println("            if (e instanceof InvocationTargetException) {");
+        out.println("                realE = (Exception) ((InvocationTargetException) e).getCause();");
+        out.println("            }");
+        out.println(
+                "            logger.debug(\"EzspFrame error {} creating instance of frame: {}\", realE.getClass().getSimpleName(),");
+        out.println("                    frameToString(data));");
         out.println("        }");
         out.println();
         out.println("        return null;");
         out.println("    }");
         out.println();
+
+        out.println("    /**");
+        out.println("     * Set the EZSP version to use");
+        out.println("     *");
+        out.println("     * @param ezspVersion the EZSP protocol version");
+        out.println("     * @return true if the version is supported");
+        out.println("     */");
+        out.println("    public static boolean setEzspVersion(int ezspVersion) {");
+        out.println("        if (ezspVersion <= EZSP_MAX_VERSION && ezspVersion >= EZSP_MIN_VERSION) {");
+        out.println("            EzspFrame.ezspVersion = ezspVersion;");
+        out.println("            return true;");
+        out.println("        }");
+        out.println();
+        out.println("        return false;");
+        out.println("    }");
+        out.println();
+
+        out.println("    /**");
+        out.println(
+                "     * Gets the current version of EZSP that is in use. This will default to the minimum supported version on startup");
+        out.println("     *");
+        out.println("     * @return the current version of EZSP");
+        out.println("     */");
+        out.println("    public static int getEzspVersion() {");
+        out.println("        return EzspFrame.ezspVersion;");
+        out.println("    }");
+        out.println();
+
+        out.println("    private static String frameToString(int[] inputBuffer) {");
+        out.println("        StringBuilder result = new StringBuilder();");
+        out.println("        for (int data : inputBuffer) {");
+        out.println("            result.append(String.format(\"%02X \", data));");
+        out.println("        }");
+        out.println("        return result.toString();");
+        out.println("    }");
 
         out.println("}");
 

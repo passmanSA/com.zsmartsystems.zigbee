@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,7 +26,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2020-01-10T11:55:03Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclDehumidificationControlCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -85,14 +85,14 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_RELATIVEHUMIDITY, new ZclAttribute(this, ATTR_RELATIVEHUMIDITY, "Relative Humidity", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_DEHUMIDIFICATIONCOOLING, new ZclAttribute(this, ATTR_DEHUMIDIFICATIONCOOLING, "Dehumidification Cooling", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
@@ -276,8 +276,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRhDehumidificationSetpoint(final Integer value) {
-        return write(serverAttributes.get(ATTR_RHDEHUMIDIFICATIONSETPOINT), value);
+    public Future<CommandResult> setRhDehumidificationSetpoint(final Integer rhDehumidificationSetpoint) {
+        return write(serverAttributes.get(ATTR_RHDEHUMIDIFICATIONSETPOINT), rhDehumidificationSetpoint);
     }
 
     /**
@@ -345,8 +345,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRelativeHumidityMode(final Integer value) {
-        return write(serverAttributes.get(ATTR_RELATIVEHUMIDITYMODE), value);
+    public Future<CommandResult> setRelativeHumidityMode(final Integer relativeHumidityMode) {
+        return write(serverAttributes.get(ATTR_RELATIVEHUMIDITYMODE), relativeHumidityMode);
     }
 
     /**
@@ -412,8 +412,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDehumidificationLockout(final Integer value) {
-        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONLOCKOUT), value);
+    public Future<CommandResult> setDehumidificationLockout(final Integer dehumidificationLockout) {
+        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONLOCKOUT), dehumidificationLockout);
     }
 
     /**
@@ -479,8 +479,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDehumidificationHysteresis(final Integer value) {
-        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONHYSTERESIS), value);
+    public Future<CommandResult> setDehumidificationHysteresis(final Integer dehumidificationHysteresis) {
+        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONHYSTERESIS), dehumidificationHysteresis);
     }
 
     /**
@@ -546,8 +546,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDehumidificationMaxCool(final Integer value) {
-        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONMAXCOOL), value);
+    public Future<CommandResult> setDehumidificationMaxCool(final Integer dehumidificationMaxCool) {
+        return write(serverAttributes.get(ATTR_DEHUMIDIFICATIONMAXCOOL), dehumidificationMaxCool);
     }
 
     /**
@@ -613,8 +613,8 @@ public class ZclDehumidificationControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setRelativeHumidityDisplay(final Integer value) {
-        return write(serverAttributes.get(ATTR_RELATIVEHUMIDITYDISPLAY), value);
+    public Future<CommandResult> setRelativeHumidityDisplay(final Integer relativeHumidityDisplay) {
+        return write(serverAttributes.get(ATTR_RELATIVEHUMIDITYDISPLAY), relativeHumidityDisplay);
     }
 
     /**

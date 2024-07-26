@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -107,6 +107,55 @@ public class BindingTable {
         return dstNodeEndpoint;
     }
 
+    /**
+     * @param srcAddr the srcAddr to set
+     */
+    public void setSrcAddr(IeeeAddress srcAddr) {
+        this.srcAddr = srcAddr;
+    }
+
+    /**
+     * @param srcEndpoint the srcEndpoint to set
+     */
+    public void setSrcEndpoint(int srcEndpoint) {
+        this.srcEndpoint = srcEndpoint;
+    }
+
+    /**
+     * @param clusterId the clusterId to set
+     */
+    public void setClusterId(int clusterId) {
+        this.clusterId = clusterId;
+    }
+
+    /**
+     * @param dstAddrMode the dstAddrMode to set
+     */
+    public void setDstAddrMode(int dstAddrMode) {
+        this.dstAddrMode = dstAddrMode;
+    }
+
+    /**
+     * @param dstGroupAddr the dstGroupAddr to set
+     */
+    public void setDstGroupAddr(int dstGroupAddr) {
+        this.dstGroupAddr = dstGroupAddr;
+    }
+
+    /**
+     * @param dstAddr the dstAddr to set
+     */
+    public void setDstAddr(IeeeAddress dstAddr) {
+        this.dstAddr = dstAddr;
+    }
+
+    /**
+     * @param dstNodeEndpoint the dstNodeEndpoint to set
+     */
+    public void setDstNodeEndpoint(int dstNodeEndpoint) {
+        this.dstNodeEndpoint = dstNodeEndpoint;
+    }
+
     public void serialize(final ZigBeeSerializer serializer) {
         serializer.appendZigBeeType(srcAddr, ZclDataType.IEEE_ADDRESS);
         serializer.appendZigBeeType(srcEndpoint, ZclDataType.UNSIGNED_8_BIT_INTEGER);
@@ -121,15 +170,15 @@ public class BindingTable {
     }
 
     public void deserialize(final ZigBeeDeserializer deserializer) {
-        srcAddr = (IeeeAddress) deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
-        srcEndpoint = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
-        clusterId = (int) deserializer.readZigBeeType(ZclDataType.CLUSTERID);
-        dstAddrMode = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        srcAddr = deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
+        srcEndpoint = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        clusterId = deserializer.readZigBeeType(ZclDataType.CLUSTERID);
+        dstAddrMode = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
         if (dstAddrMode == 1) {
-            dstGroupAddr = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_16_BIT_INTEGER);
+            dstGroupAddr = deserializer.readZigBeeType(ZclDataType.UNSIGNED_16_BIT_INTEGER);
         } else if (dstAddrMode == 3) {
-            dstAddr = (IeeeAddress) deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
-            dstNodeEndpoint = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+            dstAddr = deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
+            dstNodeEndpoint = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
         }
     }
 
@@ -198,12 +247,14 @@ public class BindingTable {
         builder.append(srcAddr);
         builder.append('/');
         builder.append(srcEndpoint);
-        builder.append(", dstAddr=");
+        builder.append(", addrMode=");
         switch (dstAddrMode) {
             case 1:
+                builder.append("GROUP, dstAddr=");
                 builder.append(dstGroupAddr);
                 break;
             case 3:
+                builder.append("DEVICE, dstAddr=");
                 builder.append(dstAddr);
                 builder.append('/');
                 builder.append(dstNodeEndpoint);

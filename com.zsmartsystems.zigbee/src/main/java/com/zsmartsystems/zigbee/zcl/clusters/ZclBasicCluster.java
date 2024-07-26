@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -31,7 +31,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclBasicCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -131,14 +131,14 @@ public class ZclBasicCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_ZCLVERSION, new ZclAttribute(this, ATTR_ZCLVERSION, "ZCL Version", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_APPLICATIONVERSION, new ZclAttribute(this, ATTR_APPLICATIONVERSION, "Application Version", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, false, false));
@@ -951,8 +951,8 @@ public class ZclBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setLocationDescription(final String value) {
-        return write(serverAttributes.get(ATTR_LOCATIONDESCRIPTION), value);
+    public Future<CommandResult> setLocationDescription(final String locationDescription) {
+        return write(serverAttributes.get(ATTR_LOCATIONDESCRIPTION), locationDescription);
     }
 
     /**
@@ -1038,8 +1038,8 @@ public class ZclBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setPhysicalEnvironment(final Integer value) {
-        return write(serverAttributes.get(ATTR_PHYSICALENVIRONMENT), value);
+    public Future<CommandResult> setPhysicalEnvironment(final Integer physicalEnvironment) {
+        return write(serverAttributes.get(ATTR_PHYSICALENVIRONMENT), physicalEnvironment);
     }
 
     /**
@@ -1125,8 +1125,8 @@ public class ZclBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDeviceEnabled(final Boolean value) {
-        return write(serverAttributes.get(ATTR_DEVICEENABLED), value);
+    public Future<CommandResult> setDeviceEnabled(final Boolean deviceEnabled) {
+        return write(serverAttributes.get(ATTR_DEVICEENABLED), deviceEnabled);
     }
 
     /**
@@ -1212,8 +1212,8 @@ public class ZclBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setAlarmMask(final Integer value) {
-        return write(serverAttributes.get(ATTR_ALARMMASK), value);
+    public Future<CommandResult> setAlarmMask(final Integer alarmMask) {
+        return write(serverAttributes.get(ATTR_ALARMMASK), alarmMask);
     }
 
     /**
@@ -1303,8 +1303,8 @@ public class ZclBasicCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setDisableLocalConfig(final Integer value) {
-        return write(serverAttributes.get(ATTR_DISABLELOCALCONFIG), value);
+    public Future<CommandResult> setDisableLocalConfig(final Integer disableLocalConfig) {
+        return write(serverAttributes.get(ATTR_DISABLELOCALCONFIG), disableLocalConfig);
     }
 
     /**

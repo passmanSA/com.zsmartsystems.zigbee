@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -286,9 +286,8 @@ public abstract class ZigBeeBaseClassGenerator {
                 len += word.length();
             }
 
-            if (len != 2 + indent.length()) {
-                out.println();
-            }
+            // loop or skipping loop doesn't end line so we do
+            out.println();
         }
     }
 
@@ -347,9 +346,10 @@ public abstract class ZigBeeBaseClassGenerator {
 
     protected void outputAttributeJavaDoc(PrintStream out, String type, ZigBeeXmlAttribute attribute,
             DataTypeMap zclDataType) {
+        String name = attribute.name.replaceAll("\\{\\{count\\}\\}", "");
         out.println();
         out.println("    /**");
-        out.println("     * " + type + " the <i>" + attribute.name + "</i> attribute [attribute ID <b>0x"
+        out.println("     * " + type + " the <i>" + name + "</i> attribute [attribute ID <b>0x"
                 + String.format("%04X", attribute.code) + "</b>].");
         if (attribute.description.size() != 0) {
             out.println("     * <p>");
@@ -385,7 +385,7 @@ public abstract class ZigBeeBaseClassGenerator {
                 out.println("     * @param reportableChange {@link Object} delta required to trigger report");
             }
         } else if ("Set".equals(type)) {
-            out.println("     * @param " + stringToLowerCamelCase(attribute.name) + " the {@link "
+            out.println("     * @param " + stringToLowerCamelCase(name) + " the {@link "
                     + getDataTypeClass(attribute) + "} attribute value to be set");
         }
 

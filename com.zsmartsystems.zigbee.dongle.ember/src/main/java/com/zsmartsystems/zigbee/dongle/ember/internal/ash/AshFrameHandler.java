@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -101,7 +101,7 @@ public class AshFrameHandler implements EzspProtocolHandler {
 
     private static final int ASH_MAX_LENGTH = 220;
 
-    private static final int RX_QUEUE_LEN = 10;
+    private static final int RX_QUEUE_LEN = 20;
 
     /**
      * Timeout after which sending an EZSP transaction is aborted.
@@ -194,7 +194,9 @@ public class AshFrameHandler implements EzspProtocolHandler {
 
         while (!closeHandler) {
             int val = port.read();
-            logger.trace("ASH RX: {}", String.format("%02X", val));
+            if (logger.isTraceEnabled()) {
+                logger.trace("ASH RX: {}", String.format("%02X", val));
+            }
             switch (val) {
                 case ASH_CANCEL_BYTE:
                     // Cancel Byte: Terminates a frame in progress. A Cancel Byte causes all data received since the
@@ -278,7 +280,9 @@ public class AshFrameHandler implements EzspProtocolHandler {
                     final AshFrame packet = AshFrame.createFromInput(packetData);
                     AshFrame responseFrame = null;
                     if (packet == null) {
-                        logger.debug("<-- RX ASH error: BAD PACKET {}", frameToString(packetData));
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("<-- RX ASH error: BAD PACKET {}", frameToString(packetData));
+                        }
 
                         // Send a NAK and set rejection condition
                         if (!rejectionCondition) {
@@ -286,7 +290,7 @@ public class AshFrameHandler implements EzspProtocolHandler {
                             responseFrame = new AshFrameNak(ackNum);
                         }
                     } else {
-                        logger.debug("<-- RX ASH frame: {}", packet.toString());
+                        logger.debug("<-- RX ASH frame: {}", packet);
 
                         // Reset the exception counter
                         exceptionCnt = 0;
@@ -476,7 +480,7 @@ public class AshFrameHandler implements EzspProtocolHandler {
         try {
             parserThread.interrupt();
             parserThread.join();
-            logger.debug("AshFrameHandler parsed thread terminated.");
+            logger.debug("AshFrameHandler parser thread terminated.");
         } catch (InterruptedException e) {
             logger.debug("AshFrameHandler interrupted in packet parser thread shutdown join.");
         }
@@ -573,8 +577,10 @@ public class AshFrameHandler implements EzspProtocolHandler {
 
         // Send the data
         int[] outputBuffer = ashFrame.getOutputBuffer();
-        for(int val : outputBuffer) {
-            logger.trace("ASH TX: {}", String.format("%02X", val));
+        if (logger.isTraceEnabled()) {
+            for (int val : outputBuffer) {
+                logger.trace("ASH TX: {}", String.format("%02X", val));
+            }
         }
         port.write(outputBuffer);
 
@@ -856,8 +862,9 @@ public class AshFrameHandler implements EzspProtocolHandler {
         return executor.submit(new TransactionWaiter());
     }
 
+
     @Override
-    public EzspTransaction sendEzspTransaction(EzspTransaction ezspTransaction) {
+    public EzspTransaction sendEzspTransaction(EzspTransaction ezspTransaction, long timeout) {
         String message = "[{}] TX EZSP: {}";
         ezspDongleLogger.debug(message, frameHandler.getHandlerIdentifier(), ezspTransaction.getRequest());
         txRxLogger.debug(message, frameHandler.getHandlerIdentifier(), ezspTransaction.getRequest());
@@ -870,16 +877,21 @@ public class AshFrameHandler implements EzspProtocolHandler {
         }
 
         try {
-            futureResponse.get(EZSP_TRANSACTION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+            futureResponse.get(timeout, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException e) {
             futureResponse.cancel(true);
             logger.debug("ASH interrupted in sendRequest while sending {}", ezspTransaction.getRequest());
         } catch (TimeoutException e) {
             futureResponse.cancel(true);
-            logger.debug("Sending EZSP transaction timed out after {} seconds", EZSP_TRANSACTION_TIMEOUT_SECONDS);
+            logger.debug("Sending EZSP transaction timed out after {} seconds", timeout);
         }
 
         return ezspTransaction;
+    }
+
+    @Override
+    public EzspTransaction sendEzspTransaction(EzspTransaction ezspTransaction) {
+        return sendEzspTransaction(ezspTransaction, EZSP_TRANSACTION_TIMEOUT_SECONDS);
     }
 
     /**

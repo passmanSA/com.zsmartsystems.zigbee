@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,6 +8,7 @@
 package com.zsmartsystems.zigbee.zdo.command;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -41,6 +42,7 @@ public class IeeeAddressResponseTest extends CommandTest {
         assertEquals(new IeeeAddress("0022A300001732BF"), addressResponse.getIeeeAddrRemoteDev());
         assertEquals(0x8001, (int) addressResponse.getClusterId());
         assertEquals(ZdoStatus.SUCCESS, addressResponse.getStatus());
+        assertNull(addressResponse.getStartIndex());
     }
 
     @Test

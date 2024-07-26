@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -78,6 +78,7 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_ADD_ENDPOINT = 0x02;
     protected static final int FRAME_ID_ADD_OR_UPDATE_KEY_TABLE_ENTRY = 0x66;
     protected static final int FRAME_ID_ADD_TRANSIENT_LINK_KEY = 0xAF;
+    protected static final int FRAME_ID_ADDRESS_TABLE_ENTRY_IS_ACTIVE = 0x5B;
     protected static final int FRAME_ID_AES_MMO_HASH = 0x6F;
     protected static final int FRAME_ID_BECOME_TRUST_CENTER = 0x77;
     protected static final int FRAME_ID_BINDING_IS_ACTIVE = 0x2E;
@@ -110,6 +111,7 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_GENERATE_CBKE_KEYS283K1_HANDLER = 0xE9;
     protected static final int FRAME_ID_GENERATE_CBKE_KEYS_HANDLER = 0x9E;
     protected static final int FRAME_ID_GET_ADDRESS_TABLE_REMOTE_EUI64 = 0x5E;
+    protected static final int FRAME_ID_GET_ADDRESS_TABLE_REMOTE_NODE_ID = 0x5F;
     protected static final int FRAME_ID_GET_BINDING = 0x2C;
     protected static final int FRAME_ID_GET_BINDING_REMOTE_NODE_ID = 0x2F;
     protected static final int FRAME_ID_GET_CERTIFICATE = 0xA5;
@@ -119,11 +121,13 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_GET_CURRENT_SECURITY_STATE = 0x69;
     protected static final int FRAME_ID_GET_EUI64 = 0x26;
     protected static final int FRAME_ID_GET_EXTENDED_TIMEOUT = 0x7F;
+    protected static final int FRAME_ID_GET_EXTENDED_VALUE = 0x03;
     protected static final int FRAME_ID_GET_FIRST_BEACON = 0x3D;
     protected static final int FRAME_ID_GET_KEY = 0x6A;
     protected static final int FRAME_ID_GET_KEY_TABLE_ENTRY = 0x71;
     protected static final int FRAME_ID_GET_LIBRARY_STATUS = 0x01;
     protected static final int FRAME_ID_GET_MFG_TOKEN = 0x0B;
+    protected static final int FRAME_ID_GET_MULTICAST_TABLE_ENTRY = 0x63;
     protected static final int FRAME_ID_GET_NEIGHBOR = 0x79;
     protected static final int FRAME_ID_GET_NETWORK_PARAMETERS = 0x28;
     protected static final int FRAME_ID_GET_NEXT_BEACON = 0x3D;
@@ -131,6 +135,7 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_GET_NUM_STORED_BEACONS = 0x08;
     protected static final int FRAME_ID_GET_PARENT_CHILD_PARAMETERS = 0x29;
     protected static final int FRAME_ID_GET_POLICY = 0x56;
+    protected static final int FRAME_ID_GET_RADIO_PARAMETERS = 0xFD;
     protected static final int FRAME_ID_GET_ROUTE_TABLE_ENTRY = 0x7B;
     protected static final int FRAME_ID_GET_ROUTING_SHORTCUT_THRESHOLD = 0xD1;
     protected static final int FRAME_ID_GET_SOURCE_ROUTE_TABLE_ENTRY = 0xC1;
@@ -201,6 +206,8 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_SEND_REPLY = 0x39;
     protected static final int FRAME_ID_SEND_TRUST_CENTER_LINK_KEY = 0x67;
     protected static final int FRAME_ID_SEND_UNICAST = 0x34;
+    protected static final int FRAME_ID_SET_ADDRESS_TABLE_REMOTE_EUI64 = 0x5C;
+    protected static final int FRAME_ID_SET_ADDRESS_TABLE_REMOTE_NODE_ID = 0x5D;
     protected static final int FRAME_ID_SET_BINDING = 0x2B;
     protected static final int FRAME_ID_SET_BINDING_REMOTE_NODE_ID = 0x30;
     protected static final int FRAME_ID_SET_CONCENTRATOR = 0x10;
@@ -210,6 +217,7 @@ public abstract class EzspFrame {
     protected static final int FRAME_ID_SET_KEY_TABLE_ENTRY = 0x72;
     protected static final int FRAME_ID_SET_MANUFACTURER_CODE = 0x15;
     protected static final int FRAME_ID_SET_MFG_TOKEN = 0x0C;
+    protected static final int FRAME_ID_SET_MULTICAST_TABLE_ENTRY = 0x64;
     protected static final int FRAME_ID_SET_POLICY = 0x55;
     protected static final int FRAME_ID_SET_POWER_DESCRIPTOR = 0x16;
     protected static final int FRAME_ID_SET_PREINSTALLED_CBKE_DATA = 0xA2;
@@ -240,6 +248,7 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_ADD_ENDPOINT, EzspAddEndpointResponse.class);
         ezspHandlerMap.put(FRAME_ID_ADD_OR_UPDATE_KEY_TABLE_ENTRY, EzspAddOrUpdateKeyTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_ADD_TRANSIENT_LINK_KEY, EzspAddTransientLinkKeyResponse.class);
+        ezspHandlerMap.put(FRAME_ID_ADDRESS_TABLE_ENTRY_IS_ACTIVE, EzspAddressTableEntryIsActiveResponse.class);
         ezspHandlerMap.put(FRAME_ID_AES_MMO_HASH, EzspAesMmoHashResponse.class);
         ezspHandlerMap.put(FRAME_ID_BECOME_TRUST_CENTER, EzspBecomeTrustCenterResponse.class);
         ezspHandlerMap.put(FRAME_ID_BINDING_IS_ACTIVE, EzspBindingIsActiveResponse.class);
@@ -272,6 +281,7 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_GENERATE_CBKE_KEYS283K1_HANDLER, EzspGenerateCbkeKeys283k1Handler.class);
         ezspHandlerMap.put(FRAME_ID_GENERATE_CBKE_KEYS_HANDLER, EzspGenerateCbkeKeysHandler.class);
         ezspHandlerMap.put(FRAME_ID_GET_ADDRESS_TABLE_REMOTE_EUI64, EzspGetAddressTableRemoteEui64Response.class);
+        ezspHandlerMap.put(FRAME_ID_GET_ADDRESS_TABLE_REMOTE_NODE_ID, EzspGetAddressTableRemoteNodeIdResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_BINDING, EzspGetBindingResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_BINDING_REMOTE_NODE_ID, EzspGetBindingRemoteNodeIdResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_CERTIFICATE, EzspGetCertificateResponse.class);
@@ -281,11 +291,13 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_GET_CURRENT_SECURITY_STATE, EzspGetCurrentSecurityStateResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_EUI64, EzspGetEui64Response.class);
         ezspHandlerMap.put(FRAME_ID_GET_EXTENDED_TIMEOUT, EzspGetExtendedTimeoutResponse.class);
+        ezspHandlerMap.put(FRAME_ID_GET_EXTENDED_VALUE, EzspGetExtendedValueResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_FIRST_BEACON, EzspGetFirstBeaconResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_KEY, EzspGetKeyResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_KEY_TABLE_ENTRY, EzspGetKeyTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_LIBRARY_STATUS, EzspGetLibraryStatusResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_MFG_TOKEN, EzspGetMfgTokenResponse.class);
+        ezspHandlerMap.put(FRAME_ID_GET_MULTICAST_TABLE_ENTRY, EzspGetMulticastTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_NEIGHBOR, EzspGetNeighborResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_NETWORK_PARAMETERS, EzspGetNetworkParametersResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_NEXT_BEACON, EzspGetNextBeaconResponse.class);
@@ -293,6 +305,7 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_GET_NUM_STORED_BEACONS, EzspGetNumStoredBeaconsResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_PARENT_CHILD_PARAMETERS, EzspGetParentChildParametersResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_POLICY, EzspGetPolicyResponse.class);
+        ezspHandlerMap.put(FRAME_ID_GET_RADIO_PARAMETERS, EzspGetRadioParametersResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_ROUTE_TABLE_ENTRY, EzspGetRouteTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_ROUTING_SHORTCUT_THRESHOLD, EzspGetRoutingShortcutThresholdResponse.class);
         ezspHandlerMap.put(FRAME_ID_GET_SOURCE_ROUTE_TABLE_ENTRY, EzspGetSourceRouteTableEntryResponse.class);
@@ -363,6 +376,8 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_SEND_REPLY, EzspSendReplyResponse.class);
         ezspHandlerMap.put(FRAME_ID_SEND_TRUST_CENTER_LINK_KEY, EzspSendTrustCenterLinkKeyResponse.class);
         ezspHandlerMap.put(FRAME_ID_SEND_UNICAST, EzspSendUnicastResponse.class);
+        ezspHandlerMap.put(FRAME_ID_SET_ADDRESS_TABLE_REMOTE_EUI64, EzspSetAddressTableRemoteEui64Response.class);
+        ezspHandlerMap.put(FRAME_ID_SET_ADDRESS_TABLE_REMOTE_NODE_ID, EzspSetAddressTableRemoteNodeIdResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_BINDING, EzspSetBindingResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_BINDING_REMOTE_NODE_ID, EzspSetBindingRemoteNodeIdResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_CONCENTRATOR, EzspSetConcentratorResponse.class);
@@ -372,6 +387,7 @@ public abstract class EzspFrame {
         ezspHandlerMap.put(FRAME_ID_SET_KEY_TABLE_ENTRY, EzspSetKeyTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_MANUFACTURER_CODE, EzspSetManufacturerCodeResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_MFG_TOKEN, EzspSetMfgTokenResponse.class);
+        ezspHandlerMap.put(FRAME_ID_SET_MULTICAST_TABLE_ENTRY, EzspSetMulticastTableEntryResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_POLICY, EzspSetPolicyResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_POWER_DESCRIPTOR, EzspSetPowerDescriptorResponse.class);
         ezspHandlerMap.put(FRAME_ID_SET_PREINSTALLED_CBKE_DATA, EzspSetPreinstalledCbkeDataResponse.class);
@@ -457,7 +473,7 @@ public abstract class EzspFrame {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            logger.debug("Error detecting the EZSP frame type", e);
+            logger.debug("EzspFrame error detecting the frame type: {}", frameToString(data));
             return null;
         }
 
@@ -473,10 +489,23 @@ public abstract class EzspFrame {
             return ezspFrame;
         } catch (SecurityException | NoSuchMethodException | IllegalArgumentException | InstantiationException
                 | IllegalAccessException | InvocationTargetException e) {
-            logger.debug("Error creating instance of EzspFrame", e);
+            Exception realE = e;
+            if (e instanceof InvocationTargetException) {
+                realE = (Exception) ((InvocationTargetException) e).getCause();
+            }
+            logger.debug("EzspFrame error {} creating instance of frame: {}", realE.getClass().getSimpleName(),
+                    frameToString(data));
         }
 
         return null;
+    }
+
+    private static String frameToString(int[] inputBuffer) {
+        StringBuilder result = new StringBuilder();
+        for (int data : inputBuffer) {
+            result.append(String.format("%02X ", data));
+        }
+        return result.toString();
     }
 
 }

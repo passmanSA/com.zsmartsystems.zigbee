@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -335,10 +336,22 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
      * @param otaFile the current firmware version for this node
      */
     public void setFirmware(ZigBeeOtaFile otaFile) {
-        updateStatus(ZigBeeOtaServerStatus.OTA_WAITING);
-
-        this.otaFile = otaFile;
+        setFirmwareWithoutNotify(otaFile);
         notifyClient();
+    }
+
+    /**
+     * Sets the firmware file for this node.
+     * <p>
+     * The file must conform to the standard file format containing the OTA Header, upgrade image, signer certificate,
+     * signature.
+     *
+     * @param otaFile the current firmware version for this node
+     */
+    public void setFirmwareWithoutNotify(ZigBeeOtaFile otaFile) {
+        logger.debug("{}: OTA Server file set: {}", cluster.getZigBeeAddress(), otaFile);
+        updateStatus(ZigBeeOtaServerStatus.OTA_WAITING);
+        this.otaFile = otaFile;
     }
 
     /**
@@ -415,7 +428,7 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
     public boolean completeUpgrade() {
         return completeUpgrade(null);
     }
-    
+
     /**
      * Instruct the server to complete the upgrade. This is only possible if the client state is
      * {@link ImageUpgradeStatus#DOWNLOAD_COMPLETE}.
@@ -462,10 +475,10 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
                     }
 
                     updateStatus(ZigBeeOtaServerStatus.OTA_UPGRADE_FIRMWARE_RESTARTING);
-                    
+
                     UpgradeEndResponse upgradeEndResponse = new UpgradeEndResponse(otaFile.getManufacturerCode(),
                             otaFile.getImageType(), otaFile.getFileVersion(), 0, 0);
-                    
+
                     // If we received a UpgradeEndCommand then send the UpgradeEndResponse as a response. Otherwise send
                     // it as a commands
                     CommandResult response;
@@ -496,7 +509,7 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
 
                         if (currentVersionResponse instanceof ReadAttributesResponse) {
                             ReadAttributesResponse attributesResponse = (ReadAttributesResponse) currentVersionResponse;
-                            logger.debug("{} : OTA file version to be installed={} Received ReadAttributesResponse: {}",
+                            logger.debug("{}: OTA file version to be installed={} Received ReadAttributesResponse: {}",
                                     cluster.getZigBeeAddress(), otaFile.getFileVersion(), attributesResponse);
 
                             if (!attributesResponse.getRecords().isEmpty()) {
@@ -524,11 +537,11 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
                         }
                     }
                     logger.debug(
-                            "{} : All attempts to reach the device failed after it should have rebooted, taking this as a failure.",
+                            "{}: All attempts to reach the device failed after it should have rebooted, taking this as a failure.",
                             cluster.getZigBeeAddress());
                     updateStatus(ZigBeeOtaServerStatus.OTA_UPGRADE_FAILED);
                 } catch (InterruptedException | ExecutionException e) {
-                    logger.debug("Error during OTA completeUpgrade ", e);
+                    logger.debug("{}: Error during OTA completeUpgrade ", cluster.getZigBeeAddress(), e);
                     updateStatus(ZigBeeOtaServerStatus.OTA_UPGRADE_FAILED);
                 }
             }
@@ -680,11 +693,23 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
      * @return true if the handler has, or will send a response to this command
      */
     private boolean handleQueryNextImageCommand(QueryNextImageCommand command) {
-
         if (otaFile == null) {
-            sendNoImageAvailableResponse(command);
-            return true;
+            logger.debug("{} OTA Server: No file set in QueryNextImageCommand.",
+                    cluster.getZigBeeAddress());
+            ZigBeeOtaFile newOtaFile = notifyUpdateRequestReceived(command);
+
+            if (newOtaFile == null) {
+                logger.debug("{} OTA Server: No file returned from listeners.",
+                        cluster.getZigBeeAddress());
+                sendNoImageAvailableResponse(command);
+                return true;
+            }
+
+            logger.debug("{}: OTA Server listeners set file: {}", cluster.getZigBeeAddress(), otaFile);
+            otaFile = newOtaFile;
+            updateStatus(ZigBeeOtaServerStatus.OTA_WAITING);
         }
+
         // Ignore the request if we're not in the correct state
         if (status != ZigBeeOtaServerStatus.OTA_WAITING) {
             logger.debug("{} OTA Error: Invalid server state {} when handling QueryNextImageCommand.",
@@ -710,6 +735,10 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
                 && otaFile.getMaximumHardware() != null) {
             if (command.getHardwareVersion() < otaFile.getMinimumHardware()
                     || command.getHardwareVersion() > otaFile.getMaximumHardware()) {
+                logger.debug(
+                        "{} OTA Error: Request is inconsistent with hardware - requested={}, file min={}, file max={}",
+                        cluster.getZigBeeAddress(), command.getHardwareVersion(), otaFile.getMinimumHardware(),
+                        otaFile.getMaximumHardware());
                 sendNoImageAvailableResponse(command);
                 return true;
             }
@@ -718,6 +747,8 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
         // Some devices may make further requests for files once they have been updated
         // By default, don't resend the existing file
         if (!allowExistingFile && command.getFileVersion().equals(otaFile.getFileVersion())) {
+            logger.debug("{} OTA Error: Request is for existing file version {}", cluster.getZigBeeAddress(),
+                    command.getFileVersion());
             sendNoImageAvailableResponse(command);
             return true;
         }
@@ -949,6 +980,63 @@ public class ZclOtaUpgradeServer implements ZigBeeApplication, ZclCommandListene
         }
 
         return false;
+    }
+
+    private ZigBeeOtaFile notifyUpdateRequestReceived(final QueryNextImageCommand command) {
+        CountDownLatch latch;
+        List<ZigBeeOtaFile> otaFiles = new ArrayList<>();
+
+        synchronized (this) {
+            // Notify the listeners
+            latch = new CountDownLatch(statusListeners.size());
+            for (final ZigBeeOtaStatusCallback statusListener : statusListeners) {
+                cluster.getNotificationService().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        logger.trace("{}: ZigBeeOtaServer.notifyUpdateRequestReceived {} of {}",
+                                cluster.getZigBeeAddress(), statusListener, command);
+
+                        ZigBeeOtaFile response = statusListener.otaIncomingRequest(command);
+                        if (response != null) {
+                            otaFiles.add(response);
+                            while (latch.getCount() > 0) {
+                                latch.countDown();
+                            }
+                        } else {
+                            latch.countDown();
+                        }
+                    }
+                });
+            }
+        }
+
+        try {
+            // TODO: Set the timer properly
+            if (latch.await(500, TimeUnit.MILLISECONDS)) {
+                logger.trace("{}: ZigBeeOtaServer.notifyUpdateRequestReceived LATCH Done - {}",
+                        cluster.getZigBeeAddress(), otaFiles);
+            } else {
+                logger.trace("{}: ZigBeeOtaServer.notifyUpdateRequestReceived LATCH Timeout, remaining = {}",
+                        cluster.getZigBeeAddress(), latch.getCount());
+            }
+        } catch (InterruptedException e) {
+            logger.trace("{}: ZigBeeOtaServer.notifyUpdateRequestReceived LATCH Interrupted, remaining = {}",
+                    cluster.getZigBeeAddress(), latch.getCount());
+        }
+
+        if (otaFiles.isEmpty()) {
+            logger.trace("{}: ZigBeeOtaServer.notifyUpdateRequestReceived no files available",
+                    cluster.getZigBeeAddress());
+            return null;
+        }
+
+        if (otaFiles.size() > 1) {
+            logger.debug(
+                    "{}: ZigBeeOtaServer.notifyUpdateRequestReceived received multiple OTA files - the first response will be used",
+                    cluster.getZigBeeAddress());
+        }
+
+        return otaFiles.get(0);
     }
 
     @Override

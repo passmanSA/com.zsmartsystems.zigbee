@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,7 @@
  */
 package com.zsmartsystems.zigbee.database;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +74,7 @@ public class ZigBeeNodeDao {
     }
 
     public Set<NodeDescriptor.MacCapabilitiesType> getMacCapabilities() {
-        return macCapabilities;
+        return macCapabilities != null ? macCapabilities : Collections.emptySet();
     }
 
     public void setMacCapabilities(Set<NodeDescriptor.MacCapabilitiesType> macCapabilities) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -40,7 +39,6 @@ import com.zsmartsystems.zigbee.aps.ZigBeeApsFrame;
 import com.zsmartsystems.zigbee.database.ZigBeeNetworkDataStore;
 import com.zsmartsystems.zigbee.database.ZigBeeNetworkDatabaseManager;
 import com.zsmartsystems.zigbee.groups.ZigBeeGroup;
-import com.zsmartsystems.zigbee.groups.ZigBeeGroupAddress;
 import com.zsmartsystems.zigbee.groups.ZigBeeNetworkGroupManager;
 import com.zsmartsystems.zigbee.groups.ZigBeeNetworkGroupManager.GroupSynchronizationMethod;
 import com.zsmartsystems.zigbee.internal.ClusterMatcher;
@@ -607,6 +605,15 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
     }
 
     /**
+     * Gets the {@link ApdDataEntity} in use by the network manager. This allows configuration of the APSDE.
+     *
+     * @return the {@link ApdDataEntity} in use by the network manager.
+     */
+    public ApsDataEntity getApsDataEntity() {
+        return apsDataEntity;
+    }
+
+    /**
      * Set the current link key in use by the system.
      * <p>
      * Note that this method may only be called following the {@link #initialize} call, and before the {@link #startup}
@@ -711,7 +718,8 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
      * Shuts down ZigBee manager components.
      */
     public void shutdown() {
-        logger.debug("[{}]: ZigBeeNetworkManager shutdown: networkState={}", networkManagerId, networkState);
+        logger.debug("ZigBeeNetworkManager shutdown: networkState={}", networkState);
+        setNetworkState(ZigBeeNetworkState.OFFLINE);
 
         // To avoid deferred writes while we shut down, set the deferred write time to 0.
         databaseManager.setDeferredWriteTime(0);
@@ -970,7 +978,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
         int sourceAddress = apsFrame.getSourceAddress();
         ZigBeeNode zigBeeNode = getNode(sourceAddress);
         if (zigBeeNode != null) {
-            ZigBeeNode updatedNode = new ZigBeeNode(this, zigBeeNode.getIeeeAddress(), sourceAddress);
+            ZigBeeNode updatedNode = new ZigBeeNode(this, zigBeeNode.getIeeeAddress());
             updatedNode.setNodeState(ZigBeeNodeState.ONLINE);
             refreshNode(updatedNode);
         }

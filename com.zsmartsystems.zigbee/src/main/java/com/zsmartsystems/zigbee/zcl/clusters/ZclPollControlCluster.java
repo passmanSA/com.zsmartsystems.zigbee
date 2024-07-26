@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,7 +45,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclPollControlCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -134,14 +134,14 @@ public class ZclPollControlCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_CHECKININTERVAL, new ZclAttribute(this, ATTR_CHECKININTERVAL, "Checkin Interval", ZclDataType.UNSIGNED_32_BIT_INTEGER, true, true, true, true));
         attributeMap.put(ATTR_LONGPOLLINTERVAL, new ZclAttribute(this, ATTR_LONGPOLLINTERVAL, "Long Poll Interval", ZclDataType.UNSIGNED_32_BIT_INTEGER, true, true, false, true));
@@ -235,8 +235,8 @@ public class ZclPollControlCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setCheckinInterval(final Integer value) {
-        return write(serverAttributes.get(ATTR_CHECKININTERVAL), value);
+    public Future<CommandResult> setCheckinInterval(final Integer checkinInterval) {
+        return write(serverAttributes.get(ATTR_CHECKININTERVAL), checkinInterval);
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,6 +40,7 @@ import com.zsmartsystems.zigbee.ZigBeeNode;
 import com.zsmartsystems.zigbee.ZigBeeStatus;
 import com.zsmartsystems.zigbee.app.discovery.ZigBeeDiscoveryExtension;
 import com.zsmartsystems.zigbee.app.iasclient.ZclIasZoneClient;
+import com.zsmartsystems.zigbee.console.ZigBeeConsoleAttributeAddCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleAttributeReadCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleAttributeSupportedCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleAttributeWriteCommand;
@@ -47,6 +48,7 @@ import com.zsmartsystems.zigbee.console.ZigBeeConsoleBindCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleBindingTableCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleCbkeCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleChannelCommand;
+import com.zsmartsystems.zigbee.console.ZigBeeConsoleClusterCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleColorCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleCommandsSupportedCommand;
@@ -57,6 +59,7 @@ import com.zsmartsystems.zigbee.console.ZigBeeConsoleDeviceInformationCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleFactoryResetCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleFirmwareCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleGroupCommand;
+import com.zsmartsystems.zigbee.console.ZigBeeConsoleIdentifyCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleInstallKeyCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleLinkKeyCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleNeighborsListCommand;
@@ -66,6 +69,7 @@ import com.zsmartsystems.zigbee.console.ZigBeeConsoleNetworkJoinCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleNetworkLeaveCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleNetworkStartCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleNodeListCommand;
+import com.zsmartsystems.zigbee.console.ZigBeeConsoleNodeResetCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleOtaUpgradeCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleReportingConfigCommand;
 import com.zsmartsystems.zigbee.console.ZigBeeConsoleReportingSubscribeCommand;
@@ -233,6 +237,11 @@ public final class ZigBeeConsole {
         newCommands.put("neighbors", new ZigBeeConsoleNeighborsListCommand());
 
         newCommands.put("firmware", new ZigBeeConsoleFirmwareCommand());
+        newCommands.put("identify", new ZigBeeConsoleIdentifyCommand());
+        newCommands.put("reset", new ZigBeeConsoleNodeResetCommand());
+
+        newCommands.put("cluster", new ZigBeeConsoleClusterCommand());
+        newCommands.put("attadd", new ZigBeeConsoleAttributeAddCommand());
 
         zigBeeApi = new ZigBeeApi(networkManager);
 
@@ -1438,7 +1447,7 @@ public final class ZigBeeConsole {
      * @return the {@link Object} containing the field value
      * @throws Exception
      */
-    private Object getField(Class clazz, Object object, String fieldName) throws Exception {
+    private Object getField(Class<?> clazz, Object object, String fieldName) throws Exception {
         Field field = clazz.getDeclaredField(fieldName);
         field.setAccessible(true);
         Field modifiersField = Field.class.getDeclaredField("modifiers");

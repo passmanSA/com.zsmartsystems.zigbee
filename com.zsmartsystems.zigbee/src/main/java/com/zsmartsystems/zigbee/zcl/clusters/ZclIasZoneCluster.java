@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2021-04-23T10:36:53Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:27:57Z")
 public class ZclIasZoneCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -113,14 +113,14 @@ public class ZclIasZoneCluster extends ZclCluster {
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeClientAttributes();
 
         return attributeMap;
     }
 
     @Override
     protected Map<Integer, ZclAttribute> initializeServerAttributes() {
-        Map<Integer, ZclAttribute> attributeMap = new ConcurrentSkipListMap<>();
+        Map<Integer, ZclAttribute> attributeMap = super.initializeServerAttributes();
 
         attributeMap.put(ATTR_ZONESTATE, new ZclAttribute(this, ATTR_ZONESTATE, "Zone State", ZclDataType.ENUMERATION_8_BIT, true, true, false, false));
         attributeMap.put(ATTR_ZONETYPE, new ZclAttribute(this, ATTR_ZONETYPE, "Zone Type", ZclDataType.ENUMERATION_16_BIT, true, true, false, false));
@@ -402,8 +402,8 @@ public class ZclIasZoneCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setIasCieAddress(final IeeeAddress value) {
-        return write(serverAttributes.get(ATTR_IASCIEADDRESS), value);
+    public Future<CommandResult> setIasCieAddress(final IeeeAddress iasCieAddress) {
+        return write(serverAttributes.get(ATTR_IASCIEADDRESS), iasCieAddress);
     }
 
     /**
@@ -512,8 +512,8 @@ public class ZclIasZoneCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setZoneId(final Integer value) {
-        return write(serverAttributes.get(ATTR_ZONEID), value);
+    public Future<CommandResult> setZoneId(final Integer zoneId) {
+        return write(serverAttributes.get(ATTR_ZONEID), zoneId);
     }
 
     /**
@@ -687,8 +687,8 @@ public class ZclIasZoneCluster extends ZclCluster {
      * @deprecated As of release 1.2.0, replaced by {@link #writeAttribute(int attributeId, Object value)}
      */
     @Deprecated
-    public Future<CommandResult> setCurrentZoneSensitivityLevel(final Integer value) {
-        return write(serverAttributes.get(ATTR_CURRENTZONESENSITIVITYLEVEL), value);
+    public Future<CommandResult> setCurrentZoneSensitivityLevel(final Integer currentZoneSensitivityLevel) {
+        return write(serverAttributes.get(ATTR_CURRENTZONESENSITIVITYLEVEL), currentZoneSensitivityLevel);
     }
 
     /**

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -169,6 +169,13 @@ public class ZigBeeDongleTelegesis
      * online before the higher layer has had the chance to initialise.
      */
     private boolean startupComplete = false;
+
+    /**
+     * Flag will be set to true when initialize() was successful will be set to false when shutdown() method has been
+     * called.
+     */
+    private boolean isConfigured = false;
+    private final Object isConfiguredSync = new Object();
 
     private ScheduledExecutorService executorService;
 
@@ -426,6 +433,8 @@ public class ZigBeeDongleTelegesis
             logger.info("Unable to read Telegesis dongle firmware version");
         }
 
+        isConfigured = true;
+
         return ZigBeeStatus.SUCCESS;
     }
 
@@ -441,7 +450,7 @@ public class ZigBeeDongleTelegesis
         logger.debug("Telegesis dongle startup.");
 
         // If frameHandler is null then the serial port didn't initialise
-        if (frameHandler == null) {
+        if (!isConfigured) {
             logger.error("Initialising Telegesis Dongle but low level handler is not initialised.");
             return ZigBeeStatus.INVALID_STATE;
         }
@@ -484,6 +493,11 @@ public class ZigBeeDongleTelegesis
         if (frameHandler.sendRequest(networkInfo) == null || networkInfo.getStatus() != TelegesisStatusCode.SUCCESS) {
             return ZigBeeStatus.BAD_RESPONSE;
         }
+        if (networkInfo.getDevice() == TelegesisDeviceType.NOPAN) {
+            logger.debug("Telegesis network information is {}. Returning status {}.", TelegesisDeviceType.NOPAN,
+                    ZigBeeStatus.NO_NETWORK);
+            return ZigBeeStatus.NO_NETWORK;
+        }
         if (networkInfo.getDevice() != TelegesisDeviceType.COO) {
             return ZigBeeStatus.INVALID_STATE;
         }
@@ -510,25 +524,37 @@ public class ZigBeeDongleTelegesis
 
     @Override
     public void shutdown() {
-        if (frameHandler == null) {
-            return;
+        synchronized (isConfiguredSync) {
+            isConfigured = false;
+
+            if (pollingTimer != null) {
+                pollingTimer.cancel(true);
+            }
+
+            if (executorService != null) {
+                executorService.shutdownNow();
+            }
+
+            commandScheduler.shutdownNow();
+
+            if (frameHandler != null) {
+                frameHandler.removeEventListener(this);
+                frameHandler.setClosing();
+            }
+
+            zigbeeTransportReceive.setTransportState(ZigBeeTransportState.OFFLINE);
+
+            if (frameHandler != null) {
+                frameHandler.close();
+            }
+
+            if (serialPort != null) {
+                serialPort.close();
+            }
+
+            frameHandler = null;
         }
 
-        if (pollingTimer != null) {
-            pollingTimer.cancel(true);
-        }
-        if (executorService != null) {
-            executorService.shutdownNow();
-        }
-
-        commandScheduler.shutdownNow();
-
-        frameHandler.removeEventListener(this);
-        frameHandler.setClosing();
-        zigbeeTransportReceive.setTransportState(ZigBeeTransportState.OFFLINE);
-        serialPort.close();
-        frameHandler.close();
-        frameHandler = null;
         logger.debug("Telegesis dongle shutdown.");
     }
 
@@ -673,12 +699,10 @@ public class ZigBeeDongleTelegesis
 
     @Override
     public void sendCommand(final int msgTag, final ZigBeeApsFrame apsFrame) {
-        if (frameHandler == null) {
-            logger.debug("Telegesis frame handler not set for send.");
+        if (!isConfigured) {
+            logger.debug("Telegesis dongle is shutdown. Frame not sent: {}", apsFrame);
             return;
         }
-
-        lastSendCommand = System.currentTimeMillis();
 
         TelegesisCommand command;
         if (apsFrame.getAddressMode() == ZigBeeNwkAddressMode.DEVICE
@@ -720,20 +744,28 @@ public class ZigBeeDongleTelegesis
         commandScheduler.execute(new Runnable() {
             @Override
             public void run() {
-                frameHandler.sendRequest(command);
+                synchronized (isConfiguredSync) {
+                    if (!isConfigured) {
+                        logger.debug("Telegesis dongle is not configured. Frame not sent: {}", apsFrame);
+                        return;
+                    }
 
-                // Let the stack know the frame is sent
-                zigbeeTransportReceive.receiveCommandState(msgTag,
-                        command.getStatus() == TelegesisStatusCode.SUCCESS ? ZigBeeTransportProgressState.TX_ACK
-                                : ZigBeeTransportProgressState.TX_NAK);
+                    lastSendCommand = System.currentTimeMillis();
+                    frameHandler.sendRequest(command);
 
-                // Multicast doesn't have a sequence returned, so nothing more to do here
-                if (command instanceof TelegesisSendMulticastCommand) {
-                    return;
-                }
+                    // Let the stack know the frame is sent
+                    zigbeeTransportReceive.receiveCommandState(msgTag,
+                            command.getStatus() == TelegesisStatusCode.SUCCESS ? ZigBeeTransportProgressState.TX_ACK
+                                    : ZigBeeTransportProgressState.TX_NAK);
 
-                if (((TelegesisSendUnicastCommand) command).getMessageId() != null) {
-                    messageIdMap.put(((TelegesisSendUnicastCommand) command).getMessageId(), msgTag);
+                    // Multicast doesn't have a sequence returned, so nothing more to do here
+                    if (command instanceof TelegesisSendMulticastCommand) {
+                        return;
+                    }
+
+                    if (((TelegesisSendUnicastCommand) command).getMessageId() != null) {
+                        messageIdMap.put(((TelegesisSendUnicastCommand) command).getMessageId(), msgTag);
+                    }
                 }
             }
         });
@@ -1064,7 +1096,6 @@ public class ZigBeeDongleTelegesis
         return linkKey;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void updateTransportConfig(TransportConfig configuration) {
         for (TransportConfigOption option : configuration.getOptions()) {
@@ -1072,21 +1103,21 @@ public class ZigBeeDongleTelegesis
                 switch (option) {
                     case SUPPORTED_INPUT_CLUSTERS:
                         configuration.setResult(option,
-                                setSupportedInputClusters((Collection<Integer>) configuration.getValue(option)));
+                                setSupportedInputClusters(configuration.getValue(option)));
                         break;
 
                     case SUPPORTED_OUTPUT_CLUSTERS:
                         configuration.setResult(option,
-                                setSupportedOutputClusters((Collection<Integer>) configuration.getValue(option)));
+                                setSupportedOutputClusters(configuration.getValue(option)));
                         break;
 
                     case TRUST_CENTRE_JOIN_MODE:
                         configuration.setResult(option,
-                                setTcJoinMode((TrustCentreJoinMode) configuration.getValue(option)));
+                                setTcJoinMode(configuration.getValue(option)));
                         break;
 
                     case TRUST_CENTRE_LINK_KEY:
-                        configuration.setResult(option, setTcLinkKey((ZigBeeKey) configuration.getValue(option)));
+                        configuration.setResult(option, setTcLinkKey(configuration.getValue(option)));
                         break;
 
                     default:

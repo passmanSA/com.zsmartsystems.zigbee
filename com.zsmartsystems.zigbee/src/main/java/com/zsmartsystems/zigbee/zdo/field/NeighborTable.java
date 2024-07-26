@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2021 by the respective copyright holders.
+ * Copyright (c) 2016-2024 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,19 +66,19 @@ public class NeighborTable {
      */
     public void deserialize(ZigBeeDeserializer deserializer) {
         // Deserialize the fields
-        extendedPanId = (ExtendedPanId) deserializer.readZigBeeType(ZclDataType.EXTENDED_PANID);
-        extendedAddress = (IeeeAddress) deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
-        networkAddress = (Integer) deserializer.readZigBeeType(ZclDataType.UNSIGNED_16_BIT_INTEGER);
+        extendedPanId = deserializer.readZigBeeType(ZclDataType.EXTENDED_PANID);
+        extendedAddress = deserializer.readZigBeeType(ZclDataType.IEEE_ADDRESS);
+        networkAddress = deserializer.readZigBeeType(ZclDataType.UNSIGNED_16_BIT_INTEGER);
 
-        int temp = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        int temp = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
         setDeviceType(temp & 0x03);
         setRxOnWhenIdle((temp & 0x0c) >> 2);
         setRelationship((temp & 0x70) >> 4);
 
-        temp = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        temp = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
         setPermitJoining(temp & 0x03);
-        depth = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
-        lqi = (int) deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        depth = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
+        lqi = deserializer.readZigBeeType(ZclDataType.UNSIGNED_8_BIT_INTEGER);
     }
 
     public ExtendedPanId getExtendedPanId() {
@@ -265,8 +265,9 @@ public class NeighborTable {
     @Override
     public String toString() {
         return "NeighborTable [extendedPanId=" + extendedPanId + ", extendedAddress=" + extendedAddress
-                + ", networkAddress=" + String.format("%04X", networkAddress) + ", deviceType=" + deviceType + ", rxOnWhenIdle=" + rxOnWhenIdle
-                + ", relationship=" + relationship + ", permitJoining=" + permitJoining + ", depth=" + depth + ", lqi="
+                + ", networkAddress=" + String.format("%04X", networkAddress) + ", deviceType=" + deviceType
+                + ", rxOnWhenIdle=" + rxOnWhenIdle + ", relationship=" + relationship + ", permitJoining="
+                + permitJoining + ", depth=" + depth + ", lqi="
                 + lqi + "]";
     }
 
