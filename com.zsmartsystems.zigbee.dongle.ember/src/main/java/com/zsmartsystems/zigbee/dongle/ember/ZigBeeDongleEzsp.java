@@ -1125,11 +1125,13 @@ public class ZigBeeDongleEzsp implements ZigBeeTransportTransmit, ZigBeeTranspor
             return ZigBeeStatus.INVALID_ARGUMENTS;
         }
         if (networkStateUp) {
-            ncp.setRadioChannel(channel);
+            EmberNcp ncp = getEmberNcp();
+            return ncp.setRadioChannel(channel) == EmberStatus.EMBER_SUCCESS ? ZigBeeStatus.SUCCESS
+                    : ZigBeeStatus.BAD_RESPONSE;
         } else {
             networkParameters.setRadioChannel(channel.getChannel());
+            return ZigBeeStatus.SUCCESS;
         }
-        return ZigBeeStatus.SUCCESS;
     }
 
     @Override
