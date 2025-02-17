@@ -58,15 +58,10 @@
 
 	<distributionManagement>
 		<repository>
-			<id>zsmartsystems-sonatype-release</id>
-			<name>Sonatype Release</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-		<snapshotRepository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/passmansa/com.zsmartsystems.zigbee</url>
-		</snapshotRepository>
+		</repository>
 	</distributionManagement>
 
 	<modules>
