@@ -37,6 +37,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * Code is auto-generated. Modifications may be overwritten!
  */
 @Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2026-04-15T15:00:11Z")
+
 public class ZclThermostatCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
