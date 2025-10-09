@@ -634,7 +634,7 @@ public abstract class ZclCluster {
      */
     public Future<CommandResult> setReporting(final int attributeId, final int minInterval, final int maxInterval,
             Object reportableChange) {
-        return setReporting(getAttribute(attributeId), minInterval, maxInterval, reportableChange);
+        return setReporting(attributeId, getAttribute(attributeId).getDataType(), minInterval, maxInterval, reportableChange);
     }
 
     /**
@@ -660,7 +660,7 @@ public abstract class ZclCluster {
      * @return command future {@link CommandResult}
      */
     public Future<CommandResult> setReporting(final int attributeId, final int minInterval, final int maxInterval) {
-        return setReporting(getAttribute(attributeId), minInterval, maxInterval, null);
+        return setReporting(attributeId, getAttribute(attributeId).getDataType(), minInterval, maxInterval, null);
     }
 
     /**
@@ -1845,15 +1845,14 @@ public abstract class ZclCluster {
      *             {@link ZclAttribute.setReporting} methods. This will be removed in 1.3.0
      */
     @Deprecated
-    public Future<CommandResult> setReporting(final ZclAttribute attribute, final int minInterval,
-            final int maxInterval, final Object reportableChange) {
+    public Future<CommandResult> setReporting(int attributeId, ZclDataType dataType, final int minInterval, final int maxInterval, final Object reportableChange) {
         final ConfigureReportingCommand command = new ConfigureReportingCommand();
         command.setClusterId(clusterId);
 
         final AttributeReportingConfigurationRecord record = new AttributeReportingConfigurationRecord();
         record.setDirection(0);
-        record.setAttributeIdentifier(attribute.getId());
-        record.setAttributeDataType(attribute.getDataType());
+        record.setAttributeIdentifier(attributeId);
+        record.setAttributeDataType(dataType);
         record.setMinimumReportingInterval(minInterval);
         record.setMaximumReportingInterval(maxInterval);
         record.setReportableChange(reportableChange);
@@ -1861,12 +1860,13 @@ public abstract class ZclCluster {
         command.setRecords(Collections.singletonList(record));
         command.setDestinationAddress(zigbeeEndpoint.getEndpointAddress());
 
-        if (isManufacturerSpecific()) {
-            command.setManufacturerCode(getManufacturerCode());
-        } else if (attribute.isManufacturerSpecific()) {
-            command.setManufacturerCode(attribute.getManufacturerCode());
-        }
-
+		if (isManufacturerSpecific()) {
+			command.setManufacturerCode(getManufacturerCode());
+		} else {
+			ZclAttribute attribute = getAttribute(attributeId);
+			if (attribute != null && attribute.isManufacturerSpecific())
+				command.setManufacturerCode(attribute.getManufacturerCode());
+		}
         return sendCommand(command);
     }
 
@@ -1897,7 +1897,7 @@ public abstract class ZclCluster {
     @Deprecated
     public Future<CommandResult> setReporting(final ZclAttribute attribute, final int minInterval,
             final int maxInterval) {
-        return setReporting(attribute, minInterval, maxInterval, null);
+        return setReporting(attribute.getId(), attribute.getDataType(), minInterval, maxInterval, null);
     }
 
     /**

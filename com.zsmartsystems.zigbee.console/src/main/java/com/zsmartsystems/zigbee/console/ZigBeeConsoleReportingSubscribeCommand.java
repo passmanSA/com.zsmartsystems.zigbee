@@ -9,6 +9,7 @@ package com.zsmartsystems.zigbee.console;
 
 import java.io.PrintStream;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import com.zsmartsystems.zigbee.CommandResult;
 import com.zsmartsystems.zigbee.ZigBeeEndpoint;
@@ -17,6 +18,7 @@ import com.zsmartsystems.zigbee.zcl.ZclAttribute;
 import com.zsmartsystems.zigbee.zcl.ZclCluster;
 import com.zsmartsystems.zigbee.zcl.ZclStatus;
 import com.zsmartsystems.zigbee.zcl.clusters.general.ConfigureReportingResponse;
+import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
 
 /**
  *
@@ -36,7 +38,7 @@ public class ZigBeeConsoleReportingSubscribeCommand extends ZigBeeConsoleAbstrac
 
     @Override
     public String getSyntax() {
-        return "ENDPOINT CLUSTER ATTRIBUTE MIN-INTERVAL MAX-INTERVAL REPORTABLE-CHANGE";
+        return "ENDPOINT CLUSTER ATTRIBUTE MIN-INTERVAL MAX-INTERVAL [REPORTABLE-CHANGE] [TYPE]";
     }
 
     @Override
@@ -47,25 +49,45 @@ public class ZigBeeConsoleReportingSubscribeCommand extends ZigBeeConsoleAbstrac
     @Override
     public void process(ZigBeeNetworkManager networkManager, String[] args, PrintStream out)
             throws IllegalArgumentException, InterruptedException, ExecutionException {
-        if (args.length < 6 || args.length > 7) {
+        if (args.length < 6 || args.length > 8) {
             throw new IllegalArgumentException("Invalid number of arguments");
         }
-
+        
         String endpointIdParam = args[1];
         String clusterSpecParam = args[2];
         String attributeIdParam = args[3];
         String minIntervalParam = args[4];
         String maxIntervalParam = args[5];
-        String reportableChangeParam = (args.length == 7) ? args[6] : null;
+        
+        ZclDataType dataType = null;
+        String reportableChangeParam = null;
+        
+        if (args.length >= 7) {
+            if (args.length == 7) {
+            	if (args[6].matches("\\d+")) {
+            		reportableChangeParam = args[6];
+                	
+                } else {
+                	dataType = ZclDataType.valueOf(args[6]);
+                }
+            } else if (args.length == 8) {
+                reportableChangeParam = args[6];
+                dataType = ZclDataType.valueOf(args[7]);
+            }
+        }
 
         final ZigBeeEndpoint endpoint = getEndpoint(networkManager, endpointIdParam);
         final ZclCluster cluster = getCluster(endpoint, clusterSpecParam);
 
         final int attributeId = parseAttribute(attributeIdParam);
         final ZclAttribute attribute = cluster.getAttribute(attributeId);
-        if (attribute == null) {
-            throw new IllegalArgumentException(
-                    "Attribute " + attributeId + " was not found in cluster " + cluster.getClusterName());
+        
+       
+        if (attribute != null) {
+        	dataType =  attribute.getDataType();      	
+        }
+        else if (dataType == null) {
+            throw new IllegalArgumentException("Can't determine data type :: attributeId (" + attributeId + ") was not found in cluster " + cluster.getClusterName());
         }
 
         final int minInterval;
@@ -83,23 +105,29 @@ public class ZigBeeConsoleReportingSubscribeCommand extends ZigBeeConsoleAbstrac
 
         final Object reportableChange;
         if (reportableChangeParam != null) {
-            reportableChange = parseValue(reportableChangeParam, attribute.getDataType());
+            reportableChange = parseValue(reportableChangeParam, dataType);
         } else {
             reportableChange = null;
         }
 
-        final CommandResult result = cluster.setReporting(attribute.getId(), minInterval, maxInterval, reportableChange).get();
+        final CommandResult result = cluster.setReporting(attributeId, dataType, minInterval, maxInterval, reportableChange).get();
         if (result.isSuccess()) {
             final ConfigureReportingResponse response = result.getResponse();
             final ZclStatus statusCode = response.getStatus();
             if (statusCode == ZclStatus.SUCCESS) {
                 out.println("Attribute value configure reporting success.");
             } else {
-                out.println("Attribute value configure reporting error: " + statusCode);
+                out.println("Attribute value configure reporting error: " + getRecordsStatus(response));
             }
         } else {
             out.println("Error executing command: " + result);
         }
+    }
+    
+    private String getRecordsStatus(ConfigureReportingResponse response) {
+        return response.getRecords().stream()
+                .map(record -> record.getStatus().toString())
+                .collect(Collectors.joining(" - "));
     }
 
 }
