@@ -9,6 +9,7 @@ package com.zsmartsystems.zigbee.console;
 
 import java.io.PrintStream;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import com.zsmartsystems.zigbee.CommandResult;
 import com.zsmartsystems.zigbee.ZigBeeEndpoint;
@@ -80,10 +81,16 @@ public class ZigBeeConsoleReportingUnsubscribeCommand extends ZigBeeConsoleAbstr
             if (statusCode == ZclStatus.SUCCESS) {
                 out.println("Attribute value configure reporting success.");
             } else {
-                out.println("Attribute value configure reporting error: " + statusCode);
+                out.println("Attribute value configure reporting error: " + getRecordsStatus(response));
             }
         } else {
             out.println("Error executing command: " + result);
         }
+    }
+    
+    private String getRecordsStatus(ConfigureReportingResponse response) {
+        return response.getRecords().stream()
+                .map(record -> record.getStatus().toString())
+                .collect(Collectors.joining(" - "));
     }
 }
