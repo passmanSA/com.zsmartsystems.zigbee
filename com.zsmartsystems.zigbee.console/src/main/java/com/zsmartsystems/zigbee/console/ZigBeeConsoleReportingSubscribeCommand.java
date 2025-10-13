@@ -85,7 +85,7 @@ public class ZigBeeConsoleReportingSubscribeCommand extends ZigBeeConsoleAbstrac
         if (attribute == null && dataType != null) {
         	attribute = new ZclAttribute(cluster, attributeId, null, dataType, true, true, true,true);
         	
-		} else {
+		} else if (attribute == null) {
             throw new IllegalArgumentException("Can't determine data type :: attributeId (" + attributeId + ") was not found in cluster " + cluster.getClusterName());
         }
         
