@@ -88,6 +88,8 @@ import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkInitRequest
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkInitResponse;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkStateRequest;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspNetworkStateResponse;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadAndClearCountersRequest;
+import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadAndClearCountersResponse;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadCountersRequest;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspReadCountersResponse;
 import com.zsmartsystems.zigbee.dongle.ember.ezsp.command.EzspResetToFactoryDefaultsRequest;
@@ -1490,4 +1492,18 @@ public class EmberNcp {
                 .getResponse();
         return response.getNodeId();
     }
+    
+    /**
+     * Reset the NCP counters.
+     *
+     * @return the response {@link EzspStatus}
+     */
+    public EzspStatus readAndClearCounters() {
+        EzspReadAndClearCountersRequest request = new EzspReadAndClearCountersRequest();
+        EzspTransaction transaction = zigBeeDongleEzsp.getProtocolHandler()
+                .sendEzspTransaction(
+                        new EzspSingleResponseTransaction(request, EzspGetAddressTableRemoteNodeIdResponse.class));
+         EzspReadAndClearCountersResponse response = (EzspReadAndClearCountersResponse) transaction.getResponse();
+
+         return (response == null) ? EzspStatus.UNKNOWN : EzspStatus.EZSP_SUCCESS;    }
 }
