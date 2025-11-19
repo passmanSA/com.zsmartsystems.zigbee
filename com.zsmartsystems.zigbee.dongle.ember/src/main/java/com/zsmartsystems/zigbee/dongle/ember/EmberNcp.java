@@ -1505,5 +1505,6 @@ public class EmberNcp {
                         new EzspSingleResponseTransaction(request, EzspGetAddressTableRemoteNodeIdResponse.class));
          EzspReadAndClearCountersResponse response = (EzspReadAndClearCountersResponse) transaction.getResponse();
 
-         return (response == null) ? EzspStatus.UNKNOWN : EzspStatus.EZSP_SUCCESS;    }
+         return (response == null) ? EzspStatus.UNKNOWN : EzspStatus.EZSP_SUCCESS;    
+    }
 }
