@@ -8,6 +8,7 @@
 package com.zsmartsystems.zigbee.database;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -96,6 +97,10 @@ public interface ZigBeeNetworkDataStore {
      */
     default boolean writeBackup(ZigBeeNetworkBackupDao backup) {
         return false;
+    }
+    
+    default Optional<ZigBeeNetworkBackupDao> readBackup(Long gatewayId) {
+        return Optional.empty();
     }
 
     /**
