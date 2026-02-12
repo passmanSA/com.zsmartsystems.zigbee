@@ -84,6 +84,14 @@ public class ZigBeeSerialPort implements ZigBeePort, SerialPortEventListener {
         this.baudRate = baudRate;
         this.flowControl = flowControl;
     }
+	
+	public ZigBeeSerialPort(String portName, int baudRate, FlowControl flowControl, int bufferSize) {
+        this.portName = portName;
+        this.baudRate = baudRate;
+        this.flowControl = flowControl;
+        buffer = new int[bufferSize];
+        maxLength = bufferSize;
+    }
 
     @Override
     public boolean open() {
