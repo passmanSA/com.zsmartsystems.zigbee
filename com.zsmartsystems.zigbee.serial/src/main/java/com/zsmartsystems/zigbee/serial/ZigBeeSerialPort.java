@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2024 by the respective copyright holders.
+ * Copyright (c) 2016-2025 by the respective copyright holders.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -50,7 +50,7 @@ public class ZigBeeSerialPort implements ZigBeePort, SerialPortEventListener {
     /**
      * The circular fifo queue for receive data
      */
-    private int[] buffer = new int[512];
+    private int[] buffer;
 
     /**
      * The receive buffer end pointer (where we put the newly received data)
@@ -83,6 +83,15 @@ public class ZigBeeSerialPort implements ZigBeePort, SerialPortEventListener {
         this.portName = portName;
         this.baudRate = baudRate;
         this.flowControl = flowControl;
+        buffer = new int[512];
+    }
+    
+    public ZigBeeSerialPort(String portName, int baudRate, FlowControl flowControl, int bufferSize) {
+        this.portName = portName;
+        this.baudRate = baudRate;
+        this.flowControl = flowControl;
+        buffer = new int[bufferSize];
+        maxLength = bufferSize;
     }
 
     @Override
