@@ -2058,11 +2058,11 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
     }
     
 
-    public ZigBeeNetworkBackupDao createBackup(Long gatewayId, String macAddress) {
+    public ZigBeeNetworkBackupDao createBackup(Long gatewayId, String macAddress) throws Exception {
         ZigBeeNetworkBackupDao backup = createBackupDao();
-		backup.setGatewayId(gatewayId);
-		backup.setMacAddress(macAddress);
-		return databaseManager.writeBackup(backup) ? backup : null;
+        backup.setGatewayId(gatewayId);
+        backup.setMacAddress(macAddress);
+        return databaseManager.writeBackup(backup) ? backup : null;
     }
 
     /**
@@ -2070,7 +2070,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
      *
      * @return a unique {@link UUID} referencing the backup
      */
-    public UUID createBackup() {
+    public UUID createBackup() throws Exception {
         ZigBeeNetworkBackupDao backup = createBackupDao();
         return databaseManager.writeBackup(backup) ? backup.getUuid() : null;
     }
@@ -2095,11 +2095,11 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
         return backup;
     }
     
-    public ZigBeeStatus restoreBackup(Long gatewayId) {
+    public ZigBeeStatus restoreBackup(Long gatewayId) throws Exception {
         return restoreBackup(gatewayId, null);
     }
     
-    public ZigBeeStatus restoreBackup(UUID uuid) {
+    public ZigBeeStatus restoreBackup(UUID uuid) throws Exception {
         return restoreBackup(null, uuid);
     }
      
@@ -2109,14 +2109,13 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
      * @param uuid the unique {@link UUID} referencing the backup to restore
      * @return ZigBeeStatus.SUCCESS if the backup was restored
      */
-    private ZigBeeStatus restoreBackup(Long gatewayId, UUID uuid) {
+    private ZigBeeStatus restoreBackup(Long gatewayId, UUID uuid) throws Exception {
         
-        Optional<ZigBeeNetworkBackupDao> optionalBackup = Optional.empty();
         ZigBeeNetworkBackupDao backup = null;
         String identifier = null;
         
         if (gatewayId != null) {
-            optionalBackup = databaseManager.readBackup(gatewayId);
+            backup = databaseManager.readBackup(gatewayId);
             identifier = gatewayId.toString();
         }
         if (uuid != null) {
@@ -2124,18 +2123,13 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             identifier = uuid.toString();
         }
         
-        if (!optionalBackup.isPresent()) {
-            logger.debug("RestoreBackup: Failed to read {}", identifier);
-            return ZigBeeStatus.INVALID_ARGUMENTS;
-        }
-        backup = optionalBackup.get();
         logger.debug("RestoreBackup: Backup read from {} [{}]", backup.getGatewayId() != null ?  backup.getGatewayId() : backup.getUuid(), backup.getMacAddress());
         logger.debug("RestoreBackup: backup panId : {} - network manager panId : {}", backup.getPan(), this.getZigBeePanId());
         
-        if (backup.getPan() != this.getZigBeePanId()) {
-            logger.info(String.format("RestoreBackup PanId is changed from %s to %s", backup.getPan(), this.getZigBeePanId()));
-            backup.setPan(this.getZigBeePanId());
-        }
+//        if (backup.getPan() != this.getZigBeePanId()) {
+//            logger.info(String.format("RestoreBackup PanId is changed from %s to %s", backup.getPan(), this.getZigBeePanId()));
+//            backup.setPan(this.getZigBeePanId());
+//        }
 
         // Take the network offline for reconfiguration
         ZigBeeStatus offlineResponse = transport.setNetworkState(ZigBeeNetworkState.UNINITIALISED);

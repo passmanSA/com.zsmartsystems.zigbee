@@ -95,12 +95,12 @@ public interface ZigBeeNetworkDataStore {
      * @param backup
      * @return
      */
-    default boolean writeBackup(ZigBeeNetworkBackupDao backup) {
+    default boolean writeBackup(ZigBeeNetworkBackupDao backup) throws Exception {
         return false;
     }
     
-    default Optional<ZigBeeNetworkBackupDao> readBackup(Long gatewayId) {
-        return Optional.empty();
+    default ZigBeeNetworkBackupDao readBackup(Long gatewayId) throws Exception {
+        return null;
     }
 
     /**

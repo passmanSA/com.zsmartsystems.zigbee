@@ -92,19 +92,25 @@ public class ZigBeeConsoleNetworkBackupCommand extends ZigBeeConsoleAbstractComm
     }
 
     private void createBackup(PrintStream out, ZigBeeNetworkManager networkManager) {
-        UUID uuid = networkManager.createBackup();
-        if (uuid == null) {
-            out.println("Error creating backup!!");
-        } else {
+        UUID uuid;
+        try {
+            uuid = networkManager.createBackup();
             out.println("Backup created with UUID " + uuid);
+        } catch (Exception e) {
+            out.println("Error creating backup!! : " + e.getMessage());
         }
     }
 
     private void restoreBackup(PrintStream out, ZigBeeNetworkManager networkManager, UUID uuid) {
-        if (networkManager.restoreBackup(uuid) == ZigBeeStatus.SUCCESS) {
-            out.println("Backup restored from " + uuid.toString());
-        } else {
-            out.println("Error restoring backup " + uuid.toString());
+        try {
+            ZigBeeStatus status = networkManager.restoreBackup(uuid);
+            if (status== ZigBeeStatus.SUCCESS) {
+                out.println("Backup restored from " + uuid.toString());
+            } else {
+                out.println("Error restoring backup " + uuid.toString() + ", status = " + status);
+            }
+        } catch (Exception e) {
+            out.println("Error restoring backup " + uuid.toString() + " : " + e.getMessage());
         }
     }
 }

@@ -310,7 +310,7 @@ public class ZigBeeNetworkDatabaseManager implements ZigBeeNetworkNodeListener {
         dataStore.writeObject(key, value);
     }
 
-    public boolean writeBackup(ZigBeeNetworkBackupDao backup) {
+    public boolean writeBackup(ZigBeeNetworkBackupDao backup) throws Exception{
         return dataStore.writeBackup(backup);
     }
     
@@ -318,7 +318,7 @@ public class ZigBeeNetworkDatabaseManager implements ZigBeeNetworkNodeListener {
         return dataStore.readBackup(uuid);
     }
     
-    public Optional<ZigBeeNetworkBackupDao> readBackup(Long gatewayId) {
+    public ZigBeeNetworkBackupDao readBackup(Long gatewayId) throws Exception {
         return dataStore.readBackup(gatewayId);
     }
 
