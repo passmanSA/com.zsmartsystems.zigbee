@@ -38,14 +38,14 @@ public class EzspGetXncpInfoResponse extends EzspFrameResponse {
      * <p>
      * EZSP type is <i>uint16_t</i> - Java type is {@link int}
      */
-    private int manufacturerId;
+    private int manufacturerId = -1;
 
     /**
      * The version number of the XNCP application.
      * <p>
      * EZSP type is <i>uint16_t</i> - Java type is {@link int}
      */
-    private int versionNumber;
+    private int versionNumber = -1;
 
     /**
      * Response and Handler constructor
@@ -56,8 +56,10 @@ public class EzspGetXncpInfoResponse extends EzspFrameResponse {
 
         // Deserialize the fields
         status = deserializer.deserializeEzspStatus();
-        manufacturerId = deserializer.deserializeUInt16();
-        versionNumber = deserializer.deserializeUInt16();
+        if (status == EzspStatus.EZSP_SUCCESS) {
+            manufacturerId = deserializer.deserializeUInt16();
+            versionNumber = deserializer.deserializeUInt16();
+        }
     }
 
     /**
