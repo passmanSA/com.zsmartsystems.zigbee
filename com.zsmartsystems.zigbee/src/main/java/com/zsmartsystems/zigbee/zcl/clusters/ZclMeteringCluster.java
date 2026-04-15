@@ -67,7 +67,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2024-05-18T20:58:44Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2026-04-15T15:00:11Z")
 public class ZclMeteringCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -2647,6 +2647,21 @@ public class ZclMeteringCluster extends ZclCluster {
     public static final int ATTR_PREVIOUSMONTH11ALTERNATIVECONSUMPTIONRECEIVED = 0x0C57;
     public static final int ATTR_PREVIOUSMONTH12ALTERNATIVECONSUMPTIONRECEIVED = 0x0C59;
     public static final int ATTR_PREVIOUSMONTH13ALTERNATIVECONSUMPTIONRECEIVED = 0x0C5B;
+    public static final int ATTR_L1PHASEACTIVEPOWER = 0x2000;
+    public static final int ATTR_L2PHASEACTIVEPOWER = 0x2001;
+    public static final int ATTR_L3PHASEACTIVEPOWER = 0x2002;
+    public static final int ATTR_L1PHASEVOLTAGE = 0x3000;
+    public static final int ATTR_L2PHASEVOLTAGE = 0x3001;
+    public static final int ATTR_L3PHASEVOLTAGE = 0x3002;
+    public static final int ATTR_L1PHASECURRENT = 0x3100;
+    public static final int ATTR_L2PHASECURRENT = 0x3101;
+    public static final int ATTR_L3PHASECURRENT = 0x3102;
+    public static final int ATTR_L1PHASEENERGYCONSUMPTION = 0x4000;
+    public static final int ATTR_L2PHASEENERGYCONSUMPTION = 0x4001;
+    public static final int ATTR_L3PHASEENERGYCONSUMPTION = 0x4002;
+    public static final int ATTR_L1PHASEREACTIVEENERGYCONSUMPTION = 0x4100;
+    public static final int ATTR_L2PHASEREACTIVEENERGYCONSUMPTION = 0x4101;
+    public static final int ATTR_L3PHASEREACTIVEENERGYCONSUMPTION = 0x4102;
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
@@ -3528,6 +3543,21 @@ public class ZclMeteringCluster extends ZclCluster {
         attributeMap.put(ATTR_PREVIOUSMONTH11ALTERNATIVECONSUMPTIONRECEIVED, new ZclAttribute(this, ATTR_PREVIOUSMONTH11ALTERNATIVECONSUMPTIONRECEIVED, "Previous Month 11 Alternative Consumption Received", ZclDataType.UNSIGNED_32_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_PREVIOUSMONTH12ALTERNATIVECONSUMPTIONRECEIVED, new ZclAttribute(this, ATTR_PREVIOUSMONTH12ALTERNATIVECONSUMPTIONRECEIVED, "Previous Month 12 Alternative Consumption Received", ZclDataType.UNSIGNED_32_BIT_INTEGER, true, true, false, false));
         attributeMap.put(ATTR_PREVIOUSMONTH13ALTERNATIVECONSUMPTIONRECEIVED, new ZclAttribute(this, ATTR_PREVIOUSMONTH13ALTERNATIVECONSUMPTIONRECEIVED, "Previous Month 13 Alternative Consumption Received", ZclDataType.UNSIGNED_32_BIT_INTEGER, true, true, false, false));
+        attributeMap.put(ATTR_L1PHASEACTIVEPOWER, new ZclAttribute(this, ATTR_L1PHASEACTIVEPOWER, "L1 Phase Active Power", ZclDataType.SIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L2PHASEACTIVEPOWER, new ZclAttribute(this, ATTR_L2PHASEACTIVEPOWER, "L2 Phase Active Power", ZclDataType.SIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L3PHASEACTIVEPOWER, new ZclAttribute(this, ATTR_L3PHASEACTIVEPOWER, "L3 Phase Active Power", ZclDataType.SIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L1PHASEVOLTAGE, new ZclAttribute(this, ATTR_L1PHASEVOLTAGE, "L1 Phase Voltage", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L2PHASEVOLTAGE, new ZclAttribute(this, ATTR_L2PHASEVOLTAGE, "L2 Phase Voltage", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L3PHASEVOLTAGE, new ZclAttribute(this, ATTR_L3PHASEVOLTAGE, "L3 Phase Voltage", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L1PHASECURRENT, new ZclAttribute(this, ATTR_L1PHASECURRENT, "L1 Phase Current", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L2PHASECURRENT, new ZclAttribute(this, ATTR_L2PHASECURRENT, "L2 Phase Current", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L3PHASECURRENT, new ZclAttribute(this, ATTR_L3PHASECURRENT, "L3 Phase Current", ZclDataType.UNSIGNED_24_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L1PHASEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L1PHASEENERGYCONSUMPTION, "L1 Phase Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L2PHASEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L2PHASEENERGYCONSUMPTION, "L2 Phase Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L3PHASEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L3PHASEENERGYCONSUMPTION, "L3 Phase Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L1PHASEREACTIVEENERGYCONSUMPTION, "L1 Phase Reactive Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L2PHASEREACTIVEENERGYCONSUMPTION, "L2 Phase Reactive Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
+        attributeMap.put(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION, new ZclAttribute(this, ATTR_L3PHASEREACTIVEENERGYCONSUMPTION, "L3 Phase Reactive Energy Consumption", ZclDataType.UNSIGNED_48_BIT_INTEGER, true, true, false, true));
 
         return attributeMap;
     }
@@ -17126,6 +17156,906 @@ public class ZclMeteringCluster extends ZclCluster {
     @Deprecated
     public Future<CommandResult> setPreviousMonth1AlternativeConsumptionReceivedReporting(final int arrayOffset, final int minInterval, final int maxInterval, final Object reportableChange) {
         return setReporting(serverAttributes.get(ATTR_PREVIOUSMONTH1ALTERNATIVECONSUMPTIONRECEIVED + (arrayOffset - 1) * 2), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L1 Phase Active Power</i> attribute [attribute ID <b>0x2000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL1PhaseActivePowerAsync() {
+        return read(serverAttributes.get(ATTR_L1PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Synchronously get the <i>L1 Phase Active Power</i> attribute [attribute ID <b>0x2000</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL1PhaseActivePower(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L1PHASEACTIVEPOWER).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L1PHASEACTIVEPOWER).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L1PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Set reporting for the <i>L1 Phase Active Power</i> attribute [attribute ID <b>0x2000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL1PhaseActivePowerReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L1PHASEACTIVEPOWER), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L2 Phase Active Power</i> attribute [attribute ID <b>0x2001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL2PhaseActivePowerAsync() {
+        return read(serverAttributes.get(ATTR_L2PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Synchronously get the <i>L2 Phase Active Power</i> attribute [attribute ID <b>0x2001</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL2PhaseActivePower(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L2PHASEACTIVEPOWER).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L2PHASEACTIVEPOWER).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L2PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Set reporting for the <i>L2 Phase Active Power</i> attribute [attribute ID <b>0x2001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL2PhaseActivePowerReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L2PHASEACTIVEPOWER), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L3 Phase Active Power</i> attribute [attribute ID <b>0x2002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL3PhaseActivePowerAsync() {
+        return read(serverAttributes.get(ATTR_L3PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Synchronously get the <i>L3 Phase Active Power</i> attribute [attribute ID <b>0x2002</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL3PhaseActivePower(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L3PHASEACTIVEPOWER).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L3PHASEACTIVEPOWER).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L3PHASEACTIVEPOWER));
+    }
+
+    /**
+     * Set reporting for the <i>L3 Phase Active Power</i> attribute [attribute ID <b>0x2002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL3PhaseActivePowerReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L3PHASEACTIVEPOWER), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L1 Phase Voltage</i> attribute [attribute ID <b>0x3000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL1PhaseVoltageAsync() {
+        return read(serverAttributes.get(ATTR_L1PHASEVOLTAGE));
+    }
+
+    /**
+     * Synchronously get the <i>L1 Phase Voltage</i> attribute [attribute ID <b>0x3000</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL1PhaseVoltage(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L1PHASEVOLTAGE).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L1PHASEVOLTAGE).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L1PHASEVOLTAGE));
+    }
+
+    /**
+     * Set reporting for the <i>L1 Phase Voltage</i> attribute [attribute ID <b>0x3000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL1PhaseVoltageReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L1PHASEVOLTAGE), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L2 Phase Voltage</i> attribute [attribute ID <b>0x3001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL2PhaseVoltageAsync() {
+        return read(serverAttributes.get(ATTR_L2PHASEVOLTAGE));
+    }
+
+    /**
+     * Synchronously get the <i>L2 Phase Voltage</i> attribute [attribute ID <b>0x3001</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL2PhaseVoltage(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L2PHASEVOLTAGE).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L2PHASEVOLTAGE).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L2PHASEVOLTAGE));
+    }
+
+    /**
+     * Set reporting for the <i>L2 Phase Voltage</i> attribute [attribute ID <b>0x3001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL2PhaseVoltageReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L2PHASEVOLTAGE), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L3 Phase Voltage</i> attribute [attribute ID <b>0x3002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL3PhaseVoltageAsync() {
+        return read(serverAttributes.get(ATTR_L3PHASEVOLTAGE));
+    }
+
+    /**
+     * Synchronously get the <i>L3 Phase Voltage</i> attribute [attribute ID <b>0x3002</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL3PhaseVoltage(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L3PHASEVOLTAGE).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L3PHASEVOLTAGE).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L3PHASEVOLTAGE));
+    }
+
+    /**
+     * Set reporting for the <i>L3 Phase Voltage</i> attribute [attribute ID <b>0x3002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL3PhaseVoltageReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L3PHASEVOLTAGE), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L1 Phase Current</i> attribute [attribute ID <b>0x3100</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL1PhaseCurrentAsync() {
+        return read(serverAttributes.get(ATTR_L1PHASECURRENT));
+    }
+
+    /**
+     * Synchronously get the <i>L1 Phase Current</i> attribute [attribute ID <b>0x3100</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL1PhaseCurrent(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L1PHASECURRENT).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L1PHASECURRENT).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L1PHASECURRENT));
+    }
+
+    /**
+     * Set reporting for the <i>L1 Phase Current</i> attribute [attribute ID <b>0x3100</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL1PhaseCurrentReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L1PHASECURRENT), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L2 Phase Current</i> attribute [attribute ID <b>0x3101</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL2PhaseCurrentAsync() {
+        return read(serverAttributes.get(ATTR_L2PHASECURRENT));
+    }
+
+    /**
+     * Synchronously get the <i>L2 Phase Current</i> attribute [attribute ID <b>0x3101</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL2PhaseCurrent(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L2PHASECURRENT).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L2PHASECURRENT).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L2PHASECURRENT));
+    }
+
+    /**
+     * Set reporting for the <i>L2 Phase Current</i> attribute [attribute ID <b>0x3101</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL2PhaseCurrentReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L2PHASECURRENT), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L3 Phase Current</i> attribute [attribute ID <b>0x3102</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL3PhaseCurrentAsync() {
+        return read(serverAttributes.get(ATTR_L3PHASECURRENT));
+    }
+
+    /**
+     * Synchronously get the <i>L3 Phase Current</i> attribute [attribute ID <b>0x3102</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL3PhaseCurrent(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L3PHASECURRENT).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L3PHASECURRENT).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L3PHASECURRENT));
+    }
+
+    /**
+     * Set reporting for the <i>L3 Phase Current</i> attribute [attribute ID <b>0x3102</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL3PhaseCurrentReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L3PHASECURRENT), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L1 Phase Energy Consumption</i> attribute [attribute ID <b>0x4000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL1PhaseEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L1PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L1 Phase Energy Consumption</i> attribute [attribute ID <b>0x4000</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL1PhaseEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L1PHASEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L1PHASEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L1PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L1 Phase Energy Consumption</i> attribute [attribute ID <b>0x4000</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL1PhaseEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L1PHASEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L2 Phase Energy Consumption</i> attribute [attribute ID <b>0x4001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL2PhaseEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L2PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L2 Phase Energy Consumption</i> attribute [attribute ID <b>0x4001</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL2PhaseEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L2PHASEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L2PHASEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L2PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L2 Phase Energy Consumption</i> attribute [attribute ID <b>0x4001</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL2PhaseEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L2PHASEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L3 Phase Energy Consumption</i> attribute [attribute ID <b>0x4002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL3PhaseEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L3PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L3 Phase Energy Consumption</i> attribute [attribute ID <b>0x4002</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL3PhaseEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L3PHASEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L3PHASEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L3PHASEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L3 Phase Energy Consumption</i> attribute [attribute ID <b>0x4002</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL3PhaseEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L3PHASEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L1 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4100</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL1PhaseReactiveEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L1 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4100</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL1PhaseReactiveEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L1 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4100</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL1PhaseReactiveEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L1PHASEREACTIVEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L2 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4101</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL2PhaseReactiveEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L2 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4101</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL2PhaseReactiveEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L2 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4101</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL2PhaseReactiveEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L2PHASEREACTIVEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>L3 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4102</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getL3PhaseReactiveEnergyConsumptionAsync() {
+        return read(serverAttributes.get(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Synchronously get the <i>L3 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4102</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getL3PhaseReactiveEnergyConsumption(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION));
+    }
+
+    /**
+     * Set reporting for the <i>L3 Phase Reactive Energy Consumption</i> attribute [attribute ID <b>0x4102</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is MANDATORY
+     *
+     * @param minInterval minimum reporting period
+     * @param maxInterval maximum reporting period
+     * @param reportableChange {@link Object} delta required to trigger report
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #setReporting(int attributeId, int minInterval, int maxInterval, Object reportableChange)}
+     */
+    @Deprecated
+    public Future<CommandResult> setL3PhaseReactiveEnergyConsumptionReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
+        return setReporting(serverAttributes.get(ATTR_L3PHASEREACTIVEENERGYCONSUMPTION), minInterval, maxInterval, reportableChange);
     }
 
     /**

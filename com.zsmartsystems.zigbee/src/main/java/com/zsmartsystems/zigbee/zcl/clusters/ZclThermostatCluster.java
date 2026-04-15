@@ -36,7 +36,7 @@ import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
  * <p>
  * Code is auto-generated. Modifications may be overwritten!
  */
-@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2025-06-16T13:36:22Z")
+@Generated(value = "com.zsmartsystems.zigbee.autocode.ZigBeeCodeGenerator", date = "2026-04-15T15:00:11Z")
 public class ZclThermostatCluster extends ZclCluster {
     /**
      * The ZigBee Cluster Library Cluster ID
@@ -145,6 +145,7 @@ public class ZclThermostatCluster extends ZclCluster {
     public static final int ATTR_COEFKPUP = 0x0521;
     public static final int ATTR_COEFKPDOWN = 0x0522;
     public static final int ATTR_COEFKI = 0x0523;
+    public static final int ATTR_ERRORCODE = 0x0531;
 
     @Override
     protected Map<Integer, ZclAttribute> initializeClientAttributes() {
@@ -216,6 +217,7 @@ public class ZclThermostatCluster extends ZclCluster {
         attributeMap.put(ATTR_COEFKPUP, new ZclAttribute(this, ATTR_COEFKPUP, "Coef Kp Up", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, true, true));
         attributeMap.put(ATTR_COEFKPDOWN, new ZclAttribute(this, ATTR_COEFKPDOWN, "Coef Kp Down", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, true, true));
         attributeMap.put(ATTR_COEFKI, new ZclAttribute(this, ATTR_COEFKI, "Coef Ki", ZclDataType.UNSIGNED_8_BIT_INTEGER, true, true, true, true));
+        attributeMap.put(ATTR_ERRORCODE, new ZclAttribute(this, ATTR_ERRORCODE, "Error Code", ZclDataType.UNSIGNED_8_BIT_INTEGER, false, true, false, true));
 
         return attributeMap;
     }
@@ -3634,6 +3636,48 @@ public class ZclThermostatCluster extends ZclCluster {
     @Deprecated
     public Future<CommandResult> setCoefKiReporting(final int minInterval, final int maxInterval, final Object reportableChange) {
         return setReporting(serverAttributes.get(ATTR_COEFKI), minInterval, maxInterval, reportableChange);
+    }
+
+    /**
+     * Get the <i>Error Code</i> attribute [attribute ID <b>0x0531</b>].
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @return the {@link Future<CommandResult>} command result future
+     * @deprecated As of release 1.2.0, replaced by {@link #readAttribute(int attributeId)}
+     */
+    @Deprecated
+    public Future<CommandResult> getErrorCodeAsync() {
+        return read(serverAttributes.get(ATTR_ERRORCODE));
+    }
+
+    /**
+     * Synchronously get the <i>Error Code</i> attribute [attribute ID <b>0x0531</b>].
+     * <p>
+     * This method can return cached data if the attribute has already been received.
+     * The parameter <i>refreshPeriod</i> is used to control this. If the attribute has been received
+     * within <i>refreshPeriod</i> milliseconds, then the method will immediately return the last value
+     * received. If <i>refreshPeriod</i> is set to 0, then the attribute will always be updated.
+     * <p>
+     * This method will block until the response is received or a timeout occurs unless the current value is returned.
+     * <p>
+     * The attribute is of type {@link Integer}.
+     * <p>
+     * The implementation of this attribute by a device is OPTIONAL
+     *
+     * @param refreshPeriod the maximum age of the data (in milliseconds) before an update is needed
+     * @return the {@link Integer} attribute value, or null on error
+     * @deprecated As of release 1.2.0, replaced by {@link #ZclAttribute#readValue(long refreshPeriod)}
+     */
+    @Deprecated
+    public Integer getErrorCode(final long refreshPeriod) {
+        if (serverAttributes.get(ATTR_ERRORCODE).isLastValueCurrent(refreshPeriod)) {
+            return (Integer) serverAttributes.get(ATTR_ERRORCODE).getLastValue();
+        }
+
+        return (Integer) readSync(serverAttributes.get(ATTR_ERRORCODE));
     }
 
     /**
