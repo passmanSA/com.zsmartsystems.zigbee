@@ -2124,7 +2124,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             identifier = uuid.toString();
         }
         
-        if (optionalBackup.isEmpty()) {
+        if (!optionalBackup.isPresent()) {
             logger.debug("RestoreBackup: Failed to read {}", identifier);
             return ZigBeeStatus.INVALID_ARGUMENTS;
         }
