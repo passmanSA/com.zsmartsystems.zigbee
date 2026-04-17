@@ -81,6 +81,7 @@ import com.zsmartsystems.zigbee.zcl.clusters.ZclPressureMeasurementCluster;
 import com.zsmartsystems.zigbee.zcl.clusters.ZclScenesCluster;
 import com.zsmartsystems.zigbee.zcl.clusters.ZclTemperatureMeasurementCluster;
 import com.zsmartsystems.zigbee.zcl.clusters.ZclThermostatCluster;
+import com.zsmartsystems.zigbee.zcl.clusters.ZclTimeCluster;
 import com.zsmartsystems.zigbee.zcl.clusters.ZclWindowCoveringCluster;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -162,7 +163,7 @@ public class ZigBeeConsoleMain {
                         ZclDiagnosticsCluster.CLUSTER_ID, ZclBallastConfigurationCluster.CLUSTER_ID,
                         ZclTemperatureMeasurementCluster.CLUSTER_ID, ZclIasZoneCluster.CLUSTER_ID,
                         ZclWindowCoveringCluster.CLUSTER_ID, ZclBinaryInputBasicCluster.CLUSTER_ID,
-                        ZclBallastConfigurationCluster.CLUSTER_ID, 1000, 0xff17)
+                        ZclBallastConfigurationCluster.CLUSTER_ID, ZclTimeCluster.CLUSTER_ID, 1000, 0xff17)
                 .collect(Collectors.toSet()));
 
         final TransportConfig transportOptions = new TransportConfig();
@@ -495,6 +496,7 @@ public class ZigBeeConsoleMain {
 //        networkManager.addExtension(new ZigBeeIasCieExtension());
         networkManager.addExtension(new ZigBeeOtaUpgradeExtension());
         networkManager.addExtension(new ZigBeeBasicServerExtension());
+        networkManager.addExtension(new ZclTimeServerExtension());
 
         ZigBeeDiscoveryExtension discoveryExtension = new ZigBeeDiscoveryExtension();
         discoveryExtension.setUpdateMeshPeriod(0);

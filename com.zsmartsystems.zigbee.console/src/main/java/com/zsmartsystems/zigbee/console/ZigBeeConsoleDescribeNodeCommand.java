@@ -92,13 +92,12 @@ public class ZigBeeConsoleDescribeNodeCommand extends ZigBeeConsoleAbstractComma
             profileType = ZigBeeProfileType.getByValue(endpoint.getProfileId()).toString();
         }
         String deviceType;
-        if (ZigBeeDeviceType.getByValue(endpoint.getDeviceId()) == null
-                || ZigBeeProfileType.getByValue(endpoint.getProfileId()) == null) {
+        ZigBeeDeviceType resolvedDeviceType = ZigBeeProfileType.getByValue(endpoint.getProfileId()) == null ? null
+                : ZigBeeDeviceType.getByValue(ZigBeeProfileType.getByValue(endpoint.getProfileId()), endpoint.getDeviceId());
+        if (resolvedDeviceType == null) {
             deviceType = String.format("%04X", endpoint.getDeviceId());
         } else {
-            deviceType = ZigBeeDeviceType
-                    .getByValue(ZigBeeProfileType.getByValue(endpoint.getProfileId()), endpoint.getDeviceId())
-                    .toString();
+            deviceType = resolvedDeviceType.toString();
         }
 
         out.println("Profile     " + profileType);
