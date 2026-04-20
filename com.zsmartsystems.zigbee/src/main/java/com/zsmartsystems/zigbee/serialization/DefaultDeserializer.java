@@ -10,7 +10,9 @@ package com.zsmartsystems.zigbee.serialization;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.zsmartsystems.zigbee.ExtendedPanId;
 import com.zsmartsystems.zigbee.IeeeAddress;
@@ -270,6 +272,11 @@ public class DefaultDeserializer implements ZigBeeDeserializer {
                 value[0] = Integer.valueOf((byte) payload[index++] & 0xFF);
                 break;
             case UTCTIME:
+                final long zigbeeUtcValue = (payload[index++] & 0xFF) | ((payload[index++] & 0xFF) << 8)
+                        | ((payload[index++] & 0xFF) << 16) | ((long) (payload[index++] & 0xFF) << 24);
+                final Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                utcCalendar.setTimeInMillis((zigbeeUtcValue + 946684800L) * 1000);
+                value[0] = utcCalendar;
                 break;
             case ROUTING_TABLE:
                 RoutingTable routingTable = new RoutingTable();

@@ -9,6 +9,7 @@ package com.zsmartsystems.zigbee.zcl.clusters;
 
 import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Future;
 
@@ -18,6 +19,8 @@ import com.zsmartsystems.zigbee.CommandResult;
 import com.zsmartsystems.zigbee.ZigBeeEndpoint;
 import com.zsmartsystems.zigbee.zcl.ZclAttribute;
 import com.zsmartsystems.zigbee.zcl.ZclCluster;
+import com.zsmartsystems.zigbee.zcl.ZclCommand;
+import com.zsmartsystems.zigbee.zcl.clusters.general.ReadAttributesCommand;
 import com.zsmartsystems.zigbee.zcl.protocol.ZclDataType;
 
 /**
@@ -155,6 +158,15 @@ public class ZclTimeCluster extends ZclCluster {
      */
     public ZclTimeCluster(final ZigBeeEndpoint zigbeeEndpoint) {
         super(zigbeeEndpoint, CLUSTER_ID, CLUSTER_NAME);
+    }
+
+    @Override
+    public void handleCommand(ZclCommand command) {
+        if (command instanceof ReadAttributesCommand) {
+            serverAttributes.get(ATTR_TIME).setValue(Calendar.getInstance(TimeZone.getTimeZone("UTC")));
+            serverAttributes.get(ATTR_TIME).setImplemented(true);
+        }
+        super.handleCommand(command);
     }
 
     /**

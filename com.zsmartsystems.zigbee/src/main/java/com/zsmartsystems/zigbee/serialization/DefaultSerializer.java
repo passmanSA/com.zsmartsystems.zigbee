@@ -8,6 +8,7 @@
 package com.zsmartsystems.zigbee.serialization;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import com.zsmartsystems.zigbee.ExtendedPanId;
@@ -230,6 +231,11 @@ public class DefaultSerializer implements ZigBeeSerializer {
                 buffer[length++] = (int) ((uint48Value >> 40) & 0xFF);
                 break;
             case UTCTIME:
+                final long zigbeeUtcTime = ((Calendar) data).getTimeInMillis() / 1000 - 946684800L;
+                buffer[length++] = (int) (zigbeeUtcTime & 0xFF);
+                buffer[length++] = (int) ((zigbeeUtcTime >> 8) & 0xFF);
+                buffer[length++] = (int) ((zigbeeUtcTime >> 16) & 0xFF);
+                buffer[length++] = (int) ((zigbeeUtcTime >> 24) & 0xFF);
                 break;
             case ZDO_STATUS:
                 buffer[length++] = ((ZdoStatus) data).getId();
