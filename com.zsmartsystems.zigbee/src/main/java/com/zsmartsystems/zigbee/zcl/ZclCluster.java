@@ -1562,7 +1562,9 @@ public abstract class ZclCluster {
         }
 
         if (command instanceof ReadAttributesCommand) {
-            handleReadAttributes((ReadAttributesCommand) command);
+            if (!isClient) {
+                handleReadAttributes((ReadAttributesCommand) command);
+            }
             return;
         }
 
