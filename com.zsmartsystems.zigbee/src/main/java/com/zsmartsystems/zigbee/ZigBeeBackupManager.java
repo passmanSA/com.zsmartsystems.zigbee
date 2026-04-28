@@ -40,7 +40,7 @@ public class ZigBeeBackupManager {
      *
      * @return a unique {@link UUID} referencing the backup
      */
-    public UUID createBackup() {
+    public UUID createBackup() throws Exception {
         ZigBeeNetworkBackupDao backup = new ZigBeeNetworkBackupDao();
 
         backup.setUuid(UUID.randomUUID());
