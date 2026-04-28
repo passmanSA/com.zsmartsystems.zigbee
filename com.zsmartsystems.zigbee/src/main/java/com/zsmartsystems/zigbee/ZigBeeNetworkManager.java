@@ -2123,13 +2123,12 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             identifier = uuid.toString();
         }
         
+        if (backup == null) {
+            throw (new Exception("backup dao is null"));
+        }
+        
         logger.debug("RestoreBackup: Backup read from {} [{}]", backup.getGatewayId() != null ?  backup.getGatewayId() : backup.getUuid(), backup.getMacAddress());
         logger.debug("RestoreBackup: backup panId : {} - network manager panId : {}", backup.getPan(), this.getZigBeePanId());
-        
-//        if (backup.getPan() != this.getZigBeePanId()) {
-//            logger.info(String.format("RestoreBackup PanId is changed from %s to %s", backup.getPan(), this.getZigBeePanId()));
-//            backup.setPan(this.getZigBeePanId());
-//        }
 
         // Take the network offline for reconfiguration
         ZigBeeStatus offlineResponse = transport.setNetworkState(ZigBeeNetworkState.UNINITIALISED);
@@ -2162,7 +2161,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             transport.setNwkAddress(coordinator.getNetworkAddress());
         }
 
-        long secondsSince = new Date().getTime() - backup.getDate().getTime();
+        long secondsSince = (new Date().getTime() - backup.getDate().getTime()) / 1000;
         ZigBeeKey key = backup.getNetworkKey();
 
         // Frame counters need to be incremented
