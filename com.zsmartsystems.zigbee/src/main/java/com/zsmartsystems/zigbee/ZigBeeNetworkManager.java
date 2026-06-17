@@ -2096,11 +2096,15 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
     }
     
     public ZigBeeStatus restoreBackup(Long gatewayId) throws Exception {
-        return restoreBackup(gatewayId, null);
+        return restoreBackup(gatewayId, null, null);
     }
-    
+
+    public ZigBeeStatus restoreBackup(Long gatewayId, Long increment) throws Exception {
+        return restoreBackup(gatewayId, null, increment);
+    }
+
     public ZigBeeStatus restoreBackup(UUID uuid) throws Exception {
-        return restoreBackup(null, uuid);
+        return restoreBackup(null, uuid, null);
     }
      
     /**
@@ -2109,7 +2113,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
      * @param uuid the unique {@link UUID} referencing the backup to restore
      * @return ZigBeeStatus.SUCCESS if the backup was restored
      */
-    private ZigBeeStatus restoreBackup(Long gatewayId, UUID uuid) throws Exception {
+    private ZigBeeStatus restoreBackup(Long gatewayId, UUID uuid, Long increment) throws Exception {
         
         ZigBeeNetworkBackupDao backup = null;
         String identifier = null;
@@ -2161,15 +2165,16 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
             transport.setNwkAddress(coordinator.getNetworkAddress());
         }
 
-        long secondsSince = (new Date().getTime() - backup.getDate().getTime()) / 1000;
+        long frameCounterIncrement = increment != null ? increment : (new Date().getTime() - backup.getDate().getTime()) / 1000 * 5;
+        logger.debug("RestoreBackup: increment frame counters {} {}", frameCounterIncrement, increment != null ? "(manual)" : "(calculated)");
         ZigBeeKey key = backup.getNetworkKey();
 
         // Frame counters need to be incremented
         if (key.hasIncomingFrameCounter()) {
-            key.setIncomingFrameCounter((int) (key.getIncomingFrameCounter() + secondsSince * 5));
+            key.setIncomingFrameCounter((int) (key.getIncomingFrameCounter() + frameCounterIncrement));
         }
         if (key.hasOutgoingFrameCounter()) {
-            key.setOutgoingFrameCounter((int) (key.getOutgoingFrameCounter() + secondsSince * 5));
+            key.setOutgoingFrameCounter((int) (key.getOutgoingFrameCounter() + frameCounterIncrement));
         }
 
         // Set the network configuration
