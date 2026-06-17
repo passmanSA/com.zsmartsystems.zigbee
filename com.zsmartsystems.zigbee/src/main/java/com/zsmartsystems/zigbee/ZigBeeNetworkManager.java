@@ -2166,6 +2166,7 @@ public class ZigBeeNetworkManager implements ZigBeeTransportReceive {
         }
 
         long frameCounterIncrement = increment != null ? increment : (new Date().getTime() - backup.getDate().getTime()) / 1000 * 5;
+        logger.debug("RestoreBackup: increment frame counters {} {}", frameCounterIncrement, increment != null ? "(manual)" : "(calculated)");
         ZigBeeKey key = backup.getNetworkKey();
 
         // Frame counters need to be incremented
